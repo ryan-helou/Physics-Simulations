@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * build.gradle file.
  * @link: https://openjfx.io/javadoc/20/
  * @see: /Build Scripts/build.gradle
- * @author Ryan Helou.
+ * @author Ryan Helou and Anish.
  */
 public class MainApp extends Application {
 

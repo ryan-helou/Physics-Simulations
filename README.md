@@ -1,27 +1,14 @@
-# JavaFX Project Template
+# Physics Simulation Software
 
-This is a non-modular, Gradle-based project skeleton for creating JavaFX applications.
+Welcome to the Physics Simulation Software repository! This software provides three interactive physics simulations: Particle Attraction, Double Pendulum, and Newton's Cradle. Each simulation offers a unique experience for users to explore and understand various concepts in physics.
 
-It uses `JavaFX 20.0.2`, and includes the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) (no need to install Gradle locally).
+## Simulations
 
-## Features
+### 1. Particle Attraction Simulation
+This simulation allows users to observe the behavior of particles under the influence of gravitational attraction. Users can set the initial positions and velocities of the particles and observe how they interact over time.
 
-- JavaFX-aware coding assistance (code completion, search, navigation in JavaFX-specific source files)
-- Logging with [Logback](https://logback.qos.ch/).
-- Support for FXML.
-- Access to JavaFX's JavaDoc from within your IDE.
+### 2. Double Pendulum Simulation
+Experience the chaotic motion of a double pendulum with this simulation. Users can adjust parameters such as the length of the pendulum arms and initial conditions to observe the complex dynamics of this system.
 
-## Using this Project Template
-
-1. Clone this repository
-2. Remove the `.git` directory 
-3. Add the cloned directory structure to your local repo (if you already have one)
-4. Open the project with NetBeans
-5. Using NetBeans, build the project to resolve the dependencies
-6. Change the project name in `settings.gradle`
-7. Rename the default Java package in `MainApp.java` and `MainAppController.java`.
-8. Change the value of the `mainClass` class property in `build.gradle`. A fully-qualified name of the class containing the main method that you want to run must be supplied.
-
-## NetBeans
-
-This project template was tested with `NetBeans 17` and `JDK 18`.
+### 3. Newton's Cradle Simulation
+Explore the conservation of momentum and energy with Newton's Cradle simulation. Users can interact with the cradle by releasing balls and observing the transfer of momentum through the swinging motion of the balls.

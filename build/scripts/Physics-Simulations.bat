@@ -17,7 +17,7 @@
 @if "%DEBUG%"=="" @echo off
 @rem ##########################################################################
 @rem
-@rem  FXProjectTemplate startup script for Windows
+@rem  Physics-Simulations startup script for Windows
 @rem
 @rem ##########################################################################
 
@@ -32,7 +32,7 @@ set APP_HOME=%DIRNAME%..
 @rem Resolve any "." and ".." in APP_HOME to make it shorter.
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
-@rem Add default JVM options here. You can also use JAVA_OPTS and FX_PROJECT_TEMPLATE_OPTS to pass JVM options to this script.
+@rem Add default JVM options here. You can also use JAVA_OPTS and PHYSICS_SIMULATIONS_OPTS to pass JVM options to this script.
 set DEFAULT_JVM_OPTS=
 
 @rem Find java.exe
@@ -67,22 +67,22 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\FXProjectTemplate.jar;%APP_HOME%\lib\javafx-fxml-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-controls-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-controls-20.0.2.jar;%APP_HOME%\lib\javafx-media-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-graphics-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-graphics-20.0.2.jar;%APP_HOME%\lib\javafx-base-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-base-20.0.2.jar;%APP_HOME%\lib\logback-classic-1.4.11.jar;%APP_HOME%\lib\logback-core-1.4.11.jar;%APP_HOME%\lib\slf4j-api-2.0.7.jar
+set CLASSPATH=%APP_HOME%\lib\Physics-Simulations.jar;%APP_HOME%\lib\javafx-fxml-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-controls-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-controls-20.0.2.jar;%APP_HOME%\lib\javafx-media-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-graphics-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-graphics-20.0.2.jar;%APP_HOME%\lib\javafx-base-20.0.2-mac-aarch64.jar;%APP_HOME%\lib\javafx-base-20.0.2.jar;%APP_HOME%\lib\logback-classic-1.4.11.jar;%APP_HOME%\lib\logback-core-1.4.11.jar;%APP_HOME%\lib\slf4j-api-2.0.7.jar
 
 
-@rem Execute FXProjectTemplate
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %FX_PROJECT_TEMPLATE_OPTS%  -classpath "%CLASSPATH%" edu.vanier.template.MainApp %*
+@rem Execute Physics-Simulations
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %PHYSICS_SIMULATIONS_OPTS%  -classpath "%CLASSPATH%" edu.vanier.template.MainApp %*
 
 :end
 @rem End local scope for the variables with windows NT shell
 if %ERRORLEVEL% equ 0 goto mainEnd
 
 :fail
-rem Set variable FX_PROJECT_TEMPLATE_EXIT_CONSOLE if you need the _script_ return code instead of
+rem Set variable PHYSICS_SIMULATIONS_EXIT_CONSOLE if you need the _script_ return code instead of
 rem the _cmd.exe /c_ return code!
 set EXIT_CODE=%ERRORLEVEL%
 if %EXIT_CODE% equ 0 set EXIT_CODE=1
-if not ""=="%FX_PROJECT_TEMPLATE_EXIT_CONSOLE%" exit %EXIT_CODE%
+if not ""=="%PHYSICS_SIMULATIONS_EXIT_CONSOLE%" exit %EXIT_CODE%
 exit /b %EXIT_CODE%
 
 :mainEnd

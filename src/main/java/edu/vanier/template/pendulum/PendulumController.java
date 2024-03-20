@@ -18,6 +18,10 @@ public class PendulumController {
     private double velocity1;
     private double velocity2;
 
+    public void draw(){
+        
+    }
+    
     public double getLength1() {
         return length1;
     }

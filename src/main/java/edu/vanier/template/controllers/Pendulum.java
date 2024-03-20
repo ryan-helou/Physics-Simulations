@@ -1,0 +1,49 @@
+package edu.vanier.template.controllers;
+
+
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+/**
+ *
+ * @author anishmehra
+ */
+public class Pendulum {
+        Circle holder;
+        Circle bob;
+        Line line;
+        Arc arc;
+        
+  public Pendulum(Circle holder, Circle bob, Line line, Arc arc){
+   this.holder = holder;
+   this.bob = bob;
+   this.line = line;
+   this.arc = arc;
+   
+    line.endXProperty().bind(bob.translateXProperty().add(bob.getCenterX()));
+            line.endYProperty().bind(bob.translateYProperty().add(bob.getCenterY()));
+            PathTransition path = new PathTransition();
+            path.setDuration(Duration.millis(1000));
+            path.setPath(arc);
+            path.setNode(bob);
+            path.setOrientation(PathTransition.OrientationType.NONE);
+            path.setCycleCount(PathTransition.INDEFINITE);
+            path.setAutoReverse(true);
+            path.play();
+}
+  
+}

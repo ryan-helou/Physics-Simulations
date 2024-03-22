@@ -19,28 +19,38 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private Mover mover;
-
+    private double mouseX;
+    private double mouseY;
+    
     //just a demo build for testing functions etc
     @Override
     public void start(Stage primaryStage) {
         mover = new Mover(640, 360); 
-
+        
         Canvas canvas = new Canvas(1280, 720);
         StackPane root = new StackPane(canvas);
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Mover Example");
+        // We just need to bring the main window to front.
+        primaryStage.setAlwaysOnTop(true);            
         primaryStage.show();
+        primaryStage.setAlwaysOnTop(false);
+        primaryStage.show();
+        
+        //setAlwaysOnTop is used because the java project will run behind the window if it is maximized
 
         scene.setOnMouseMoved(e -> {
-            mover.update(new javafx.geometry.Point2D(e.getX(), e.getY()));
+            mouseX = e.getX();
+            mouseY = e.getY();
             redraw(canvas);
         });
 
        AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                mover.update(new javafx.geometry.Point2D(mouseX, mouseY));
                 redraw(canvas);
                 
             }

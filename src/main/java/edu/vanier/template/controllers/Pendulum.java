@@ -1,5 +1,3 @@
-package edu.vanier.template.controllers;
-
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -22,16 +20,18 @@ public class Pendulum {
         Circle bob;
         Line line;
         Arc arc;
-        
+        private PathTransition path;
+        Color color = Color.hsb(55.6, 0.63, 0.926);
   public Pendulum(Circle holder, Circle bob, Line line, Arc arc){
    this.holder = holder;
    this.bob = bob;
    this.line = line;
    this.arc = arc;
    
+   bob.setFill(color);
     line.endXProperty().bind(bob.translateXProperty().add(bob.getCenterX()));
             line.endYProperty().bind(bob.translateYProperty().add(bob.getCenterY()));
-            PathTransition path = new PathTransition();
+             path = new PathTransition();
             path.setDuration(Duration.millis(1000));
             path.setPath(arc);
             path.setNode(bob);
@@ -40,5 +40,9 @@ public class Pendulum {
             path.setAutoReverse(true);
             path.play();
 }
+
+    public PathTransition getPath() {
+        return path;
+    }
   
 }

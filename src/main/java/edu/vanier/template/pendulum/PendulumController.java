@@ -9,6 +9,7 @@ package edu.vanier.template.pendulum;
  * @author ryanhelou
  */
 public class PendulumController {
+
     private double length1;
     private double length2;
     private double mass1;
@@ -17,11 +18,17 @@ public class PendulumController {
     private double angle2;
     private double velocity1;
     private double velocity2;
+    private  final double G = 9.81;
+    private double theta1; // Initial angle of the first pendulum
+    private double theta2; // Initial angle of the second pendulum
+    private double omega1; // Initial angular velocity of the first pendulum
+    private double omega2; // Initial angular velocity of the second pendulum
 
-    public void draw(){
-        
+
+    public void draw() {
+
     }
-    
+
     public double getLength1() {
         return length1;
     }
@@ -85,28 +92,26 @@ public class PendulumController {
     public void setVelocity2(double velocity2) {
         this.velocity2 = velocity2;
     }
-    
-    
+
     public void startAnimation() {
 
     }
 
     public void stopAnimation() {
-      
+
     }
 
     public double calculateVerticalComponent() {
         return 0.0;
 
     }
-    
+
     public double calculateHorizontalComponent() {
         return 0.0;
     }
-    
-    
-    public PendulumController(){
-        
+
+    public PendulumController() {
+
     }
 
 }

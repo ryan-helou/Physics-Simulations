@@ -7,6 +7,8 @@ package edu.vanier.template.controllers;
 
 import edu.vanier.template.Mover;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -23,7 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
+import java.util.Random;
 /**
  * FXML Controller class
  *
@@ -69,13 +71,15 @@ public class PAFXMLController implements Initializable {
     private Mover mover;
     private double mouseX;
     private double mouseY;
+    List<Mover> movers = new ArrayList();
+    Random random = new Random();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         this.mover = new Mover(640, 360);
+         this.mover = new Mover(random.nextDouble(240), random.nextDouble(240));
 
         canvas.setOnMouseMoved(e -> {
             mouseX = e.getX();
@@ -116,12 +120,19 @@ public class PAFXMLController implements Initializable {
 
     @FXML
     private void amountOnAction(ActionEvent event) {
+    movers.clear();
     int particleAmount = Integer.parseInt(amountValue.getText());
-
     
     for (int i = 0; i < particleAmount; i++) {
-        this.mover = new Mover(240, 240);
+        this.mover = new Mover(random.nextDouble(600), random.nextDouble(300));
+        movers.add(mover);
     }
+    
+    /*
+        for (Mover mover1 : movers) {
+            System.out.println("11");
+        }
+*/
     }
 
     @FXML

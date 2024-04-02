@@ -5,11 +5,14 @@ package edu.vanier.template.controllers;
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 
+import edu.vanier.template.Mover;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -60,14 +63,40 @@ public class PAFXMLController implements Initializable {
     private CheckBox enableThemes;
     @FXML
     private CheckBox showTrail;
+    @FXML
+    private Canvas canvas;
+    
+    private Mover mover;
+    private double mouseX;
+    private double mouseY;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+         this.mover = new Mover(640, 360);
+
+        canvas.setOnMouseMoved(e -> {
+            mouseX = e.getX();
+            mouseY = e.getY();
+            redraw(canvas);
+        });
+
+        AnimationTimer animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                mover.update(new javafx.geometry.Point2D(mouseX, mouseY));
+                redraw(canvas);
+            }
+        };
+        animationTimer.start();
     }    
+    
+    private void redraw(Canvas canvas) {
+        canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        mover.display(canvas.getGraphicsContext2D());
+    }
 
     @FXML
     private void backOnAction(ActionEvent event) {
@@ -87,6 +116,12 @@ public class PAFXMLController implements Initializable {
 
     @FXML
     private void amountOnAction(ActionEvent event) {
+    int particleAmount = Integer.parseInt(amountValue.getText());
+
+    
+    for (int i = 0; i < particleAmount; i++) {
+        this.mover = new Mover(240, 240);
+    }
     }
 
     @FXML

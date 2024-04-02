@@ -44,6 +44,6 @@ application {
    // TODO: Specify the fully-qualified name of the class 
    //       that contains the main method to be executed.
    //mainClass = 'edu.vanier.template.MainApp'
-   mainClass = 'edu.vanier.template.Main'
-   //mainClass = 'edu.vanier.template.NewFXMain'
+   //mainClass = 'edu.vanier.template.Main'
+   mainClass = 'edu.vanier.template.NewFXMain'
 }

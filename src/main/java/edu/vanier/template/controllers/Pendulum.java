@@ -31,7 +31,7 @@ public class Pendulum {
    bob.setFill(color);
     line.endXProperty().bind(bob.translateXProperty().add(bob.getCenterX()));
             line.endYProperty().bind(bob.translateYProperty().add(bob.getCenterY()));
-             path = new PathTransition();
+            path = new PathTransition();
             path.setDuration(Duration.millis(1000));
             path.setPath(arc);
             path.setNode(bob);

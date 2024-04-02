@@ -26,6 +26,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import java.util.Random;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
 /**
  * FXML Controller class
  *
@@ -71,16 +75,23 @@ public class PAFXMLController implements Initializable {
     private Mover mover;
     private double mouseX;
     private double mouseY;
-    List<Mover> movers = new ArrayList();
-    Random random = new Random();
-
+    private List<Mover> movers = new ArrayList();
+    private Random random = new Random();
+    private int particleAmount = 1; 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         this.mover = new Mover(random.nextDouble(240), random.nextDouble(240));
-
+        movers.clear();
+        
+        //Create the particles based on the amount inserted
+        for (int i = 0; i < particleAmount; i++) {
+            this.mover = new Mover(random.nextDouble(240), random.nextDouble(240));
+            movers.add(mover);   
+        }
+        
+        
         canvas.setOnMouseMoved(e -> {
             mouseX = e.getX();
             mouseY = e.getY();
@@ -90,18 +101,39 @@ public class PAFXMLController implements Initializable {
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                mover.update(new javafx.geometry.Point2D(mouseX, mouseY));
-                redraw(canvas);
+                for (Mover mover1 : movers) {
+                    mover1.update(new javafx.geometry.Point2D(mouseX, mouseY));
+                    redraw(canvas);
+                }
+                //redraw(canvas);
             }
         };
         animationTimer.start();
     }    
     
+    private void createPendulum(){
+        
+    }
+    
     private void redraw(Canvas canvas) {
         canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        mover.display(canvas.getGraphicsContext2D());
+        for (Mover mover1 : movers) {
+           mover1.display(canvas.getGraphicsContext2D()); 
+        }
+        //mover.display(canvas.getGraphicsContext2D());
     }
 
+    //Error dialogs for invalid particle amount
+    private void showErrorDialog(String message) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    
+
+    alert.showAndWait();
+    }
+    
     @FXML
     private void backOnAction(ActionEvent event) {
     }
@@ -121,12 +153,22 @@ public class PAFXMLController implements Initializable {
     @FXML
     private void amountOnAction(ActionEvent event) {
     movers.clear();
-    int particleAmount = Integer.parseInt(amountValue.getText());
+    
+    try {
+    particleAmount = Integer.parseInt(amountValue.getText());
+    } catch (NumberFormatException e) {
+        showErrorDialog("Please enter a valid integer.");
+    }
+    
+    if(particleAmount > 100 || particleAmount < 0){
+        showErrorDialog("Please enter a valid number (between 0 and 100)");
+    }
+    
     
     for (int i = 0; i < particleAmount; i++) {
-        this.mover = new Mover(random.nextDouble(600), random.nextDouble(300));
+        mover = new Mover(random.nextDouble(600), random.nextDouble(300));
         movers.add(mover);
-    }
+    } 
     
     /*
         for (Mover mover1 : movers) {

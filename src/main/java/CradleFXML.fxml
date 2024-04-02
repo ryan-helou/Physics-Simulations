@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewtonCradleController">
+   <children>
+      <Label layoutX="127.0" layoutY="7.0" prefHeight="44.0" prefWidth="266.0" text="Newtons Cradle">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <VBox layoutX="567.0" layoutY="7.0" prefHeight="437.0" prefWidth="139.0" spacing="15.0">
+         <children>
+            <Label text="Number of Pendulums" />
+            <Slider fx:id="numOfPendulums" blockIncrement="1.0" max="5.0" min="2.0" showTickLabels="true" showTickMarks="true" value="2.0" />
+            <Label text="Number of swings" />
+            <Slider fx:id="numOfSwings" max="5.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+            <Label fx:id="mass" text="Mass" />
+            <Slider fx:id="massSlider" max="50.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="26.0" />
+            <Label fx:id="length" text="Length" />
+            <Slider fx:id="lengthSlider" min="5.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="62.0" />
+            <Label fx:id="gravity" text="Gravity" />
+            <Slider fx:id="gravitySlider" blockIncrement="1.0" max="10.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+         </children>
+         <padding>
+            <Insets top="30.0" />
+         </padding>
+      </VBox>
+      <CheckBox fx:id="pause" layoutX="10.0" layoutY="453.0" mnemonicParsing="false" text="Pause" />
+      <Button fx:id="back" layoutX="16.0" layoutY="17.0" mnemonicParsing="false" text="Back" />
+      <Pane fx:id="cradlePane" layoutX="31.0" layoutY="42.0" prefHeight="374.0" prefWidth="491.0" />
+      <Button fx:id="playButton" layoutX="85.0" layoutY="449.0" mnemonicParsing="false" text="Play" />
+   </children>
+</Pane>

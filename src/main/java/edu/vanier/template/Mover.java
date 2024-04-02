@@ -11,6 +11,8 @@ package edu.vanier.template;
  */
 
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -23,6 +25,8 @@ public class Mover {
     private Point2D acceleration;
     private double topspeed;
     private Circle circle;
+    private List<Point2D> trail;
+    private int trailLength = 30;
 
     public Mover(double x, double y) {
         location = new Point2D(x, y);
@@ -32,6 +36,7 @@ public class Mover {
         circle.setFill(Color.rgb(127, 127, 127));
         circle.setStroke(Color.WHITE);
         circle.setStrokeWidth(2);
+        trail = new ArrayList<>();
     }
 
     public void update(Point2D mouse) {
@@ -44,6 +49,13 @@ public class Mover {
             velocity = velocity.normalize().multiply(topspeed);
         }
         location = location.add(velocity);
+        
+        trail.add(new Point2D(location.getX(), location.getY()));
+        // removes oldest point
+        if (trail.size() > trailLength) {
+            trail.remove(0);
+        }
+        
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
     }
@@ -54,6 +66,15 @@ public class Mover {
         gc.setFill(Color.rgb(127, 127, 127));
         gc.fillOval(location.getX() - 24, location.getY() - 24, 48, 48);
         gc.strokeOval(location.getX() - 24, location.getY() - 24, 48, 48);
+        
+        for (int i = 0; i < trail.size(); i++) {
+        Point2D point = trail.get(i);
+        double opacity = 0.1 + (0.9 * ((double)i / trail.size())); //opacity
+        
+        gc.setFill(Color.rgb(127, 127, 127, opacity)); //opacity
+        double trailCircleSize = 16; //trail size
+        gc.fillOval(point.getX() - (trailCircleSize / 2), point.getY() - (trailCircleSize / 2), trailCircleSize, trailCircleSize);
+    }
     }
 
     public Shape getShape() {

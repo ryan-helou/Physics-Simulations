@@ -27,6 +27,7 @@ public class Mover {
     private Circle circle;
     private List<Point2D> trail;
     private int trailLength = 30;
+    private boolean trailStatus = true;
 
     public Mover(double x, double y) {
         location = new Point2D(x, y);
@@ -58,6 +59,7 @@ public class Mover {
         
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
+      
     }
 
     public void display(GraphicsContext gc) {
@@ -69,8 +71,13 @@ public class Mover {
         
         for (int i = 0; i < trail.size(); i++) {
         Point2D point = trail.get(i);
-        double opacity = 0.1 + (0.9 * ((double)i / trail.size())); //opacity
-        
+        double opacity = 0.1 + (0.9 * ((double)i / trail.size()));  
+        if(trailStatus == true){
+          opacity = 0.1 + (0.9 * ((double)i / trail.size()));  
+        } else{
+            opacity = 0;
+        }
+        //double opacity = 0;
         gc.setFill(Color.rgb(127, 127, 127, opacity)); //opacity
         double trailCircleSize = 16; //trail size
         gc.fillOval(point.getX() - (trailCircleSize / 2), point.getY() - (trailCircleSize / 2), trailCircleSize, trailCircleSize);
@@ -94,6 +101,10 @@ public class Mover {
     }
     
     public void triggerTrail(){
+    }
+
+    public void setTrailStatus(boolean trailStatus) {
+        this.trailStatus = trailStatus;
     }
     
 }

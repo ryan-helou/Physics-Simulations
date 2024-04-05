@@ -26,6 +26,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import java.util.Random;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
@@ -109,6 +111,7 @@ public class PAFXMLController implements Initializable {
             }
         };
         animationTimer.start();
+        
     }    
     
     private void createPendulum(){
@@ -162,19 +165,14 @@ public class PAFXMLController implements Initializable {
     
     if(particleAmount > 100 || particleAmount < 0){
         showErrorDialog("Please enter a valid number (between 0 and 100)");
-    }
+    } else {
+         
+        for (int i = 0; i < particleAmount; i++) {
+            mover = new Mover(random.nextDouble(600), random.nextDouble(300));
+            movers.add(mover);
+        } 
     
-    
-    for (int i = 0; i < particleAmount; i++) {
-        mover = new Mover(random.nextDouble(600), random.nextDouble(300));
-        movers.add(mover);
-    } 
-    
-    /*
-        for (Mover mover1 : movers) {
-            System.out.println("11");
         }
-*/
     }
 
     @FXML
@@ -183,10 +181,22 @@ public class PAFXMLController implements Initializable {
 
     @FXML
     private void themeOnAction(ActionEvent event) {
+        if(showTrail.isSelected()){
+         System.out.println("it works");   
+        }
     }
 
     @FXML
     private void trailOnAction(ActionEvent event) {
+        if(!showTrail.isSelected()){  
+            for (Mover mover1 : movers) {
+                mover1.setTrailStatus(false);
+            }
+        } else{
+           for (Mover mover1 : movers) {
+                mover1.setTrailStatus(true);
+            } 
+        }
     }
     
 }

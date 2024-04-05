@@ -81,7 +81,7 @@
                </children>
             </HBox>
             <CheckBox fx:id="enableThemes" mnemonicParsing="false" onAction="#themeOnAction" onMouseClicked="#themeValue" text="Enable Themes" />
-            <CheckBox fx:id="showTrail" mnemonicParsing="false" onAction="#trailOnAction" text="Show Trail" />
+            <CheckBox fx:id="showTrail" mnemonicParsing="false" onAction="#trailOnAction" text="Show Trail" selected="true"/>
          </children>
       </VBox>
    </children>

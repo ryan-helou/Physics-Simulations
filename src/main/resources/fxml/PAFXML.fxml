@@ -47,7 +47,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="gravityValue" alignment="CENTER_RIGHT" minHeight="-Infinity" onAction="#gravityOnAction" prefHeight="20.0" prefWidth="129.0" promptText="G" />
+                  <TextField fx:id="gravityValue" alignment="CENTER_RIGHT" minHeight="-Infinity" onAction="#gravityOnAction" prefHeight="20.0" prefWidth="129.0" promptText="G" text="0.2" />
                </children>
             </HBox>
             <HBox prefHeight="16.0" prefWidth="149.0" spacing="38.0">
@@ -67,7 +67,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="massValue" alignment="CENTER_RIGHT" minHeight="-Infinity" prefHeight="20.0" prefWidth="129.0" promptText="kg" />
+                  <TextField fx:id="massValue" alignment="CENTER_RIGHT" minHeight="-Infinity" onAction="#massOnAction" prefHeight="20.0" prefWidth="129.0" promptText="kg" text="1" />
                </children>
             </HBox>
             <HBox prefHeight="9.0" prefWidth="241.0" spacing="3.0">
@@ -77,11 +77,11 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="amountValue" alignment="CENTER_RIGHT" minHeight="-Infinity" onAction="#amountOnAction" prefHeight="20.0" prefWidth="129.0" promptText="particle(s)" />
+                  <TextField fx:id="amountValue" alignment="CENTER_RIGHT" minHeight="-Infinity" onAction="#amountOnAction" prefHeight="20.0" prefWidth="129.0" promptText="particle(s)" text="1" />
                </children>
             </HBox>
             <CheckBox fx:id="enableThemes" mnemonicParsing="false" onAction="#themeOnAction" onMouseClicked="#themeValue" text="Enable Themes" />
-            <CheckBox fx:id="showTrail" mnemonicParsing="false" onAction="#trailOnAction" text="Show Trail" selected="true"/>
+            <CheckBox fx:id="showTrail" mnemonicParsing="false" onAction="#trailOnAction" selected="true" text="Show Trail" />
          </children>
       </VBox>
    </children>

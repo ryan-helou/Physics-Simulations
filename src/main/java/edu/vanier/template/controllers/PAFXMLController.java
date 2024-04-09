@@ -114,9 +114,6 @@ public class PAFXMLController implements Initializable {
         
     }    
     
-    private void createPendulum(){
-        
-    }
     
     private void redraw(Canvas canvas) {
         canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -147,6 +144,7 @@ public class PAFXMLController implements Initializable {
 
     @FXML
     private void gravityOnAction(ActionEvent event) {
+        setAllGravity();
     }
 
     @FXML
@@ -173,6 +171,13 @@ public class PAFXMLController implements Initializable {
         } 
     
         }
+    
+    
+        for (Mover mover1 : movers) {
+            setAllGravity();
+            setAllMass();
+        }
+    
     }
 
     @FXML
@@ -183,7 +188,7 @@ public class PAFXMLController implements Initializable {
     private void themeOnAction(ActionEvent event) {
         if(showTrail.isSelected()){
          System.out.println("it works");   
-        }
+        } 
     }
 
     @FXML
@@ -197,6 +202,36 @@ public class PAFXMLController implements Initializable {
                 mover1.setTrailStatus(true);
             } 
         }
+    }
+
+    @FXML
+    private void massOnAction(ActionEvent event) {
+        setAllMass();      
+    }
+    
+    private void setAllMass() {
+        double massNumber = 1;
+        try {
+        massNumber = Double.parseDouble(massValue.getText());
+        } catch (NumberFormatException e) {
+        showErrorDialog("Please enter a valid mass number.");
+    }
+        
+        for (Mover mover1 : movers) {
+                mover1.setMass(massNumber);
+            }
+    }
+    
+    private void setAllGravity() {
+        double gravityNumber = 1;
+        try {
+        gravityNumber = Double.parseDouble(gravityValue.getText());
+        } catch (NumberFormatException e) {
+        showErrorDialog("Please enter a valid gravity number.");
+    }
+        for (Mover mover1 : movers) {
+                mover1.setForceMagnitude(gravityNumber);
+            }
     }
     
 }

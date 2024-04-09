@@ -34,7 +34,7 @@ public class Mover {
     public Mover(double x, double y) {
         location = new Point2D(x, y);
         velocity = new Point2D(0, 0); //made it start in the center
-        topspeed = 5;
+        topspeed = 5;   //Might implement later if I have time
         this.mass = mass;
         circle = new Circle(location.getX(), location.getY(), 24);
         circle.setFill(Color.rgb(127, 127, 127));

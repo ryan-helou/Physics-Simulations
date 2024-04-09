@@ -24,6 +24,8 @@ public class Mover {
     private Point2D velocity;
     private Point2D acceleration;
     private double topspeed;
+    private double mass = 1;
+    private double forceMagnitude = 0.2; // Adjust this factor to control the force magnitude
     private Circle circle;
     private List<Point2D> trail;
     private int trailLength = 30;
@@ -33,6 +35,7 @@ public class Mover {
         location = new Point2D(x, y);
         velocity = new Point2D(0, 0); //made it start in the center
         topspeed = 5;
+        this.mass = mass;
         circle = new Circle(location.getX(), location.getY(), 24);
         circle.setFill(Color.rgb(127, 127, 127));
         circle.setStroke(Color.WHITE);
@@ -43,12 +46,30 @@ public class Mover {
     public void update(Point2D mouse) {
         acceleration = mouse.subtract(location);
         acceleration = acceleration.normalize().multiply(0.2);
+
+        double force = forceMagnitude/10; //*100
+        double accelerationMagnitude = (force / mass); 
+        /*
+        double accelerationFactor = 1; // Adjust this factor to increase acceleration
+        acceleration = acceleration.multiply(accelerationFactor);
+        */
         
-        velocity = velocity.add(acceleration);
+        velocity = velocity.add(acceleration.multiply(accelerationMagnitude));
+        double speed = velocity.magnitude();
+        if (speed > topspeed) {
+            velocity = velocity.normalize().multiply(topspeed);
+        }
+        
+        /*
+        // Increase velocity directly
+        double velocityFactor = 1; // Adjust this factor to change velocity increase
+        velocity = velocity.multiply(velocityFactor);
+    
         double speed = velocity.magnitude();
         if (speed > topspeed) { //top speed limits the speed (import from my old code)
             velocity = velocity.normalize().multiply(topspeed);
         }
+*/
         location = location.add(velocity);
         
         trail.add(new Point2D(location.getX(), location.getY()));
@@ -60,6 +81,14 @@ public class Mover {
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
       
+    }
+
+    public double getForceMagnitude() {
+        return forceMagnitude;
+    }
+
+    public void setForceMagnitude(double forceMagnitude) {
+        this.forceMagnitude = forceMagnitude;
     }
 
     public void display(GraphicsContext gc) {
@@ -106,5 +135,12 @@ public class Mover {
     public void setTrailStatus(boolean trailStatus) {
         this.trailStatus = trailStatus;
     }
+
+    public double getMass() {
+        return mass;
+    }
     
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
 }

@@ -45,5 +45,5 @@ application {
    //       that contains the main method to be executed.
    //mainClass = 'edu.vanier.template.MainApp'
    //mainClass = 'edu.vanier.template.Main'
-   mainClass = 'edu.vanier.template.DoublePendulumMain'
+   mainClass = 'edu.vanier.template.pendulum.DoublePendulumMain'
 }

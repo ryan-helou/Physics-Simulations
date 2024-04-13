@@ -47,4 +47,5 @@ application {
    //mainClass = 'edu.vanier.template.Main'
    //mainClass = 'edu.vanier.template.NewFXMain'
    mainClass = 'edu.vanier.template.AttractionMain'
+   //mainClass = 'edu.vanier.template.pendulum.CradleMain'
 }

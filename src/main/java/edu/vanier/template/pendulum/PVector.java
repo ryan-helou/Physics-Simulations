@@ -6,8 +6,14 @@ package edu.vanier.template.pendulum;
 
 /**
  *
- * @author ryanhelou
+ * @author salki
  */
-public class FXMLPendulum {
-    
+public class PVector {
+    float x, y, z;
+
+    PVector(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 }

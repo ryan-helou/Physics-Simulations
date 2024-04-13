@@ -25,7 +25,7 @@ public class Main extends Application {
     //just a demo build for testing functions etc
     @Override
     public void start(Stage primaryStage) {
-        mover = new Mover(640, 360); 
+        mover = new Mover(640, 360, 24); 
         
         Canvas canvas = new Canvas(1280, 720);
         StackPane root = new StackPane(canvas);

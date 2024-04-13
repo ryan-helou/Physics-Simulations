@@ -73,7 +73,7 @@ public class PAFXMLController implements Initializable {
     private CheckBox showTrail;
     @FXML
     private Canvas canvas;
-    
+    private double newSize = 1;
     private Mover mover;
     private double mouseX;
     private double mouseY;
@@ -89,8 +89,9 @@ public class PAFXMLController implements Initializable {
         
         //Create the particles based on the amount inserted
         for (int i = 0; i < particleAmount; i++) {
-            this.mover = new Mover(random.nextDouble(240), random.nextDouble(240));
-            movers.add(mover);   
+            this.mover = new Mover(random.nextDouble(240), random.nextDouble(240), 11);
+            movers.add(mover); 
+            System.out.println("test");
         }
         
         
@@ -147,12 +148,18 @@ public class PAFXMLController implements Initializable {
         setAllGravity();
     }
 
+    //To fix on the trail method
     @FXML
     private void sizeSliderValue(MouseEvent event) {
+        newSize = sizeValue.getValue();
+    for (Mover mover : movers) {
+        mover.setScaleFactor(newSize);
+    }
     }
 
     @FXML
     private void amountOnAction(ActionEvent event) {
+ 
     movers.clear();
     
     try {
@@ -166,14 +173,15 @@ public class PAFXMLController implements Initializable {
     } else {
          
         for (int i = 0; i < particleAmount; i++) {
-            mover = new Mover(random.nextDouble(600), random.nextDouble(300));
+            mover = new Mover(random.nextDouble(600), random.nextDouble(300), 11);
             movers.add(mover);
+            mover.setScaleFactor(newSize); 
         } 
     
         }
     
     
-        for (Mover mover1 : movers) {
+        for (Mover mover1 : movers) {   
             setAllGravity();
             setAllMass();
         }
@@ -210,7 +218,7 @@ public class PAFXMLController implements Initializable {
     }
     
     private void setAllMass() {
-        double massNumber = 1;
+        double massNumber = 100000;
         try {
         massNumber = Double.parseDouble(massValue.getText());
         } catch (NumberFormatException e) {

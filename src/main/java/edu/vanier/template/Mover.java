@@ -30,18 +30,22 @@ public class Mover {
     private List<Point2D> trail;
     private int trailLength = 30;
     private boolean trailStatus = true;
-
-    public Mover(double x, double y) {
-        location = new Point2D(x, y);
-        velocity = new Point2D(0, 0); //made it start in the center
-        topspeed = 5;   //Might implement later if I have time
-        this.mass = mass;
-        circle = new Circle(location.getX(), location.getY(), 24);
-        circle.setFill(Color.rgb(127, 127, 127));
-        circle.setStroke(Color.WHITE);
-        circle.setStrokeWidth(2);
-        trail = new ArrayList<>();
-    }
+    private double size;
+    private double scaleFactor = 1;
+    
+    public Mover(double x, double y, double size) {
+    location = new Point2D(x, y);
+    velocity = new Point2D(0, 0); //made it start in the center
+    topspeed = 5;   //Might implement later if I have time
+    this.mass = mass;
+    this.size = size;
+    circle = new Circle(location.getX(), location.getY(), size);
+    circle.setFill(Color.rgb(127, 127, 127));
+    circle.setStroke(Color.WHITE);
+    circle.setStrokeWidth(2);
+    circle.setRadius(size);
+    trail = new ArrayList<>();
+}
 
     public void update(Point2D mouse) {
         acceleration = mouse.subtract(location);
@@ -80,7 +84,10 @@ public class Mover {
         
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
-      
+    }
+
+    public double getSize() {
+        return size;
     }
 
     public double getForceMagnitude() {
@@ -91,12 +98,21 @@ public class Mover {
         this.forceMagnitude = forceMagnitude;
     }
 
+    
+    //To fix: make it so that the smaller trails align with the main particles
+    
+    
+    /*
+    Displays the trail and the main particle
+    */
     public void display(GraphicsContext gc) {
+       
+        
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
         gc.setFill(Color.rgb(127, 127, 127));
-        gc.fillOval(location.getX() - 24, location.getY() - 24, 48, 48);
-        gc.strokeOval(location.getX() - 24, location.getY() - 24, 48, 48);
+        gc.fillOval(location.getX() - 24, location.getY() - 24, 48*scaleFactor, 48*scaleFactor);
+        gc.strokeOval(location.getX() - 24, location.getY() - 24, 48*scaleFactor, 48*scaleFactor);
         
         for (int i = 0; i < trail.size(); i++) {
         Point2D point = trail.get(i);
@@ -108,8 +124,8 @@ public class Mover {
         }
         //double opacity = 0;
         gc.setFill(Color.rgb(127, 127, 127, opacity)); //opacity
-        double trailCircleSize = 16; //trail size
-        gc.fillOval(point.getX() - (trailCircleSize / 2), point.getY() - (trailCircleSize / 2), trailCircleSize, trailCircleSize);
+        double trailCircleSize = 16*scaleFactor; //trail size
+        gc.fillOval(point.getX() - (trailCircleSize / 2), point.getY() - (trailCircleSize / 2), (trailCircleSize*(scaleFactor)), (trailCircleSize*(scaleFactor)));
     }
     }
 
@@ -143,4 +159,15 @@ public class Mover {
     public void setMass(double mass) {
         this.mass = mass;
     }
+    
+    public void setSize(double newSize) {
+        size = newSize;
+        circle.setRadius(size);
+    }
+
+    public void setScaleFactor(double scaleFactor) {
+        this.scaleFactor = scaleFactor;
+    }
+    
+    
 }

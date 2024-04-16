@@ -48,7 +48,7 @@ public class DoublePendulumMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Double Pendulum Simulation");
+        primaryStage.setTitle("Double Pendulum Simulation :)");
 
         BorderPane root = new BorderPane();
         VBox controlPanel = new VBox(10);
@@ -100,6 +100,7 @@ public class DoublePendulumMain extends Application {
         gravitySlider.valueProperty().addListener((obs, oldVal, newVal) -> gravity = newVal.doubleValue());
 
         startButton.setOnAction(e -> {
+            startButton.setDisable(true);
             if (animationTimer != null) {
                 animationTimer.stop();
             }
@@ -112,6 +113,7 @@ public class DoublePendulumMain extends Application {
         });
 
         resetButton.setOnAction(e -> {
+            startButton.setDisable(false);
             resetAnimation();
         });
         primaryStage.setScene(new Scene(root));

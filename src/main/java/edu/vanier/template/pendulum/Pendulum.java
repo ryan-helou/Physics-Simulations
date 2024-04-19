@@ -47,7 +47,7 @@ public class Pendulum {
     }
     private void update() {
         if (!dragging) {
-            float G = 0.0981f;
+            float G = 0.0981f; //Fix the trail method to make it look more smoother at 5G+
             theta_acc = (-G / r) * (float) Math.sin(theta);
             theta_vel += theta_acc;
             theta_vel *= damping;

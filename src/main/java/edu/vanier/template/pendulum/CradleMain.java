@@ -56,7 +56,7 @@ public class CradleMain extends Application {
         group.getChildren().addAll(canvas);
 
         Pendulum[] pendulums = new Pendulum[5];
-        double centerY = canvas.getHeight() / 2;
+        double centerY = (canvas.getHeight()/2) - 69.420;
         double armLength = 100.0;
         double spacing = -69;
 

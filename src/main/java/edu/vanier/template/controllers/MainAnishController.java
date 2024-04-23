@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -29,6 +30,8 @@ public class MainAnishController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        spacebackground.setImage(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
+        doublependulum.setImage(new Image(getClass().getResourceAsStream("/images/doublependulum.png")));
     }    
 
     @FXML

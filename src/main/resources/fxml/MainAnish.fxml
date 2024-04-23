@@ -19,7 +19,7 @@
             <Image url="@images/doublependulum.png" />
          </image>
       </ImageView>
-      <Text fill="RED" layoutX="174.0" layoutY="40.0" opacity="0.91" strokeType="OUTSIDE" strokeWidth="0.0" text="Physics Simulators" underline="true" wrappingWidth="252.763671875">
+      <Text fill="WHITE" layoutX="174.0" layoutY="40.0" opacity="0.91" strokeType="OUTSIDE" strokeWidth="0.0" text="Physics Simulators" underline="true" wrappingWidth="252.763671875">
          <font>
             <Font name="Bauhaus 93" size="29.0" />
          </font>

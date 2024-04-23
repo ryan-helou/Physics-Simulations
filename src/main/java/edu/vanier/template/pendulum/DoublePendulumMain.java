@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class DoublePendulumMain extends Application {
@@ -35,7 +36,7 @@ public class DoublePendulumMain extends Application {
     private double angle2 = Math.PI / 2;
     private double angle1_v = 0;
     private double angle2_v = 0;
-    private double gravity = 1;
+    private double gravity = 5;
     private boolean showPath = true;
 
     private double previous_x2 = -1;
@@ -60,21 +61,58 @@ public class DoublePendulumMain extends Application {
         buffer.setFill(Color.WHITE);
         buffer.fillRect(0, 0, bufferCanvas.getWidth(), bufferCanvas.getHeight());
 
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 22);
         Label length1Label = new Label("Length 1");
+        length1Label.setFont(customFont);
         Slider length1Slider = new Slider(50, 300, length1);
+        length1Slider.setShowTickLabels(true);
+        length1Slider.setShowTickMarks(true);
+        length1Slider.setMajorTickUnit(50);
+        length1Slider.setBlockIncrement(10);
+
         Label length2Label = new Label("Length 2");
+        length2Label.setFont(customFont);
         Slider length2Slider = new Slider(50, 300, length2);
+        length2Slider.setShowTickLabels(true);
+        length2Slider.setShowTickMarks(true);
+        length2Slider.setMajorTickUnit(50);
+        length2Slider.setBlockIncrement(10);
+
         Label mass1Label = new Label("Mass 1");
-        Slider mass1Slider = new Slider(1, 20, mass1);
+        mass1Label.setFont(customFont);
+
+        Slider mass1Slider = new Slider(1, 25, mass1);
+        mass1Slider.setShowTickLabels(true);
+        mass1Slider.setShowTickMarks(true);
+        mass1Slider.setMajorTickUnit(3);
+        mass1Slider.setBlockIncrement(1);
+
         Label mass2Label = new Label("Mass 2");
-        Slider mass2Slider = new Slider(1, 20, mass2);
+        mass2Label.setFont(customFont);
+
+        Slider mass2Slider = new Slider(1, 25, mass2);
+        mass2Slider.setShowTickLabels(true);
+        mass2Slider.setShowTickMarks(true);
+        mass2Slider.setMajorTickUnit(3);
+        mass2Slider.setBlockIncrement(1);
+
         Label gravityLabel = new Label("Gravity");
-        Slider gravitySlider = new Slider(0.1, 10, gravity);
+        gravityLabel.setFont(customFont);
+
+        Slider gravitySlider = new Slider(1, 15, gravity);
+        gravitySlider.setShowTickLabels(true);
+        gravitySlider.setShowTickMarks(true);
+        gravitySlider.setMajorTickUnit(2);
+        gravitySlider.setBlockIncrement(1);
         CheckBox pathCheckbox = new CheckBox("Show Path");
+        pathCheckbox.setFont(customFont);
         pathCheckbox.setSelected(showPath);
 
         Button startButton = new Button("Start");
+        startButton.setFont(customFont);
+
         Button resetButton = new Button("Reset");
+        resetButton.setFont(customFont);
 
         controlPanel.getChildren().addAll(
                 length1Label, length1Slider,
@@ -115,9 +153,17 @@ public class DoublePendulumMain extends Application {
         resetButton.setOnAction(e -> {
             startButton.setDisable(false);
             resetAnimation();
+            clearPath();
         });
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        pathCheckbox.setOnAction(e -> {
+            showPath = pathCheckbox.isSelected();
+            if (!showPath) {
+                clearPath();
+            }
+        });
     }
 
     private void draw() {
@@ -130,12 +176,12 @@ public class DoublePendulumMain extends Application {
         gc.clearRect(0, 0, 600, 350);
         gc.drawImage(bufferImage, 0, 0);
 
-        double a1_a = (-gravity * (2 * mass1 + mass2) * Math.sin(angle1) - mass2 * gravity
+        double a1_a = ((-gravity / 4) * (2 * mass1 + mass2) * Math.sin(angle1) - mass2 * (gravity / 4)
                 * Math.sin(angle1 - 2 * angle2) - 2 * Math.sin(angle1 - angle2) * mass2
                 * (angle2_v * angle2_v * length2 + angle1_v * angle1_v * length1 * Math.cos(angle1 - angle2)))
                 / (length1 * (2 * mass1 + mass2 - mass2 * Math.cos(2 * angle1 - 2 * angle2)));
 
-        double a2_a = (2 * Math.sin(angle1 - angle2) * (angle1_v * angle1_v * length1 * (mass1 + mass2) + gravity
+        double a2_a = (2 * Math.sin(angle1 - angle2) * (angle1_v * angle1_v * length1 * (mass1 + mass2) + (gravity / 4)
                 * (mass1 + mass2) * Math.cos(angle1) + angle2_v * angle2_v * length2 * mass2
                 * Math.cos(angle1 - angle2))) / (length2 * (2 * mass1 + mass2 - mass2
                 * Math.cos(2 * angle1 - 2 * angle2)));
@@ -166,10 +212,12 @@ public class DoublePendulumMain extends Application {
         angle2 += angle2_v;
 
         GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
-        bufferGc.setStroke(Color.BLACK);
-        if (previous_x2 != -1 && previous_y2 != -1) {
+        if (showPath) {
+            bufferGc.setStroke(Color.BLACK);
             bufferGc.setLineWidth(0.5);
-            bufferGc.strokeLine(previous_x2, previous_y2, x2, y2);
+            if (previous_x2 != -1 && previous_y2 != -1) {
+                bufferGc.strokeLine(previous_x2, previous_y2, x2, y2);
+            }
         }
 
         previous_x2 = x2;
@@ -196,6 +244,12 @@ public class DoublePendulumMain extends Application {
         bufferGc.translate(center_x, center_y);
 
         draw();
+    }
+
+    private void clearPath() {
+        GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
+        bufferGc.setFill(Color.WHITE);
+        bufferGc.fillRect(-250, -250, bufferCanvas.getWidth(), bufferCanvas.getHeight());
     }
 
     public static void main(String[] args) {

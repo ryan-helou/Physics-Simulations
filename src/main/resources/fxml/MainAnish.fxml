@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.vanier.template.controllers.MainAnishController">
+   <children>
+      <ImageView fx:id="spacebackground" fitHeight="407.0" fitWidth="641.0" layoutX="-40.0" layoutY="-3.0" opacity="0.99">
+         <image>
+            <Image url="@images/spacemainmenu.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="doublependulum" fitHeight="141.0" fitWidth="141.0" layoutX="69.0" layoutY="191.0" onMouseClicked="#dpOnMouseClicked" onMouseEntered="#dpOnMouseEntered" opacity="0.31">
+         <image>
+            <Image url="@images/doublependulum.png" />
+         </image>
+      </ImageView>
+      <Text fill="RED" layoutX="174.0" layoutY="40.0" opacity="0.91" strokeType="OUTSIDE" strokeWidth="0.0" text="Physics Simulators" underline="true" wrappingWidth="252.763671875">
+         <font>
+            <Font name="Bauhaus 93" size="29.0" />
+         </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+      </Text>
+   </children>
+</AnchorPane>

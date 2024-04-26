@@ -29,7 +29,7 @@ public class NewFXMain extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Anish Mehra");
         primaryStage.setScene(scene);

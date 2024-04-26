@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -23,6 +22,12 @@ public class MainAnishController implements Initializable {
     private ImageView spacebackground;
     @FXML
     private ImageView doublependulum;
+    @FXML
+    private ImageView newtonscradle;
+    @FXML
+    private ImageView particleattraction;
+    @FXML
+    private ImageView settings;
 
     /**
      * Initializes the controller class.
@@ -30,9 +35,11 @@ public class MainAnishController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        spacebackground.setImage(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
-        doublependulum.setImage(new Image(getClass().getResourceAsStream("/images/doublependulum.png")));
     }    
+
+    @FXML
+    private void dpOnMouseExited(MouseEvent event) {
+    }
 
     @FXML
     private void dpOnMouseEntered(MouseEvent event) {
@@ -40,6 +47,42 @@ public class MainAnishController implements Initializable {
 
     @FXML
     private void dpOnMouseClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void cradleOnMouseExited(MouseEvent event) {
+    }
+
+    @FXML
+    private void cradleOnMouseEntered(MouseEvent event) {
+    }
+
+    @FXML
+    private void cradleOnMouseClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void paOnMouseExited(MouseEvent event) {
+    }
+
+    @FXML
+    private void paOnMouseEntered(MouseEvent event) {
+    }
+
+    @FXML
+    private void paOnMouseClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void setttingsOnMouseExited(MouseEvent event) {
+    }
+
+    @FXML
+    private void setttingsOnMouseEntered(MouseEvent event) {
+    }
+
+    @FXML
+    private void setttingsOnMouseClicked(MouseEvent event) {
     }
     
 }

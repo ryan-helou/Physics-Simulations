@@ -25,9 +25,14 @@ public class NewFXMain extends Application {
     
   
     @Override
+<<<<<<< Updated upstream
     
     public void start(Stage primaryStage)  throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("CradleFXML.fxml"));
+=======
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));
+>>>>>>> Stashed changes
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();

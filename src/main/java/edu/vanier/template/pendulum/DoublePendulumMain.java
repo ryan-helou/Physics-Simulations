@@ -28,15 +28,15 @@ import javafx.stage.Stage;
 
 public class DoublePendulumMain extends Application {
 
-    private double length1 = 125;
-    private double length2 = 125;
+    private double length1 = 150;
+    private double length2 = 150;
     private double mass1 = 10;
     private double mass2 = 10;
     private double angle1 = Math.PI / 2;
     private double angle2 = Math.PI / 2;
     private double angle1_v = 0;
     private double angle2_v = 0;
-    private double gravity = 5;
+    private double gravity = 3;
     private boolean showPath = true;
 
     private double previous_x2 = -1;
@@ -69,6 +69,7 @@ public class DoublePendulumMain extends Application {
         length1Slider.setShowTickMarks(true);
         length1Slider.setMajorTickUnit(50);
         length1Slider.setBlockIncrement(10);
+        length1Slider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         Label length2Label = new Label("Length 2");
         length2Label.setFont(customFont);
@@ -77,6 +78,7 @@ public class DoublePendulumMain extends Application {
         length2Slider.setShowTickMarks(true);
         length2Slider.setMajorTickUnit(50);
         length2Slider.setBlockIncrement(10);
+        length2Slider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         Label mass1Label = new Label("Mass 1");
         mass1Label.setFont(customFont);
@@ -86,6 +88,7 @@ public class DoublePendulumMain extends Application {
         mass1Slider.setShowTickMarks(true);
         mass1Slider.setMajorTickUnit(3);
         mass1Slider.setBlockIncrement(1);
+        mass1Slider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         Label mass2Label = new Label("Mass 2");
         mass2Label.setFont(customFont);
@@ -95,6 +98,7 @@ public class DoublePendulumMain extends Application {
         mass2Slider.setShowTickMarks(true);
         mass2Slider.setMajorTickUnit(3);
         mass2Slider.setBlockIncrement(1);
+        mass2Slider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         Label gravityLabel = new Label("Gravity");
         gravityLabel.setFont(customFont);
@@ -104,6 +108,8 @@ public class DoublePendulumMain extends Application {
         gravitySlider.setShowTickMarks(true);
         gravitySlider.setMajorTickUnit(2);
         gravitySlider.setBlockIncrement(1);
+        gravitySlider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
+
         CheckBox pathCheckbox = new CheckBox("Show Path");
         pathCheckbox.setFont(customFont);
         pathCheckbox.setSelected(showPath);

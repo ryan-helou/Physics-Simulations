@@ -12,11 +12,17 @@ public class Vector2D {
     private final double x;
     private final double y;
 
+    /**
+     * 
+     * @param x
+     * @param y 
+     */
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    
     public double getX() {
         return x;
     }
@@ -35,12 +41,27 @@ public class Vector2D {
         return new Vector2D(x - other.x, y - other.y);
     }
     
+    /**
+     * 
+     * @param other
+     * @return 
+     */
     public double distance(Vector2D other) {
         double dx = this.x - other.x;
         double dy = this.y - other.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
     
+    /**
+     * 
+     * @param x1
+     * @param y1
+     * @param r1
+     * @param x2
+     * @param y2
+     * @param r2
+     * @return 
+     */
     public boolean checkCollision(double x1, double y1, double r1, double x2, double y2, double r2) {
         double dx = x2 - x1;
         double dy = y2 - y1;

@@ -18,7 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- *
+ * 
  * @author 2165566
  */
 public class NewFXMain extends Application {
@@ -26,10 +26,16 @@ public class NewFXMain extends Application {
     private double mouseX;
     private double mouseY;
     private boolean showTrail;
-    
+
+    /**
+     * 
+     * @param primaryStage
+     * @throws IOException 
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));
+        //Parent cradle = FXMLLoader.load(getClass().getResource("/fxml/PAFXML.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Anish Mehra");
         primaryStage.setScene(scene);

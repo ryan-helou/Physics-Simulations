@@ -4,7 +4,6 @@
  */
 package edu.vanier.template.pendulum;
 
-
 import javafx.animation.AnimationTimer;
 import javafx.animation.Transition;
 import javafx.application.Application;
@@ -29,21 +28,24 @@ import javafx.util.Duration;
  *
  * @author salki
  */
-
-
 public class CradleMain extends Application {
-    
+
     private boolean initialStart = false;
     Canvas canvas;
     private boolean showTrail = true;
+
+    /**
+     * 
+     * @param primaryStage 
+     */
     @Override
     public void start(Stage primaryStage) {
         Label lengthLabel = new Label("Length:");
         lengthLabel.setLayoutX(10);
         lengthLabel.setLayoutY(330);
-        
+
         primaryStage.setTitle("Newton's Cradle Simulation");
-         canvas = new Canvas(800, 400);
+        canvas = new Canvas(800, 400);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         StackPane root = new StackPane();
 
@@ -56,7 +58,7 @@ public class CradleMain extends Application {
         group.getChildren().addAll(canvas);
 
         Pendulum[] pendulums = new Pendulum[5];
-        double centerY = (canvas.getHeight()/2) - 69.420;
+        double centerY = (canvas.getHeight() / 2) - 69.420;
         double armLength = 100.0;
         double spacing = -69;
 
@@ -103,12 +105,11 @@ public class CradleMain extends Application {
             }
         });
 
-        
         /*
         Dummy transition used as a delay for the collision timer
         to avoid it activating during the first millisecond, where
         all the circles are initially placed together.
-        */
+         */
         transition = new Transition() {
             {
                 setCycleDuration(Duration.millis(5)); //duration set to 10 ms
@@ -117,45 +118,39 @@ public class CradleMain extends Application {
             @Override
             protected void interpolate(double d) {
                 if (d == 1.0) { // 1.0 means end of transition, LEAVE IT AS ONE @RYAN
-            initialStart = true;
-            }
+                    initialStart = true;
+                }
             }
         };
-                transition.setCycleCount(1);
-                transition.play();
-                
-                
-                
-                /*
+        transition.setCycleCount(1);
+        transition.play();
+
+        /*
                 AnimationTimer used to detect collision and update 
                 the canvas
-                */
-                
-                double mass1 = 1;
-                double mass2 = 1;
-   new AnimationTimer() {
-    @Override
-    public void handle(long now) {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        
-        
-        // Update pendulum positions and circles
-        for (int i = 0; i < pendulums.length; i++) {
-            if(i==0){
-                pendulums[0].go();
-                circles[0].setCenterX(pendulums[0].loc.getX());
-                circles[0].setCenterY(pendulums[0].loc.getY());
-            } else {
-            pendulums[i].go();
-            circles[i].setCenterX(pendulums[i].loc.getX());
-            circles[i].setCenterY(pendulums[i].loc.getY());
-        }
-        }
-        
-      
-        
-        // Check for collisions between adjacent bobs
-        /*
+         */
+        double mass1 = 1;
+        double mass2 = 1;
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+                // Update pendulum positions and circles
+                for (int i = 0; i < pendulums.length; i++) {
+                    if (i == 0) {
+                        pendulums[0].go();
+                        circles[0].setCenterX(pendulums[0].loc.getX());
+                        circles[0].setCenterY(pendulums[0].loc.getY());
+                    } else {
+                        pendulums[i].go();
+                        circles[i].setCenterX(pendulums[i].loc.getX());
+                        circles[i].setCenterY(pendulums[i].loc.getY());
+                    }
+                }
+
+                // Check for collisions between adjacent bobs
+                /*
         if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
             // Reverse velocities of adjacent bobs (1 and 2)
             double temp = pendulums[2].theta_vel;
@@ -163,16 +158,16 @@ public class CradleMain extends Application {
             pendulums[1].theta_vel = (float) temp;
             //System.out.println("test");
         }
-        */
-         if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
-            // Reverse velocities of adjacent bobs (1 and 2)
-            double temp = pendulums[2].theta_vel;
-            pendulums[2].theta_vel = pendulums[4].theta_vel;
-            pendulums[4].theta_vel = (float) temp;
-            pendulums[2].resetAll();
-            //System.out.println("test");
-        }
-        
+                 */
+                if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
+                    // Reverse velocities of adjacent bobs (1 and 2)
+                    double temp = pendulums[2].theta_vel;
+                    pendulums[2].theta_vel = pendulums[4].theta_vel;
+                    pendulums[4].theta_vel = (float) temp;
+                    pendulums[2].resetAll();
+                    //System.out.println("test");
+                }
+
 //        if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
 //            // Reverse velocities of adjacent bobs (1 and 0)
 //            double temp = pendulums[1].theta_vel;
@@ -192,20 +187,18 @@ public class CradleMain extends Application {
 //        }
 //
 //       
-        if (circles[4].getBoundsInParent().intersects(circles[3].getBoundsInParent()) && initialStart) {
-            // Reverse velocities of adjacent bobs (2 and 0)
-            double temp = pendulums[4].theta_vel;
-            pendulums[4].theta_vel = pendulums[3].theta_vel;
-            pendulums[2].theta_vel = (float) temp;
-            System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
-            pendulums[4].resetAll();
-        }
+                if (circles[4].getBoundsInParent().intersects(circles[3].getBoundsInParent()) && initialStart) {
+                    // Reverse velocities of adjacent bobs (2 and 0)
+                    double temp = pendulums[4].theta_vel;
+                    pendulums[4].theta_vel = pendulums[3].theta_vel;
+                    pendulums[2].theta_vel = (float) temp;
+                    System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
+                    pendulums[4].resetAll();
+                }
 
-        
-        
-        //real order: 21034
+                //real order: 21034
 
-        /*
+                /*
         if (circles[0].getBoundsInParent().intersects(circles[2].getBoundsInParent()) && initialStart) {
             // Reverse velocities of adjacent bobs (2 and 0)
             double temp = pendulums[2].theta_vel;
@@ -227,9 +220,8 @@ public class CradleMain extends Application {
             pendulums[3].theta_vel = pendulums[4].theta_vel;
             pendulums[4].theta_vel = (float) temp;
         }
-        */
-        
-        /*
+                 */
+ /*
         System.out.println("circles(0)" + "x= " + circles[0].getCenterX() + " y= " + circles[0].getCenterY());
         System.out.println("circles{1}" + "x= " + circles[1].getCenterX() + " y= " + circles[1].getCenterY());
         System.out.println("circles{2}" + "x= " + circles[2].getCenterX() + " y= " + circles[2].getCenterY());
@@ -242,69 +234,85 @@ public class CradleMain extends Application {
         System.out.println("pendulums{2}" + "PENDx= " + circles[2].getCenterX() + " y= " + circles[2].getCenterY());
         System.out.println("pendulums{3}" + "PENDx= " + circles[3].getCenterX() + " y= " + circles[3].getCenterY());
         System.out.println("pendulums{4}" + "PENDx= " + circles[4].getCenterX() + " y= " + circles[4].getCenterY());
-        */
-        
-        //real order: 21034
-    }
-}.start();
-   
-   // Create a Slider component for adjusting pendulum length
-    Slider lengthSlider = new Slider(75, 150, 100); // Minimum, Maximum, Default Value
-    lengthSlider.setShowTickLabels(true);
-    lengthSlider.setShowTickMarks(true);
-    lengthSlider.setMajorTickUnit(25);
-    lengthSlider.setMinorTickCount(5);
-    lengthSlider.setBlockIncrement(25);
-    lengthSlider.setLayoutX(50);
-    lengthSlider.setLayoutY(350);
+                 */
+                //real order: 21034
+            }
+        }.start();
 
-    // Add an event listener to update pendulum lengths when the slider value changes
-    lengthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        double newLength = newValue.doubleValue();
-        updatePendulumLengths(pendulums, newLength);
-        resetAllPendulums(pendulums);
-    });
-    CheckBox showTrailCheckbox = new CheckBox("Show Trail");
-showTrailCheckbox.setSelected(true); // Default to showing trail
-showTrailCheckbox.setLayoutX(700);
-showTrailCheckbox.setLayoutY(350);
+        // Create a Slider component for adjusting pendulum length
+        Slider lengthSlider = new Slider(75, 150, 100); // Minimum, Maximum, Default Value
+        lengthSlider.setShowTickLabels(true);
+        lengthSlider.setShowTickMarks(true);
+        lengthSlider.setMajorTickUnit(25);
+        lengthSlider.setMinorTickCount(5);
+        lengthSlider.setBlockIncrement(25);
+        lengthSlider.setLayoutX(50);
+        lengthSlider.setLayoutY(350);
 
-// Add an event listener to toggle showing/hiding the trail
-showTrailCheckbox.setOnAction(event -> {
-    boolean showTrail = showTrailCheckbox.isSelected();
-    for (Pendulum pendulum : pendulums) {
-        pendulum.setShowTrail(showTrail);
-    }
-});
+        // Add an event listener to update pendulum lengths when the slider value changes
+        lengthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            double newLength = newValue.doubleValue();
+            updatePendulumLengths(pendulums, newLength);
+            resetAllPendulums(pendulums);
+        });
+        CheckBox showTrailCheckbox = new CheckBox("Show Trail");
+        showTrailCheckbox.setSelected(true); // Default to showing trail
+        showTrailCheckbox.setLayoutX(700);
+        showTrailCheckbox.setLayoutY(350);
 
-    // Add the Slider to the root layout
-    group.getChildren().addAll(lengthSlider,lengthLabel,showTrailCheckbox);
+        // Add an event listener to toggle showing/hiding the trail
+        showTrailCheckbox.setOnAction(event -> {
+            boolean showTrail = showTrailCheckbox.isSelected();
+            for (Pendulum pendulum : pendulums) {
+                pendulum.setShowTrail(showTrail);
+            }
+        });
+
+        // Add the Slider to the root layout
+        group.getChildren().addAll(lengthSlider, lengthLabel, showTrailCheckbox);
         primaryStage.setScene(new Scene(group, 800, 400)); // Set the scene with the group
         primaryStage.show();
     }
 
-     
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
+
+    /**
+     *
+     * @param showTrail Boolean indicated whether the trail is active or not
+     */
     public void setShowTrail(boolean showTrail) {
-    this.showTrail = showTrail;
-}
+        this.showTrail = showTrail;
+    }
+
+    /**
+     *
+     * @param pendulums
+     */
     public void resetAllPendulums(Pendulum[] pendulums) {
         for (Pendulum p : pendulums) {
             p.resetAll();
         }
     }
-    
-    private void updatePendulumLengths(Pendulum[] pendulums, double newLength) {
-    // Update the lengths of all pendulums
-    for (Pendulum pendulum : pendulums) {
-        pendulum.r = (float) newLength;
-    }
-}
-    
-}
 
+    /**
+     *
+     * @param pendulums
+     * @param newLength
+     */
+    private void updatePendulumLengths(Pendulum[] pendulums, double newLength) {
+        // Update the lengths of all pendulums
+        for (Pendulum pendulum : pendulums) {
+            pendulum.r = (float) newLength;
+        }
+    }
+
+}
 
 //new AnimationTimer() {
 //    @Override

@@ -255,7 +255,7 @@ public class DoublePendulumMain extends Application {
     private void clearPath() {
         GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
         bufferGc.setFill(Color.WHITE);
-        bufferGc.fillRect(-250, -250, bufferCanvas.getWidth(), bufferCanvas.getHeight());
+        bufferGc.fillRect(-400, -200, bufferCanvas.getWidth(), bufferCanvas.getHeight());
     }
 
     public static void main(String[] args) {

@@ -4,7 +4,6 @@ package edu.vanier.template.controllers;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-
 import edu.vanier.template.Mover;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,13 +31,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
+
 /**
  * FXML Controller class
  *
  * @author salki
  */
 public class PAFXMLController implements Initializable {
-
     @FXML
     private Button backButton;
     @FXML
@@ -73,28 +72,29 @@ public class PAFXMLController implements Initializable {
     private CheckBox showTrail;
     @FXML
     private Canvas canvas;
+
     private double newSize = 1;
     private Mover mover;
     private double mouseX;
     private double mouseY;
     private List<Mover> movers = new ArrayList();
     private Random random = new Random();
-    private int particleAmount = 1; 
+    private int particleAmount = 1;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         movers.clear();
-        
+
         //Create the particles based on the amount inserted
         for (int i = 0; i < particleAmount; i++) {
             this.mover = new Mover(random.nextDouble(240), random.nextDouble(240), 11);
-            movers.add(mover); 
+            movers.add(mover);
             System.out.println("test");
         }
-        
-        
+
         canvas.setOnMouseMoved(e -> {
             mouseX = e.getX();
             mouseY = e.getY();
@@ -112,29 +112,35 @@ public class PAFXMLController implements Initializable {
             }
         };
         animationTimer.start();
-        
-    }    
-    
-    
+
+    }
+
+    /**
+     * 
+     * @param canvas 
+     */
     private void redraw(Canvas canvas) {
         canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Mover mover1 : movers) {
-           mover1.display(canvas.getGraphicsContext2D()); 
+            mover1.display(canvas.getGraphicsContext2D());
         }
         //mover.display(canvas.getGraphicsContext2D());
     }
 
-    //Error dialogs for invalid particle amount
+    /**
+     * Error dialog for invalid particle amount
+     * 
+     * @param message 
+     */
     private void showErrorDialog(String message) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
 
-    alert.showAndWait();
+        alert.showAndWait();
     }
-    
+
     @FXML
     private void backOnAction(ActionEvent event) {
     }
@@ -152,40 +158,44 @@ public class PAFXMLController implements Initializable {
     @FXML
     private void sizeSliderValue(MouseEvent event) {
         newSize = sizeValue.getValue();
-    for (Mover mover : movers) {
-        mover.setScaleFactor(newSize);
-    }
+        for (Mover mover : movers) {
+            mover.setScaleFactor(newSize);
+        }
     }
 
+    
+    /**
+     * 
+     * @param event 
+     */
     @FXML
     private void amountOnAction(ActionEvent event) {
- 
-    movers.clear();
-    
-    try {
-    particleAmount = Integer.parseInt(amountValue.getText());
-    } catch (NumberFormatException e) {
-        showErrorDialog("Please enter a valid integer.");
-    }
-    
-    if(particleAmount > 100 || particleAmount < 0){
-        showErrorDialog("Please enter a valid number (between 0 and 100)");
-    } else {
-         
-        for (int i = 0; i < particleAmount; i++) {
-            mover = new Mover(random.nextDouble(600), random.nextDouble(300), 11);
-            movers.add(mover);
-            mover.setScaleFactor(newSize); 
-        } 
-    
+
+        movers.clear();
+
+        try {
+            particleAmount = Integer.parseInt(amountValue.getText());
+        } catch (NumberFormatException e) {
+            showErrorDialog("Please enter a valid integer.");
         }
-    
-    
-        for (Mover mover1 : movers) {   
+
+        if (particleAmount > 100 || particleAmount < 0) {
+            showErrorDialog("Please enter a valid number (between 0 and 100)");
+        } else {
+
+            for (int i = 0; i < particleAmount; i++) {
+                mover = new Mover(random.nextDouble(600), random.nextDouble(300), 11);
+                movers.add(mover);
+                mover.setScaleFactor(newSize);
+            }
+
+        }
+
+        for (Mover mover1 : movers) {
             setAllGravity();
             setAllMass();
         }
-    
+
     }
 
     @FXML
@@ -194,52 +204,61 @@ public class PAFXMLController implements Initializable {
 
     @FXML
     private void themeOnAction(ActionEvent event) {
-        if(showTrail.isSelected()){
-         System.out.println("it works");   
-        } 
+        if (showTrail.isSelected()) {
+            System.out.println("it works");
+        }
     }
 
     @FXML
     private void trailOnAction(ActionEvent event) {
-        if(!showTrail.isSelected()){  
+        if (!showTrail.isSelected()) {
             for (Mover mover1 : movers) {
                 mover1.setTrailStatus(false);
             }
-        } else{
-           for (Mover mover1 : movers) {
+        } else {
+            for (Mover mover1 : movers) {
                 mover1.setTrailStatus(true);
-            } 
+            }
         }
     }
 
     @FXML
     private void massOnAction(ActionEvent event) {
-        setAllMass();      
+        setAllMass();
     }
-    
+
+    /**
+     * Sets the mass of every particle present within the particle
+     * simulation. Also contains an error dialog in the case that the
+     * mass inputted is not valid.
+     */
     private void setAllMass() {
         double massNumber = 100000;
         try {
-        massNumber = Double.parseDouble(massValue.getText());
+            massNumber = Double.parseDouble(massValue.getText());
         } catch (NumberFormatException e) {
-        showErrorDialog("Please enter a valid mass number.");
-    }
-        
+            showErrorDialog("Please enter a valid mass number.");
+        }
+
         for (Mover mover1 : movers) {
-                mover1.setMass(massNumber);
-            }
+            mover1.setMass(massNumber);
+        }
     }
-    
+
+    /**
+     * Method that changes the gravity value for each particle present within
+     * the simulation based on the value set by the user through the gravity slider.
+     */
     private void setAllGravity() {
         double gravityNumber = 1;
         try {
-        gravityNumber = Double.parseDouble(gravityValue.getText());
+            gravityNumber = Double.parseDouble(gravityValue.getText());
         } catch (NumberFormatException e) {
-        showErrorDialog("Please enter a valid gravity number.");
-    }
+            showErrorDialog("Please enter a valid gravity number.");
+        }
         for (Mover mover1 : movers) {
-                mover1.setForceMagnitude(gravityNumber);
-            }
+            mover1.setForceMagnitude(gravityNumber);
+        }
     }
-    
+
 }

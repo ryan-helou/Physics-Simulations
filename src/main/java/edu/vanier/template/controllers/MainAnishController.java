@@ -4,13 +4,20 @@
  */
 package edu.vanier.template.controllers;
 
+import edu.vanier.template.NewFXMain;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -40,6 +47,9 @@ public class MainAnishController implements Initializable {
         initializeImages();
     }    
 
+    /*
+    Sets and Images to the existing ImageView upon startup
+    */
     private void initializeImages(){
         spacebackground.setImage(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
         settings.setImage(new Image(getClass().getResourceAsStream("/images/settings.png")));
@@ -80,7 +90,13 @@ public class MainAnishController implements Initializable {
     }
 
     @FXML
-    private void cradleOnMouseClicked(MouseEvent event) {
+    private void cradleOnMouseClicked(MouseEvent event) throws IOException {
+        Parent cradle = FXMLLoader.load(getClass().getResource("/fxml/DoublePendulum.fxml"));
+        Scene scene = new Scene(cradle);
+        
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -94,7 +110,14 @@ public class MainAnishController implements Initializable {
     }
 
     @FXML
-    private void paOnMouseClicked(MouseEvent event) {
+    private void paOnMouseClicked(MouseEvent event) throws IOException {
+        Parent particle = FXMLLoader.load(getClass().getResource("/fxml/PAFXML.fxml"));
+        Scene scene = new Scene(particle);
+        
+        //Stage stage = new Stage();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

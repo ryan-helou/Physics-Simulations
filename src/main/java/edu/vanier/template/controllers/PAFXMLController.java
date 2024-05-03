@@ -5,6 +5,7 @@ package edu.vanier.template.controllers;
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 import edu.vanier.template.Mover;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -112,9 +119,25 @@ public class PAFXMLController implements Initializable {
             }
         };
         animationTimer.start();
-
+        
+        backButton.setOnAction(e -> {
+        
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));  
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+                
+            } catch (IOException ex) {
+                Logger.getLogger(PAFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    
+        });
+        
+        
     }
-
+    
     /**
      * 
      * @param canvas 
@@ -153,7 +176,9 @@ public class PAFXMLController implements Initializable {
     private void gravityOnAction(ActionEvent event) {
         setAllGravity();
     }
-
+    
+   
+    
     //To fix on the trail method
     @FXML
     private void sizeSliderValue(MouseEvent event) {
@@ -208,7 +233,7 @@ public class PAFXMLController implements Initializable {
             System.out.println("it works");
         }
     }
-
+   
     @FXML
     private void trailOnAction(ActionEvent event) {
         if (!showTrail.isSelected()) {
@@ -226,7 +251,7 @@ public class PAFXMLController implements Initializable {
     private void massOnAction(ActionEvent event) {
         setAllMass();
     }
-
+    
     /**
      * Sets the mass of every particle present within the particle
      * simulation. Also contains an error dialog in the case that the

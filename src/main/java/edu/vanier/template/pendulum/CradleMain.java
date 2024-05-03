@@ -56,6 +56,12 @@ public class CradleMain extends Application {
 
         Group group = new Group();
         group.getChildren().addAll(canvas);
+        
+//        if (!primaryStage.isShowing()) {  switch scenes.
+//        primaryStage.show();
+//    } else {
+//        primaryStage.sizeToScene();  
+//    }
 
         Pendulum[] pendulums = new Pendulum[5];
         double centerY = (canvas.getHeight() / 2) - 69.420;
@@ -299,7 +305,7 @@ public class CradleMain extends Application {
             p.resetAll();
         }
     }
-
+     
     /**
      *
      * @param pendulums

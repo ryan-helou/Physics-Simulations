@@ -4,7 +4,9 @@
  */
 package edu.vanier.template.controllers;
 
+import edu.vanier.template.DoublePendulumMain;
 import edu.vanier.template.NewFXMain;
+import edu.vanier.template.pendulum.CradleMain;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -77,6 +79,9 @@ public class MainAnishController implements Initializable {
 
     @FXML
     private void dpOnMouseClicked(MouseEvent event) {
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    DoublePendulumMain doublePendulumMain = new DoublePendulumMain();
+    doublePendulumMain.start(stage);
     }
 
     @FXML
@@ -90,14 +95,12 @@ public class MainAnishController implements Initializable {
     }
 
     @FXML
-    private void cradleOnMouseClicked(MouseEvent event) throws IOException {
-        Parent cradle = FXMLLoader.load(getClass().getResource("/fxml/DoublePendulum.fxml"));
-        Scene scene = new Scene(cradle);
-        
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
+    private void cradleOnMouseClicked(MouseEvent event) {
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+    CradleMain cradleMain = new CradleMain();
+    cradleMain.start(stage);  
+}
 
     @FXML
     private void paOnMouseExited(MouseEvent event) {

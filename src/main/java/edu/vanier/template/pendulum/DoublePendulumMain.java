@@ -55,8 +55,8 @@ public class DoublePendulumMain extends Application {
         VBox controlPanel = new VBox(10);
         controlPanel.setPrefWidth(200);
 
-        Canvas canvas = new Canvas(800, 600);
-        bufferCanvas = new Canvas(800, 600);
+        Canvas canvas = new Canvas(800, 800);
+        bufferCanvas = new Canvas(800, 800);
         GraphicsContext buffer = bufferCanvas.getGraphicsContext2D();
         buffer.setFill(Color.WHITE);
         buffer.fillRect(0, 0, bufferCanvas.getWidth(), bufferCanvas.getHeight());
@@ -134,7 +134,7 @@ public class DoublePendulumMain extends Application {
         gc = canvas.getGraphicsContext2D();
 
         center_x = canvas.getWidth() / 2;
-        center_y = canvas.getHeight() / 4;
+        center_y = canvas.getHeight() / 4 +150;
         buffer.translate(center_x, center_y);
 
         length1Slider.valueProperty().addListener((obs, oldVal, newVal) -> length1 = newVal.doubleValue());
@@ -178,8 +178,8 @@ public class DoublePendulumMain extends Application {
         Image bufferImage = bufferCanvas.snapshot(sp, null);
 
         gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, 600, 350);
-        gc.clearRect(0, 0, 600, 350);
+        gc.fillRect(0, 0, 800, 350);
+        gc.clearRect(0, 0,800, 350);
         gc.drawImage(bufferImage, 0, 0);
 
         double a1_a = ((-gravity / 4) * (2 * mass1 + mass2) * Math.sin(angle1) - mass2 * (gravity / 4)

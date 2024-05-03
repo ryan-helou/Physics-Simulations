@@ -7,6 +7,7 @@ package edu.vanier.template.controllers;
 import edu.vanier.template.DoublePendulumMain;
 import edu.vanier.template.NewFXMain;
 import edu.vanier.template.pendulum.CradleMain;
+//import edu.vanier.template.pendulum.DoublePendulumMain;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

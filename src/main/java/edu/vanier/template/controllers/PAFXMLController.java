@@ -94,7 +94,6 @@ public class PAFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         movers.clear();
-
         //Create the particles based on the amount inserted
         for (int i = 0; i < particleAmount; i++) {
             this.mover = new Mover(random.nextDouble(240), random.nextDouble(240), 11);

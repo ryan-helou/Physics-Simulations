@@ -195,9 +195,6 @@ public class DoublePendulumMain extends Application {
 
         draw();
     }
-  public void startNewScene(Stage stage) { //@Ryan this method is to switch scenes from main menu to double pendulum.
-    start(stage);  // Calling the start method
-}
     public static void main(String[] args) {
         launch(args);
     }

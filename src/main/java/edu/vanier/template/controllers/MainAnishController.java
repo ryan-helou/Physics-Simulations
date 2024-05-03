@@ -97,7 +97,6 @@ public class MainAnishController implements Initializable {
     @FXML
     private void cradleOnMouseClicked(MouseEvent event) {
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
     CradleMain cradleMain = new CradleMain();
     cradleMain.start(stage);  
 }

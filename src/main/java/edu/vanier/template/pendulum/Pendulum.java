@@ -20,7 +20,7 @@ public class Pendulum {
     float theta_vel;
     private float theta_acc;
     private double mass;
-    private boolean dragging = false;
+    public boolean dragging = false;
     private GraphicsContext gc;
     private boolean showTrail = true;
 

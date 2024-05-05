@@ -27,16 +27,25 @@ public class Pendulum {
     // Store previous positions of the pendulum for trail
     private List<Vector2D> trail = new ArrayList<>();
     private static final int TRAIL_LENGTH = 100; // Adjust as needed
-
-    public Pendulum(GraphicsContext gc, Vector2D origin_, float r_, boolean showTrail) {
+    
+    private final float MAX_THETA = (float)Math.toRadians(90); //restrictions to the drag
+    private final float MIN_THETA = (float)-Math.toRadians(90);
+    private Pendulum[] pendulums;
+    int index;
+   // private boolean isRightSide;
+    
+    public Pendulum(GraphicsContext gc, Vector2D origin_, float r_, boolean showTrail, int index ) {
         this.gc = gc;
         this.showTrail = showTrail;
         this.origin = origin_;
         this.r = r_;
         this.ballr = 30.0f;
-        this.damping = 1f;
+        this.damping = 1.0f;
         this.loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
+       // this.isRightSide = isRightSide;
+       this.index = index;
     }
+   
 
     public void go() {
         update();
@@ -52,6 +61,8 @@ public class Pendulum {
             theta_vel += theta_acc;
             theta_vel *= damping;
             theta += theta_vel;
+            
+
         }
         loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
         // Add current position to the trail
@@ -89,11 +100,33 @@ public class Pendulum {
     }
 
     public void dragged(int mx, int my) {
-        if (dragging) {
-            Vector2D diff = origin.subtract(new Vector2D(mx, my));
-            theta = (float) (Math.atan2(-diff.getY(), diff.getX()) - Math.toRadians(90));
-            loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
+         
+       if (dragging) {
+        Vector2D diff = origin.subtract(new Vector2D(mx, my));
+        float proposedTheta = (float) (Math.atan2(-diff.getY(), diff.getX()) - Math.toRadians(90));
+        
+        if (proposedTheta < -Math.PI) {proposedTheta += 2 * Math.PI;}       //  brings angle to pi and -pi.  
+        else if (proposedTheta > Math.PI) {proposedTheta -= 2 * Math.PI;}
+        
+        
+         if ((index == 2 || index == 1) && proposedTheta > 0) {
+            //  movement for pendulums 2 and 1
+            proposedTheta = Math.min(proposedTheta, 0);
+        } else if ((index == 3 || index == 4) && proposedTheta < 0) {
+            //  movement for pendulums 3 and 4
+            proposedTheta = Math.max(proposedTheta, 0);
         }
+         
+        if (proposedTheta > MAX_THETA) {
+            theta = MAX_THETA;
+        } else if (proposedTheta < MIN_THETA) {
+            theta = MIN_THETA;
+        } else {
+            theta = proposedTheta;
+        }
+         
+        loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
+       }
     }
 
     public void stopDragging() {

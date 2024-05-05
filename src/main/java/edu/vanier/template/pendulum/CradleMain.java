@@ -33,7 +33,7 @@ public class CradleMain extends Application {
     private boolean initialStart = false;
     Canvas canvas;
     private boolean showTrail = true;
-    private int status = 0; 
+    
     /**
      * status:
      * 0 = outermost bobs
@@ -82,24 +82,27 @@ public class CradleMain extends Application {
         
         //Distance between circles = 31 <===================
         
-        
+      
         // Current pendulum in the center
-        pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail);
+        pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail,0);
+
 
         // Additional pendulums on the left side
         for (int i = 1; i <= 2; i++) {
             double x = canvas.getWidth() / 2 - (armLength + spacing) * i;
-            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail);
+            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail,i);
             
         }
 
         // Additional pendulums on the right side
         for (int i = 3; i <= 4; i++) {
             double x = canvas.getWidth() / 2 + (armLength + spacing) * (i - 2);
-            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail);
+            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail,i);
         }
 
-        group.setOnMousePressed(e -> {
+        
+  group.setOnMousePressed(e -> {
+           
             for (Pendulum p : pendulums) {
                 
                 p.clicked((int) e.getX(), (int) e.getY());
@@ -114,8 +117,8 @@ public class CradleMain extends Application {
             }
             resetAllPendulums(pendulums); // Reset all pendulums when one is clicked
         });
-
-        group.setOnMouseDragged(e -> {
+            group.setOnMouseDragged(e -> {
+            
             for (Pendulum p : pendulums) {
                 p.dragged((int) e.getX(), (int) e.getY());
                 if(p.equals(pendulums[2])){
@@ -127,6 +130,7 @@ public class CradleMain extends Application {
                 
             }
         });
+    
 
         group.setOnMouseReleased(e -> {
             for (Pendulum p : pendulums) {
@@ -265,7 +269,7 @@ public class CradleMain extends Application {
                     pendulums[4].theta_vel = pendulums[0].theta_vel;            //|||||
                     pendulums[1].theta_vel = (float) temp;
                     pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
-                    System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
+                   // System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
                     pendulums[3].resetAll();
                     pendulums[4].resetAll();            //|||||||||||||||||||
                 }
@@ -277,7 +281,7 @@ public class CradleMain extends Application {
                     double temp = pendulums[4].theta_vel;
                     pendulums[4].theta_vel = pendulums[3].theta_vel;
                     pendulums[2].theta_vel = (float) temp;
-                    System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
+                    //System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
                     pendulums[4].resetAll();
                 }
                 

@@ -34,6 +34,8 @@ public class CradleMain extends Application {
     Canvas canvas;
     private boolean showTrail = true;
     private int status = 0; 
+    private int testValue = 0;
+    private int direction = 0;
     /**
      * status:
      * 0 = outermost bobs
@@ -85,7 +87,6 @@ public class CradleMain extends Application {
         
         // Current pendulum in the center
         pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail);
-
         // Additional pendulums on the left side
         for (int i = 1; i <= 2; i++) {
             double x = canvas.getWidth() / 2 - (armLength + spacing) * i;
@@ -99,34 +100,117 @@ public class CradleMain extends Application {
             pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail);
         }
 
+
         group.setOnMousePressed(e -> {
+            resetAllPendulums(pendulums); // Reset all pendulums when one is clicked, originally at the end
             for (Pendulum p : pendulums) {
-                
+               
                 p.clicked((int) e.getX(), (int) e.getY());
+                if(p.equals(pendulums[1]) && circles[0].isPressed()){   //nice
+                     p.clicked((int) ((e.getX())-31), (int) e.getY()); 
+                     pendulums[2].clicked((int) ((e.getX()-62)), (int) e.getY()); 
+                }
+                
+                if(p.equals(pendulums[3]) && circles[0].isPressed()){   //nice
+                     p.clicked((int) ((e.getX())+31), (int) e.getY());          //problem is here
+                     pendulums[4].clicked((int) ((e.getX()+62)), (int) e.getY());
+                     System.out.println("edu.vanier.template.pendulum.CradleMain.start()");
+                }
+                
                 if(p.equals(pendulums[2])){
                      p.clicked((int) ((e.getX())-31), (int) e.getY());  
                 } 
+                
                 if(p.equals(pendulums[4])){
                     p.clicked((int) ((e.getX())+31), (int) e.getY());
                 }
                 
-
+                if(p.equals(pendulums[2]) && circles[0].isPressed() && circles[0].getCenterX() < 400){
+                     p.clicked((int) ((e.getX())-31), (int) e.getY());  
+                } 
+                
+                if(p.equals(pendulums[4]) && circles[0].isPressed() && circles[0].getCenterX() > 400){
+                    p.clicked((int) ((e.getX())+31), (int) e.getY());
+                }
+                
+            System.out.println(circles[0].getCenterX() + "lol");
             }
-            resetAllPendulums(pendulums); // Reset all pendulums when one is clicked
         });
 
         group.setOnMouseDragged(e -> {
             for (Pendulum p : pendulums) {
                 p.dragged((int) e.getX(), (int) e.getY());
-                if(p.equals(pendulums[2])){
+                if(p.equals(pendulums[1]) && circles[0].isPressed() && circles[0].getCenterX() < 400){   //nice
+                    pendulums[3].stopDragging();
+                    pendulums[4].stopDragging();
+                    //pendulums[3].dragged((int) 0, (int) 0);
+                    /*
+                    if(testValue == 0){
+                        p.clicked((int) ((e.getX())-31), (int) e.getY()); 
+                     pendulums[2].clicked((int) ((e.getX()-62)), (int) e.getY());
+                     //pendulums[4].clicked((int) ((e.getX())), (int) e.getY());
+                     //pendulums[3].clicked((int) ((e.getX())), (int) e.getY());
+                     System.out.println("edu.vanier.template.pendulum.CradleMain.start()");
+                        setTestValue(1);
+                    }*/
+                     p.dragged((int) ((e.getX()-31)), (int) e.getY());  
+                     pendulums[2].dragged((int) ((e.getX()-62)), (int) e.getY());
+                     System.out.println(circles[0].getCenterX());
+                } 
+                
+                if(p.equals(pendulums[3]) && circles[0].isPressed() && circles[0].getCenterX() > 400){   //nice
+                    pendulums[1].stopDragging();
+                    pendulums[2].stopDragging();
+                    /*
+                    if(testValue == 0){
+                        p.clicked((int) ((e.getX())+31), (int) e.getY()); 
+                     pendulums[4].clicked((int) ((e.getX()+62)), (int) e.getY());
+                     //pendulums[2].clicked((int) ((e.getX())), (int) e.getY());
+                     //pendulums[1].clicked((int) ((e.getX())), (int) e.getY());
+                     System.out.println("edu.vanier.template.pendulum.CradleMain.start()");
+                        setTestValue(1);
+                    }*/
+                    
+                     p.dragged((int) ((e.getX()+31)), (int) e.getY());  
+                     pendulums[4].dragged((int) ((e.getX()+62)), (int) e.getY());
+                     
+                     
+                }
+                
+                
+                if(circles[0].getCenterX() == 400 && circles[0].isPressed() && testValue == 1){
+                    resetAllPendulums(pendulums);
+                    setTestValue(0);
+                    p.clicked((int) e.getX(), (int) e.getY());
+                    p.dragged((int) e.getX(), (int) e.getY());
+                    System.out.println("lo9l");
+                    //pendulums[1].resetAll();
+                    //pendulums[2].resetAll();
+
+                }
+                
+                if(p.equals(pendulums[2]) && !circles[0].isPressed()){
                      p.dragged((int) ((e.getX())-31), (int) e.getY());  
                 } 
-                if(p.equals(pendulums[4])){
+                
+                if(p.equals(pendulums[2]) && circles[0].isPressed() && circles[0].getCenterX() < 400){
+                     p.dragged((int) ((e.getX())-62), (int) e.getY());  
+                     //pendulums[3].resetAll();
+                } 
+                
+                if(p.equals(pendulums[4]) && !circles[0].isPressed()){
                     p.dragged((int) ((e.getX())+31), (int) e.getY());
                 }
                 
+                if(p.equals(pendulums[4]) && circles[0].isPressed() && circles[0].getCenterX() > 400){
+                    p.dragged((int) ((e.getX())+62), (int) e.getY());
+                }
+
+                     
+                     System.out.println(circles[3].getCenterY());
             }
         });
+
 
         group.setOnMouseReleased(e -> {
             for (Pendulum p : pendulums) {
@@ -212,17 +296,21 @@ public class CradleMain extends Application {
                 /**
                  * Innermost bobs
                  */
+                
                 if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
+                    testValue = 1;
                     // Reverse velocities of adjacent bobs (1 and 2)
                     double temp = pendulums[1].theta_vel;
                     pendulums[1].theta_vel = pendulums[3].theta_vel;
                     pendulums[2].theta_vel = pendulums[3].theta_vel;    /////////////
                     pendulums[3].theta_vel = (float) temp;
                     pendulums[4].theta_vel = (float) temp;              //||||||
+                    //pendulums[0].theta_vel = (float) temp;
                     pendulums[1].resetAll();
                     pendulums[2].resetAll();                            ///////
                     //System.out.println("test");
                 }
+                
                 //=========================================
                 /**
                  * outermost
@@ -232,6 +320,7 @@ public class CradleMain extends Application {
                     double temp = pendulums[2].theta_vel;
                     pendulums[2].theta_vel = pendulums[4].theta_vel;
                     pendulums[4].theta_vel = (float) temp;
+                    pendulums[0].theta_vel = (float) temp;
                     pendulums[2].resetAll();
                     //System.out.println("test");
                 }
@@ -258,18 +347,41 @@ public class CradleMain extends Application {
 //
 //       
                 //==========================================
+                
                 if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
+                    testValue = 0;
                     // Reverse velocities of adjacent bobs (2 and 0)
                     double temp = pendulums[3].theta_vel;
                     pendulums[3].theta_vel = pendulums[0].theta_vel;
                     pendulums[4].theta_vel = pendulums[0].theta_vel;            //|||||
                     pendulums[1].theta_vel = (float) temp;
                     pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
+                    
+                    
+                    pendulums[0].theta_vel = (float) temp;
+                    
                     System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
+                    //pendulums[0].resetAll();
                     pendulums[3].resetAll();
                     pendulums[4].resetAll();            //|||||||||||||||||||
                 }
 
+                /*
+                if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
+                    testValue = 0;
+                    // Reverse velocities of adjacent bobs (2 and 0)
+                    double temp = pendulums[3].theta_vel;
+                    pendulums[3].theta_vel = pendulums[0].theta_vel;
+                    pendulums[4].theta_vel = pendulums[0].theta_vel;            //|||||
+                    pendulums[1].theta_vel = (float) temp;
+                    pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
+                    pendulums[0].theta_vel = (float) temp;
+                    System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
+                    //pendulums[0].resetAll();
+                    pendulums[3].resetAll();
+                    pendulums[4].resetAll();            //|||||||||||||||||||
+                }
+                */
                 //=========================================================
                 
                 if (circles[4].getBoundsInParent().intersects(circles[3].getBoundsInParent()) && initialStart) {
@@ -397,6 +509,15 @@ public class CradleMain extends Application {
         }
     }
 
+    public int getTestValue() {
+        return testValue;
+    }
+
+    public void setTestValue(int testValue) {
+        this.testValue = testValue;
+    }
+
+    
 }
 
 //new AnimationTimer() {

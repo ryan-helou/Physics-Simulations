@@ -36,6 +36,7 @@ public class CradleMain extends Application {
     private int status = 0; 
     private int testValue = 0;
     private int direction = 0;
+    private boolean centerPendulum;
     /**
      * status:
      * 0 = outermost bobs
@@ -102,6 +103,11 @@ public class CradleMain extends Application {
 
 
         group.setOnMousePressed(e -> {
+            if(circles[0].isPressed()){
+                centerPendulum = true;
+            } else{
+                centerPendulum = false;
+            }
             resetAllPendulums(pendulums); // Reset all pendulums when one is clicked, originally at the end
             for (Pendulum p : pendulums) {
                
@@ -183,7 +189,7 @@ public class CradleMain extends Application {
                     setTestValue(0);
                     p.clicked((int) e.getX(), (int) e.getY());
                     p.dragged((int) e.getX(), (int) e.getY());
-                    System.out.println("lo9l");
+                    //System.out.println("lo9l");
                     //pendulums[1].resetAll();
                     //pendulums[2].resetAll();
 
@@ -207,7 +213,7 @@ public class CradleMain extends Application {
                 }
 
                      
-                     System.out.println(circles[3].getCenterY());
+                     //System.out.println(circles[3].getCenterY());
             }
         });
 
@@ -306,9 +312,13 @@ public class CradleMain extends Application {
                     pendulums[3].theta_vel = (float) temp;
                     pendulums[4].theta_vel = (float) temp;              //||||||
                     //pendulums[0].theta_vel = (float) temp;
+                    pendulums[0].resetAll();
                     pendulums[1].resetAll();
                     pendulums[2].resetAll();                            ///////
                     //System.out.println("test");
+                    
+                    pendulums[0].theta_vel = pendulums[3].theta_vel;
+                    
                 }
                 
                 //=========================================
@@ -347,6 +357,8 @@ public class CradleMain extends Application {
 //
 //       
                 //==========================================
+                //if(centerPendulum == true){
+                    
                 
                 if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
                     testValue = 0;
@@ -358,14 +370,17 @@ public class CradleMain extends Application {
                     pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
                     
                     
-                    pendulums[0].theta_vel = (float) temp;
+                    //pendulums[0].theta_vel = (float) temp;
                     
                     System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
-                    //pendulums[0].resetAll();
+                    pendulums[0].resetAll();
                     pendulums[3].resetAll();
                     pendulums[4].resetAll();            //|||||||||||||||||||
+                    
+                    pendulums[0].theta_vel = pendulums[1].theta_vel;
                 }
-
+//}
+                //System.out.println(circles[1].getCenterX());
                 /*
                 if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
                     testValue = 0;

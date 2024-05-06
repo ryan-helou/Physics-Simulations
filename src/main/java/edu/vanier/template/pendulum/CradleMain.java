@@ -4,6 +4,12 @@
  */
 package edu.vanier.template.pendulum;
 
+import edu.vanier.template.Main;
+import edu.vanier.template.MainApp;
+import edu.vanier.template.NewFXMain;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Transition;
 import javafx.application.Application;
@@ -51,7 +57,7 @@ public class CradleMain extends Application {
         lengthLabel.setLayoutX(10);
         lengthLabel.setLayoutY(330);
 
-        primaryStage.setTitle("Newton's Cradle Simulation");
+        primaryStage.setTitle("Newton's Cradle Simulation :)");
         canvas = new Canvas(800, 400);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         StackPane root = new StackPane();
@@ -333,7 +339,7 @@ public class CradleMain extends Application {
         lengthSlider.setShowTickLabels(true);
         lengthSlider.setShowTickMarks(true);
         lengthSlider.setMajorTickUnit(25);
-        lengthSlider.setMinorTickCount(5);
+        lengthSlider.setMinorTickCount(0);
         lengthSlider.setBlockIncrement(25);
         lengthSlider.setLayoutX(50);
         lengthSlider.setLayoutY(350);
@@ -356,9 +362,88 @@ public class CradleMain extends Application {
                 pendulum.setShowTrail(showTrail);
             }
         });
+         CheckBox dampingCheckbox = new CheckBox("Enable Damping");
+    dampingCheckbox.setLayoutX(700);
+    dampingCheckbox.setLayoutY(380);
+    dampingCheckbox.setSelected(false);
+    
+    dampingCheckbox.setOnAction(event -> {
+        boolean isDampingEnabled = dampingCheckbox.isSelected();
+        float newDamping;
+    if (isDampingEnabled) {
+        newDamping = 0.998f; // some damping
+    } else {
+        newDamping = 1.0f;   // No damping
+    }
+        for (Pendulum pendulum : pendulums) {
+            pendulum.setDamping(newDamping);
+        }
+    });
+    Slider gravitySlider = new Slider(1, 20, 10); 
+    
+gravitySlider.setShowTickLabels(true);
+gravitySlider.setShowTickMarks(true);
+gravitySlider.setMajorTickUnit(5);     
+gravitySlider.setMinorTickCount(4);    
+gravitySlider.setSnapToTicks(true);    
+gravitySlider.setLayoutX(50);
+gravitySlider.setLayoutY(300);
+gravitySlider.setPrefWidth(150);
 
+Label gravityLabel = new Label("Gravity:");
+gravityLabel.setLayoutX(50);
+gravityLabel.setLayoutY(280);
+
+//lengthSlider.setShowTickLabels(true);
+//        lengthSlider.setShowTickMarks(true);
+//        lengthSlider.setMajorTickUnit(25);
+//        lengthSlider.setMinorTickCount(0);
+//        lengthSlider.setBlockIncrement(25);
+//        lengthSlider.setLayoutX(50);
+//        lengthSlider.setLayoutY(350);
+
+gravitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+     for (Pendulum pendulum : pendulums) {
+   pendulum.setGravity((float) (newValue.doubleValue()*0.1));
+     }
+     resetAllPendulums(pendulums);
+});
+
+Slider massSlider = new Slider(1, 10, 10); 
+massSlider.setShowTickLabels(true);
+massSlider.setShowTickMarks(true);
+massSlider.setMajorTickUnit(1);
+massSlider.setMinorTickCount(0);
+massSlider.setSnapToTicks(true);
+massSlider.setLayoutX(50);
+massSlider.setLayoutY(210);
+
+Label massLabel = new Label("Mass:");
+massLabel.setLayoutX(50);
+massLabel.setLayoutY(190);
+
+massSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+    int massIndex = newValue.intValue();
+    Color color = getColorBasedOnMass(massIndex); 
+
+    for (int i = 0; i < pendulums.length; i++) {
+        pendulums[i].setMass(massIndex); 
+        circles[i].setFill(color); 
+    }
+});
+Button backButton = new Button("Back");
+backButton.setLayoutX(10); 
+backButton.setLayoutY(10);  
+
+backButton.setOnAction(event -> {
+            try {
+                new NewFXMain().start(primaryStage);
+            } catch (IOException ex) {
+                Logger.getLogger(CradleMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
         // Add the Slider to the root layout
-        group.getChildren().addAll(lengthSlider, lengthLabel, showTrailCheckbox);
+        group.getChildren().addAll(lengthSlider, lengthLabel, showTrailCheckbox,dampingCheckbox, gravityLabel,gravitySlider,massSlider,massLabel, backButton);
         primaryStage.setScene(new Scene(group, 800, 400)); // Set the scene with the group
         primaryStage.show();
     }
@@ -400,8 +485,13 @@ public class CradleMain extends Application {
             pendulum.r = (float) newLength;
         }
     }
-
+private Color getColorBasedOnMass(int mass) {
+    
+    float hue = 120 - (mass - 1) * 12; 
+    return Color.hsb(hue, 1.0, 1.0);
 }
+}
+
 
 //new AnimationTimer() {
 //    @Override

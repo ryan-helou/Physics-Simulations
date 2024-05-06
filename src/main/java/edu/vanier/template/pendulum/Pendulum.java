@@ -20,13 +20,22 @@ public class Pendulum {
     float theta_vel;
     private float theta_acc;
     private double mass;
+
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
     public boolean dragging = false;
     private GraphicsContext gc;
     private boolean showTrail = true;
+    private float gravity=1.0f;
 
-    // Store previous positions of the pendulum for trail
+    public void setDamping(float damping) {
+        this.damping = damping;
+    }
+        // Store previous positions of the pendulum for trail
+
     private List<Vector2D> trail = new ArrayList<>();
-    private static final int TRAIL_LENGTH = 100; // Adjust as needed
+    private static final int TRAIL_LENGTH = 100; // length of trail
     
     private final float MAX_THETA = (float)Math.toRadians(90); //restrictions to the drag
     private final float MIN_THETA = (float)-Math.toRadians(90);
@@ -56,7 +65,7 @@ public class Pendulum {
     }
     private void update() {
         if (!dragging) {
-            float G = 0.0981f; //Fix the trail method to make it look more smoother at 5G+
+             float G = gravity; //0.0981f
             theta_acc = (-G / r) * (float) Math.sin(theta);
             theta_vel += theta_acc;
             theta_vel *= damping;
@@ -71,6 +80,10 @@ public class Pendulum {
         if (trail.size() > TRAIL_LENGTH) {
             trail.remove(0);
         }
+    }
+
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
     }
 
     private void render() {

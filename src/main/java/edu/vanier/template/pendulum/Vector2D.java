@@ -21,16 +21,9 @@ public class Vector2D {
         this.x = x;
         this.y = y;
     }
-
     
-    public double getX() {
-        return x;
-    }
    public Vector2D copy() {
     return new Vector2D(this.x, this.y);
-}
-    public double getY() {
-        return y;
     }
 
     public Vector2D add(Vector2D other) {
@@ -68,4 +61,15 @@ public class Vector2D {
         double distance = Math.sqrt(dx * dx + dy * dy);
         return distance <= r1 + r2;
     }
+    
+    public double getX() {
+        return x;
+    }
+    
+    public double getY() {
+        return y;
+    }
+    
+    
+    
 }

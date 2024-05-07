@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
+ * Main class responsible for the cradle animation
  * 
  * @author salki
  */
@@ -131,22 +132,26 @@ public class CradleMain extends Application {
                     p.clicked((int) ((e.getX())+31), (int) e.getY());
                 }
                 
-                if(p.equals(pendulums[2]) && circles[0].isPressed() && circles[0].getCenterX() < 400){
+                if(p.equals(pendulums[2]) && circles[0].isPressed() && e.getX() < 399){
                      p.clicked((int) ((e.getX())-31), (int) e.getY());  
                 } 
                 
-                if(p.equals(pendulums[4]) && circles[0].isPressed() && circles[0].getCenterX() > 400){
+                if(p.equals(pendulums[4]) && circles[0].isPressed() && e.getX() > 401){
                     p.clicked((int) ((e.getX())+31), (int) e.getY());
                 }
-                
-            System.out.println(circles[0].getCenterX() + "lol");
+            System.out.println(circles[0].getCenterY());    
+            //System.out.println(circles[0].getCenterX() + "lol");
             }
         });
 
         group.setOnMouseDragged(e -> {
             for (Pendulum p : pendulums) {
                 p.dragged((int) e.getX(), (int) e.getY());
-                if(p.equals(pendulums[1]) && circles[0].isPressed() && circles[0].getCenterX() < 400){   //nice
+                if(p.equals(pendulums[1]) && circles[0].isPressed() && e.getX() < 399){   //nice
+                    pendulums[1].clicked((int) ((e.getX()-31)), (int) e.getY());
+                    pendulums[2].clicked((int) ((e.getX()-62)), (int) e.getY());
+                    pendulums[3].clicked((int) ((e.getX())), (int) e.getY());
+                    pendulums[3].clicked((int) ((e.getX())), (int) e.getY());
                     pendulums[3].stopDragging();
                     pendulums[4].stopDragging();
                     //pendulums[3].dragged((int) 0, (int) 0);
@@ -164,9 +169,11 @@ public class CradleMain extends Application {
                      System.out.println(circles[0].getCenterX());
                 } 
                 
-                if(p.equals(pendulums[3]) && circles[0].isPressed() && circles[0].getCenterX() > 400){   //nice
-                    pendulums[1].stopDragging();
-                    pendulums[2].stopDragging();
+                if(p.equals(pendulums[3]) && circles[0].isPressed() && (e.getX() > 401)){   //nice
+                    pendulums[3].clicked((int) ((e.getX()+31)), (int) e.getY());
+                    pendulums[4].clicked((int) ((e.getX()+62)), (int) e.getY());
+                    //pendulums[1].stopDragging();
+                    //pendulums[2].stopDragging();
                     /*
                     if(testValue == 0){
                         p.clicked((int) ((e.getX())+31), (int) e.getY()); 
@@ -179,16 +186,21 @@ public class CradleMain extends Application {
                     
                      p.dragged((int) ((e.getX()+31)), (int) e.getY());  
                      pendulums[4].dragged((int) ((e.getX()+62)), (int) e.getY());
-                     
+                     pendulums[1].stopDragging();
+                    pendulums[2].stopDragging();
                      
                 }
                 
                 
-                if(circles[0].getCenterX() == 400 && circles[0].isPressed() && testValue == 1){
+                if(circles[0].getCenterX() <= 401 && circles[0].getCenterX() >= 399 && circles[0].isPressed() && testValue == 1){
+                    //resetAllPendulums(pendulums);
                     resetAllPendulums(pendulums);
+                    //p.stopDragging();
                     setTestValue(0);
                     p.clicked((int) e.getX(), (int) e.getY());
-                    p.dragged((int) e.getX(), (int) e.getY());
+                    
+                    //p.dragged((int) e.getX(), (int) e.getY());
+                    //resetAllPendulums(pendulums);
                     //System.out.println("lo9l");
                     //pendulums[1].resetAll();
                     //pendulums[2].resetAll();
@@ -223,7 +235,7 @@ public class CradleMain extends Application {
                 p.stopDragging();
             }
         });
-
+        
         /*
         Dummy transition used as a delay for the collision timer
         to avoid it activating during the first millisecond, where
@@ -496,7 +508,7 @@ public class CradleMain extends Application {
 
     /**
      *
-     * @param showTrail Boolean indicated whether the trail is active or not
+     * @param showTrail Boolean indicates whether the trail is active or not
      */
     public void setShowTrail(boolean showTrail) {
         this.showTrail = showTrail;

@@ -5,16 +5,15 @@ package edu.vanier.template;
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
  */
 
+import java.io.File;
 import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -22,11 +21,10 @@ import javafx.stage.Stage;
  * @author 2165566
  */
 public class NewFXMain extends Application {
-    private Mover mover;
-    private double mouseX;
-    private double mouseY;
-    private boolean showTrail;
-
+    //private final String MUSIC_TEXT = "text.mp3";
+    //MediaPlayer mediaPlayer;
+    //Media hit = new Media(new File(bip).toURI().toString());
+    
     /**
      * 
      * @param primaryStage
@@ -34,14 +32,16 @@ public class NewFXMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
+        //MediaPlayer mediaPlayer = new MediaPlayer(hit);
+        
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));
-        //Parent cradle = FXMLLoader.load(getClass().getResource("/fxml/PAFXML.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Anish Mehra");
         primaryStage.setScene(scene);
         primaryStage.setAlwaysOnTop(true);
         primaryStage.show();
         primaryStage.setAlwaysOnTop(false);
+        
     }
 
     /**

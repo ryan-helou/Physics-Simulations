@@ -47,7 +47,8 @@ public class CradleMain extends Application {
     private boolean initialStart = false;
     Canvas canvas;
     private boolean showTrail = true;
-  
+  private AnimationTimer animationTimer;
+  private CheckBox pauseCheckbox;
 
     /**
      * status: 0 = outermost bobs 1 = innermost bobs 2 = center bob
@@ -171,9 +172,10 @@ public class CradleMain extends Application {
          */
         double mass1 = 1;
         double mass2 = 1;
-        new AnimationTimer() {
+        animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                if(pauseCheckbox.isSelected()==false){
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 // Update pendulum positions and circles
                 for (int i = 0; i < pendulums.length; i++) {
@@ -329,10 +331,11 @@ public class CradleMain extends Application {
                  */
                 //real order: 21034
             }
-        }.start();
+            }};animationTimer.start();
                 Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 22);
                 Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 15);
-           
+                Font customFont3 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 30);
+
                 
                 Label length = new Label("Length");
                 length.setTextFill(Color.WHITE);
@@ -379,6 +382,13 @@ public class CradleMain extends Application {
         dampingCheckbox.setLayoutY(320);
         dampingCheckbox.setSelected(false);
         dampingCheckbox.setTextFill(Color.WHITE);
+        
+        Label title = new Label("Newton's Cradle");
+        title.setLayoutX(270);
+        title.setLayoutY(10);
+        title.setFont(customFont3);
+        title.setTextFill(Color.WHITE);
+        
 
         dampingCheckbox.setOnAction(event -> {
             boolean isDampingEnabled = dampingCheckbox.isSelected();
@@ -448,6 +458,21 @@ public class CradleMain extends Application {
                 circles[i].setFill(color);
             }
         });
+        
+         pauseCheckbox = new CheckBox("Pause");
+pauseCheckbox.setFont(customFont2);
+pauseCheckbox.setLayoutX(25);
+pauseCheckbox.setLayoutY(280);  
+pauseCheckbox.setTextFill(Color.WHITE);
+
+
+pauseCheckbox.setOnAction(event -> {
+    if (pauseCheckbox.isSelected()) {
+        animationTimer.stop();
+    } else {
+        animationTimer.start();
+    }
+});
         Button backButton = new Button("Back");
         backButton.setFont(customFont2);
         backButton.setLayoutX(10);
@@ -463,7 +488,7 @@ public class CradleMain extends Application {
         // Add the Slider to the root layout
         group.getChildren().addAll(lengthSlider, length, showTrailCheckbox, 
                 dampingCheckbox, gravityLabel, gravitySlider, massSlider, 
-                massLabel, backButton);
+                massLabel, backButton, title, pauseCheckbox);
         primaryStage.setScene(new Scene(group, 800, 400)); // Set the scene with the group
         primaryStage.show();
     }

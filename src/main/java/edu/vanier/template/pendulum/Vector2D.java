@@ -5,7 +5,11 @@
 package edu.vanier.template.pendulum;
 
 /**
- *
+ * Class representing a vector on a 2-dimensional
+ * plane. Used for reference in the pendulum class
+ * and Newton's cradle to help assist with dragging
+ * movement.
+ * 
  * @author salki
  */
 public class Vector2D {
@@ -22,7 +26,7 @@ public class Vector2D {
         this.y = y;
     }
     
-   public Vector2D copy() {
+    public Vector2D copy() {
     return new Vector2D(this.x, this.y);
     }
 

@@ -109,6 +109,11 @@ public class MainAnishController implements Initializable {
         setImage(newtonscradle, 0.85, SCALING_FACTOR);
     }
 
+    /**
+     * Upon clicking, sends the user to the Newtons Cradle 
+     * simulation.
+     * @param event 
+     */
     @FXML
     private void cradleOnMouseClicked(MouseEvent event) {
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -126,6 +131,16 @@ public class MainAnishController implements Initializable {
         setImage(particleattraction, 0.85, SCALING_FACTOR);
     }
 
+    /**
+     * Sends the user to the particle attraction upon clicking.
+     * This code differs from the others since the particle attraction
+     * simulation is the only one that utilizes an actual FXML file created
+     * in SceneBuilder. Simply creates a new scene and stage, then loads
+     * the PAFXML file by getting its location in the "/fxml/" package.
+     * 
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void paOnMouseClicked(MouseEvent event) throws IOException {
         Parent particle = FXMLLoader.load(getClass().getResource("/fxml/PAFXML.fxml"));

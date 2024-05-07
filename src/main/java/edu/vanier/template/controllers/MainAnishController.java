@@ -5,9 +5,7 @@
 package edu.vanier.template.controllers;
 
 import edu.vanier.template.DoublePendulumMain;
-import edu.vanier.template.NewFXMain;
 import edu.vanier.template.pendulum.CradleMain;
-//import edu.vanier.template.pendulum.DoublePendulumMain;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML Controller class. Controller responsible for
+ * the main menu viewed upon startup.
  *
  * @author 2165566
  */
@@ -40,7 +39,7 @@ public class MainAnishController implements Initializable {
     @FXML
     private ImageView settings;
 
-    private double SCALING_FACTOR = 1.09;
+    private final double SCALING_FACTOR = 1.09;
     
     /**
      * Initializes the controller class.
@@ -50,9 +49,11 @@ public class MainAnishController implements Initializable {
         initializeImages();
     }    
 
-    /*
-    Sets and Images to the existing ImageView upon startup
-    */
+
+    /**
+     * Sets the images from the images package to their designated
+     * ImageView in the main menu upon startup (five in total).
+     */
     private void initializeImages(){
         spacebackground.setImage(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
         settings.setImage(new Image(getClass().getResourceAsStream("/images/settings.png")));
@@ -62,12 +63,25 @@ public class MainAnishController implements Initializable {
         //spacebackground.setImage();
     }
             
+    /**
+     * Sets an image to a selected ImageView.
+     * 
+     * @param image location of the desired image (image folder).
+     * @param opacity image opacity (0 to 1)
+     * @param scaling image scaling, how big the image is relative to initial size.
+     */
     private void setImage(ImageView image, double opacity, double scaling){
         image.setOpacity(opacity);
         image.setScaleX(scaling);
         image.setScaleY(scaling);
     }
     
+    
+    /**
+     * Collection of methods responsible for the image scaling
+     * and opacity effect upon hovering over them. 
+     * @param event 
+     */
     @FXML
     private void dpOnMouseExited(MouseEvent event) {
         setImage(doublependulum, 0.31, 1);
@@ -136,5 +150,58 @@ public class MainAnishController implements Initializable {
     @FXML
     private void setttingsOnMouseClicked(MouseEvent event) {
     }
+
+    
+    /**
+     * Getters and setters.
+     * 
+     * @return 
+     */
+    public ImageView getSpacebackground() {
+        return spacebackground;
+    }
+
+    public void setSpacebackground(ImageView spacebackground) {
+        this.spacebackground = spacebackground;
+    }
+
+    public ImageView getDoublependulum() {
+        return doublependulum;
+    }
+
+    public void setDoublependulum(ImageView doublependulum) {
+        this.doublependulum = doublependulum;
+    }
+
+    public ImageView getNewtonscradle() {
+        return newtonscradle;
+    }
+
+    public void setNewtonscradle(ImageView newtonscradle) {
+        this.newtonscradle = newtonscradle;
+    }
+
+    public ImageView getParticleattraction() {
+        return particleattraction;
+    }
+
+    public void setParticleattraction(ImageView particleattraction) {
+        this.particleattraction = particleattraction;
+    }
+
+    public ImageView getSettings() {
+        return settings;
+    }
+
+    public void setSettings(ImageView settings) {
+        this.settings = settings;
+    }
+
+    public double getSCALING_FACTOR() {
+        return SCALING_FACTOR;
+    }
+
+    
+    
     
 }

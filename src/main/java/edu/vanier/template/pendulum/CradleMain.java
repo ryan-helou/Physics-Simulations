@@ -149,6 +149,14 @@ public class CradleMain extends Application {
         group.setOnMouseDragged(e -> {
             for (Pendulum p : pendulums) {
                 p.dragged((int) e.getX(), (int) e.getY());
+                
+                if(circles[0].isPressed()){
+                    pendulums[0].dragged((int) e.getX(), (int) e.getY());
+                    pendulums[1].dragged((int) e.getX()-31, (int) e.getY());
+                    pendulums[2].dragged((int) e.getX()-62, (int) e.getY());
+                    pendulums[3].dragged((int) e.getX()+31, (int) e.getY());
+                    pendulums[4].dragged((int) e.getX()+62, (int) e.getY());
+                }
                 if(p.equals(pendulums[1]) && circles[0].isPressed() && e.getX() < 399){   //nice
                     pendulums[1].clicked((int) ((e.getX()-31)), (int) e.getY());
                     pendulums[2].clicked((int) ((e.getX()-62)), (int) e.getY());
@@ -156,6 +164,8 @@ public class CradleMain extends Application {
                     pendulums[3].clicked((int) ((e.getX())), (int) e.getY());
                     pendulums[3].stopDragging();
                     pendulums[4].stopDragging();
+                    pendulums[3].resetAll();
+                    pendulums[4].resetAll();
                     //pendulums[3].dragged((int) 0, (int) 0);
                     /*
                     if(testValue == 0){
@@ -172,6 +182,8 @@ public class CradleMain extends Application {
                 } 
                 
                 if(p.equals(pendulums[3]) && circles[0].isPressed() && (e.getX() > 401)){   //nice
+                    pendulums[1].clicked((int) ((e.getX()-31)), (int) e.getY());
+                    pendulums[2].clicked((int) ((e.getX()-62)), (int) e.getY());
                     pendulums[3].clicked((int) ((e.getX()+31)), (int) e.getY());
                     pendulums[4].clicked((int) ((e.getX()+62)), (int) e.getY());
                     //pendulums[1].stopDragging();
@@ -193,14 +205,18 @@ public class CradleMain extends Application {
                      
                 }
                 
-                
+                //potential fix for initial center bug: make it so that it resets completely @ center
                 if(circles[0].getCenterX() <= 401 && circles[0].getCenterX() >= 399 && circles[0].isPressed() && testValue == 1){
                     //resetAllPendulums(pendulums);
                     setTestValue(0);
                     resetAllPendulums(pendulums);
                     //p.stopDragging();
-                    
-                    p.clicked((int) e.getX(), (int) e.getY());
+                    pendulums[0].clicked((int) e.getX(), (int) e.getY());
+                    pendulums[1].clicked((int) e.getX()-31, (int) e.getY());
+                    pendulums[2].clicked((int) e.getX()-62, (int) e.getY());
+                    pendulums[3].clicked((int) e.getX()+31, (int) e.getY());
+                    pendulums[4].clicked((int) e.getX()+62, (int) e.getY());
+                    //p.clicked((int) e.getX(), (int) e.getY());
                     
                     //p.dragged((int) e.getX(), (int) e.getY());
                     //resetAllPendulums(pendulums);
@@ -319,7 +335,6 @@ public class CradleMain extends Application {
                  */
                 
                 if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
-                    //testValue = 1;
                     // Reverse velocities of adjacent bobs (1 and 2)
                     double temp = pendulums[1].theta_vel;
                     pendulums[1].theta_vel = pendulums[3].theta_vel;
@@ -376,7 +391,7 @@ public class CradleMain extends Application {
                     
                 
                 if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
-                    testValue = 0;
+                    setTestValue(0); 
                     // Reverse velocities of adjacent bobs (2 and 0)
                     double temp = pendulums[3].theta_vel;
                     pendulums[3].theta_vel = pendulums[0].theta_vel;
@@ -419,8 +434,9 @@ public class CradleMain extends Application {
                     double temp = pendulums[4].theta_vel;
                     pendulums[4].theta_vel = pendulums[3].theta_vel;
                     pendulums[2].theta_vel = (float) temp;
-                    System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
+                    //System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
                     pendulums[4].resetAll();
+                    //System.out.println(".handle()");
                 }
                 
                 //real order: 21034

@@ -14,6 +14,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.Transition;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -24,14 +25,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * 
+ *
  * @author salki
  */
 public class CradleMain extends Application {
@@ -39,38 +47,37 @@ public class CradleMain extends Application {
     private boolean initialStart = false;
     Canvas canvas;
     private boolean showTrail = true;
-    
-    /**
-     * status:
-     * 0 = outermost bobs
-     * 1 = innermost bobs
-     * 2 = center bob
-     */
+  
 
     /**
-     * 
-     * @param primaryStage 
+     * status: 0 = outermost bobs 1 = innermost bobs 2 = center bob
+     */
+    /**
+     *
+     * @param primaryStage
      */
     @Override
     public void start(Stage primaryStage) {
-        Label lengthLabel = new Label("Length:");
-        lengthLabel.setLayoutX(10);
-        lengthLabel.setLayoutY(330);
-
-        primaryStage.setTitle("Newton's Cradle Simulation :)");
-        canvas = new Canvas(800, 400);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        StackPane root = new StackPane();
-
-        Transition transition;
-        root.getChildren().add(canvas);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-
-        Group group = new Group();
-        group.getChildren().addAll(canvas);
         
 
+        primaryStage.setTitle("Newton's Cradle Simulation :)");
+        canvas = new Canvas(800, 450);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+       // StackPane root = new StackPane();
+        Transition transition;
+        //root.getChildren().add(canvas);
+        //primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+       
+       
+        
+        ImageView img = new ImageView();
+        img.setImage(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
+        img.setFitWidth(800);
+        img.setFitHeight(450);
+        Group group = new Group();
+        group.getChildren().addAll(img ,canvas);
+        
         Pendulum[] pendulums = new Pendulum[5];
         double centerY = (canvas.getHeight() / 2) - 69.420;
         double armLength = 100.0;
@@ -85,58 +92,52 @@ public class CradleMain extends Application {
         circles[1].setCenterY(2);
         circles[2].setCenterX(3);
         circles[2].setCenterX(3);
-        
-        //Distance between circles = 31 <===================
-        
-      
-        // Current pendulum in the center
-        pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail,0);
 
+        //Distance between circles = 31 <===================
+        // Current pendulum in the center
+        pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail, 0);
 
         // Additional pendulums on the left side
         for (int i = 1; i <= 2; i++) {
             double x = canvas.getWidth() / 2 - (armLength + spacing) * i;
-            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail,i);
-            
+            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
+
         }
 
         // Additional pendulums on the right side
         for (int i = 3; i <= 4; i++) {
             double x = canvas.getWidth() / 2 + (armLength + spacing) * (i - 2);
-            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail,i);
+            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
         }
 
-        
-  group.setOnMousePressed(e -> {
-           
+        group.setOnMousePressed(e -> {
+
             for (Pendulum p : pendulums) {
-                
+
                 p.clicked((int) e.getX(), (int) e.getY());
-                if(p.equals(pendulums[2])){
-                     p.clicked((int) ((e.getX())-31), (int) e.getY());  
-                } 
-                if(p.equals(pendulums[4])){
-                    p.clicked((int) ((e.getX())+31), (int) e.getY());
+                if (p.equals(pendulums[2])) {
+                    p.clicked((int) ((e.getX()) - 31), (int) e.getY());
                 }
-                
+                if (p.equals(pendulums[4])) {
+                    p.clicked((int) ((e.getX()) + 31), (int) e.getY());
+                }
 
             }
             resetAllPendulums(pendulums); // Reset all pendulums when one is clicked
         });
-            group.setOnMouseDragged(e -> {
-            
+        group.setOnMouseDragged(e -> {
+
             for (Pendulum p : pendulums) {
                 p.dragged((int) e.getX(), (int) e.getY());
-                if(p.equals(pendulums[2])){
-                     p.dragged((int) ((e.getX())-31), (int) e.getY());  
-                } 
-                if(p.equals(pendulums[4])){
-                    p.dragged((int) ((e.getX())+31), (int) e.getY());
+                if (p.equals(pendulums[2])) {
+                    p.dragged((int) ((e.getX()) - 31), (int) e.getY());
                 }
-                
+                if (p.equals(pendulums[4])) {
+                    p.dragged((int) ((e.getX()) + 31), (int) e.getY());
+                }
+
             }
         });
-    
 
         group.setOnMouseReleased(e -> {
             for (Pendulum p : pendulums) {
@@ -187,10 +188,9 @@ public class CradleMain extends Application {
                     }
                 }
 
-                
                 circles[0].setCenterX(pendulums[0].loc.getX());
-                        circles[0].setCenterY(pendulums[0].loc.getY());
-                
+                circles[0].setCenterY(pendulums[0].loc.getY());
+
                 // Check for collisions between adjacent bobs
                 /*
         if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
@@ -201,7 +201,6 @@ public class CradleMain extends Application {
             //System.out.println("test");
         }
                  */
-                
                 /**
                  * Innermost bobs
                  */
@@ -217,7 +216,7 @@ public class CradleMain extends Application {
                     pendulums[2].resetAll();                            ///////
                     //System.out.println("test");
                 }
-                */
+                 */
                 //=======================================
                 /**
                  * Innermost bobs
@@ -245,9 +244,8 @@ public class CradleMain extends Application {
                     pendulums[2].resetAll();
                     //System.out.println("test");
                 }
-                
+
                 //=====================================================
-               
 //        if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
 //            // Reverse velocities of adjacent bobs (1 and 0)
 //            double temp = pendulums[1].theta_vel;
@@ -275,13 +273,12 @@ public class CradleMain extends Application {
                     pendulums[4].theta_vel = pendulums[0].theta_vel;            //|||||
                     pendulums[1].theta_vel = (float) temp;
                     pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
-                   // System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
+                    // System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
                     pendulums[3].resetAll();
                     pendulums[4].resetAll();            //|||||||||||||||||||
                 }
 
                 //=========================================================
-                
                 if (circles[4].getBoundsInParent().intersects(circles[3].getBoundsInParent()) && initialStart) {
                     // Reverse velocities of adjacent bobs (2 and 0)
                     double temp = pendulums[4].theta_vel;
@@ -290,7 +287,7 @@ public class CradleMain extends Application {
                     //System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
                     pendulums[4].resetAll();
                 }
-                
+
                 //real order: 21034
                 //===========================================================
                 /*
@@ -333,17 +330,29 @@ public class CradleMain extends Application {
                 //real order: 21034
             }
         }.start();
+                Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 22);
+                Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 15);
+           
+                
+                Label length = new Label("Length");
+                length.setTextFill(Color.WHITE);
+               
+                length.setFont(customFont);
+        length.setLayoutX(670);
+        length.setLayoutY(25);
 
         // Create a Slider component for adjusting pendulum length
         Slider lengthSlider = new Slider(75, 150, 100); // Minimum, Maximum, Default Value
         lengthSlider.setShowTickLabels(true);
         lengthSlider.setShowTickMarks(true);
+        lengthSlider.setPrefWidth(150);
         lengthSlider.setMajorTickUnit(25);
         lengthSlider.setMinorTickCount(0);
         lengthSlider.setBlockIncrement(25);
-        lengthSlider.setLayoutX(50);
-        lengthSlider.setLayoutY(350);
-
+        lengthSlider.setLayoutX(645);
+        lengthSlider.setLayoutY(65);
+       
+       
         // Add an event listener to update pendulum lengths when the slider value changes
         lengthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             double newLength = newValue.doubleValue();
@@ -351,9 +360,11 @@ public class CradleMain extends Application {
             resetAllPendulums(pendulums);
         });
         CheckBox showTrailCheckbox = new CheckBox("Show Trail");
-        showTrailCheckbox.setSelected(true); // Default to showing trail
-        showTrailCheckbox.setLayoutX(700);
-        showTrailCheckbox.setLayoutY(350);
+        showTrailCheckbox.setSelected(true); 
+        showTrailCheckbox.setFont(customFont2);
+        showTrailCheckbox.setLayoutX(25);
+        showTrailCheckbox.setLayoutY(365);
+        showTrailCheckbox.setTextFill(Color.WHITE);
 
         // Add an event listener to toggle showing/hiding the trail
         showTrailCheckbox.setOnAction(event -> {
@@ -362,38 +373,42 @@ public class CradleMain extends Application {
                 pendulum.setShowTrail(showTrail);
             }
         });
-         CheckBox dampingCheckbox = new CheckBox("Enable Damping");
-    dampingCheckbox.setLayoutX(700);
-    dampingCheckbox.setLayoutY(380);
-    dampingCheckbox.setSelected(false);
-    
-    dampingCheckbox.setOnAction(event -> {
-        boolean isDampingEnabled = dampingCheckbox.isSelected();
-        float newDamping;
-    if (isDampingEnabled) {
-        newDamping = 0.998f; // some damping
-    } else {
-        newDamping = 1.0f;   // No damping
-    }
-        for (Pendulum pendulum : pendulums) {
-            pendulum.setDamping(newDamping);
-        }
-    });
-    Slider gravitySlider = new Slider(1, 20, 10); 
-    
-gravitySlider.setShowTickLabels(true);
-gravitySlider.setShowTickMarks(true);
-gravitySlider.setMajorTickUnit(5);     
-gravitySlider.setMinorTickCount(4);    
-gravitySlider.setSnapToTicks(true);    
-gravitySlider.setLayoutX(50);
-gravitySlider.setLayoutY(300);
-gravitySlider.setPrefWidth(150);
+        CheckBox dampingCheckbox = new CheckBox("Damping");
+        dampingCheckbox.setFont(customFont2);
+        dampingCheckbox.setLayoutX(25);
+        dampingCheckbox.setLayoutY(320);
+        dampingCheckbox.setSelected(false);
+        dampingCheckbox.setTextFill(Color.WHITE);
 
-Label gravityLabel = new Label("Gravity:");
-gravityLabel.setLayoutX(50);
-gravityLabel.setLayoutY(280);
+        dampingCheckbox.setOnAction(event -> {
+            boolean isDampingEnabled = dampingCheckbox.isSelected();
+            float newDamping;
+            if (isDampingEnabled) {
+                newDamping = 0.998f; // some damping
+            } else {
+                newDamping = 1.0f;   // No damping
+            }
+            for (Pendulum pendulum : pendulums) {
+                pendulum.setDamping(newDamping);
+            }
+        });
+        Slider gravitySlider = new Slider(1, 20, 10);
 
+        gravitySlider.setShowTickLabels(true);
+        gravitySlider.setShowTickMarks(true);
+        gravitySlider.setMajorTickUnit(5);
+        gravitySlider.setMinorTickCount(4);
+        gravitySlider.setSnapToTicks(true);
+        gravitySlider.setLayoutX(645);
+        gravitySlider.setLayoutY(165);
+        gravitySlider.setPrefWidth(150);
+        
+
+        Label gravityLabel = new Label("Gravity");
+        gravityLabel.setFont(customFont);
+        gravityLabel.setLayoutX(670);
+        gravityLabel.setLayoutY(125);
+        gravityLabel.setTextFill(Color.WHITE);
 //lengthSlider.setShowTickLabels(true);
 //        lengthSlider.setShowTickMarks(true);
 //        lengthSlider.setMajorTickUnit(25);
@@ -401,49 +416,54 @@ gravityLabel.setLayoutY(280);
 //        lengthSlider.setBlockIncrement(25);
 //        lengthSlider.setLayoutX(50);
 //        lengthSlider.setLayoutY(350);
+        gravitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            for (Pendulum pendulum : pendulums) {
+                pendulum.setGravity((float) (newValue.doubleValue() * 0.1));
+            }
+            resetAllPendulums(pendulums);
+        });
 
-gravitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-     for (Pendulum pendulum : pendulums) {
-   pendulum.setGravity((float) (newValue.doubleValue()*0.1));
-     }
-     resetAllPendulums(pendulums);
-});
+        Slider massSlider = new Slider(1, 10, 10);
+        massSlider.setShowTickLabels(true);
+        massSlider.setShowTickMarks(true);
+        massSlider.setMajorTickUnit(1);
+        massSlider.setMinorTickCount(0);
+        massSlider.setSnapToTicks(true);
+        massSlider.setPrefWidth(150);
+        massSlider.setLayoutX(645);
+        massSlider.setLayoutY(265);
 
-Slider massSlider = new Slider(1, 10, 10); 
-massSlider.setShowTickLabels(true);
-massSlider.setShowTickMarks(true);
-massSlider.setMajorTickUnit(1);
-massSlider.setMinorTickCount(0);
-massSlider.setSnapToTicks(true);
-massSlider.setLayoutX(50);
-massSlider.setLayoutY(210);
+        Label massLabel = new Label("  Mass");
+        massLabel.setFont(customFont);
+        massLabel.setLayoutX(670);
+        massLabel.setLayoutY(225);
+        massLabel.setTextFill(Color.WHITE);
 
-Label massLabel = new Label("Mass:");
-massLabel.setLayoutX(50);
-massLabel.setLayoutY(190);
+        massSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int massIndex = newValue.intValue();
+            Color color = getColorBasedOnMass(massIndex);
 
-massSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-    int massIndex = newValue.intValue();
-    Color color = getColorBasedOnMass(massIndex); 
+            for (int i = 0; i < pendulums.length; i++) {
+                pendulums[i].setMass(massIndex);
+                circles[i].setFill(color);
+            }
+        });
+        Button backButton = new Button("Back");
+        backButton.setFont(customFont2);
+        backButton.setLayoutX(10);
+        backButton.setLayoutY(10);
 
-    for (int i = 0; i < pendulums.length; i++) {
-        pendulums[i].setMass(massIndex); 
-        circles[i].setFill(color); 
-    }
-});
-Button backButton = new Button("Back");
-backButton.setLayoutX(10); 
-backButton.setLayoutY(10);  
-
-backButton.setOnAction(event -> {
+        backButton.setOnAction(event -> {
             try {
                 new NewFXMain().start(primaryStage);
             } catch (IOException ex) {
                 Logger.getLogger(CradleMain.class.getName()).log(Level.SEVERE, null, ex);
             }
-});
+        });
         // Add the Slider to the root layout
-        group.getChildren().addAll(lengthSlider, lengthLabel, showTrailCheckbox,dampingCheckbox, gravityLabel,gravitySlider,massSlider,massLabel, backButton);
+        group.getChildren().addAll(lengthSlider, length, showTrailCheckbox, 
+                dampingCheckbox, gravityLabel, gravitySlider, massSlider, 
+                massLabel, backButton);
         primaryStage.setScene(new Scene(group, 800, 400)); // Set the scene with the group
         primaryStage.show();
     }
@@ -473,7 +493,7 @@ backButton.setOnAction(event -> {
             p.resetAll();
         }
     }
-     
+
     /**
      *
      * @param pendulums
@@ -485,13 +505,13 @@ backButton.setOnAction(event -> {
             pendulum.r = (float) newLength;
         }
     }
-private Color getColorBasedOnMass(int mass) {
-    
-    float hue = 120 - (mass - 1) * 12; 
-    return Color.hsb(hue, 1.0, 1.0);
-}
-}
 
+    private Color getColorBasedOnMass(int mass) {
+
+        float hue = 120 - (mass - 1) * 12;
+        return Color.hsb(hue, 1.0, 1.0);
+    }
+}
 
 //new AnimationTimer() {
 //    @Override

@@ -8,6 +8,9 @@ package edu.vanier.template;
  *
  * @author ryanhelou
  */
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -55,7 +58,7 @@ public class DoublePendulumMain extends Application {
         VBox controlPanel = new VBox(10);
         controlPanel.setPrefWidth(200);
 
-        Canvas canvas = new Canvas(1000, 1000);
+        Canvas canvas = new Canvas(1000, 900);
         bufferCanvas = new Canvas(1000, 1000);
         GraphicsContext buffer = bufferCanvas.getGraphicsContext2D();
         buffer.setFill(Color.WHITE);
@@ -119,6 +122,10 @@ public class DoublePendulumMain extends Application {
 
         Button resetButton = new Button("Reset");
         resetButton.setFont(customFont);
+        
+        Button backButton = new Button("Back  ");
+        backButton.setFont(customFont);
+        
         controlPanel.getChildren().addAll(
                 length1Label, length1Slider,
                 length2Label, length2Slider,
@@ -126,7 +133,7 @@ public class DoublePendulumMain extends Application {
                 mass2Label, mass2Slider,
                 gravityLabel, gravitySlider,
                 pathCheckbox,
-                startButton, resetButton
+                startButton, resetButton, backButton
         );
         root.setRight(controlPanel);
         root.setCenter(canvas);
@@ -160,6 +167,15 @@ public class DoublePendulumMain extends Application {
             resetAnimation();
             clearPath();
         });
+        
+        backButton.setOnAction(e -> {
+            try {
+                new NewFXMain().start(primaryStage);
+            } catch (IOException ex) {
+                Logger.getLogger(DoublePendulumMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 

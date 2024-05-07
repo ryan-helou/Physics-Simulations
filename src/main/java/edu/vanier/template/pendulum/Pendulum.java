@@ -77,7 +77,7 @@ public class Pendulum {
 
     //@Anish do Javadocs for this
     /**
-     * 
+     * Renders a preset pendulum object of a specific size and width
      */
     private void render() {
         gc.setStroke(Color.WHITE);

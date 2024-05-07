@@ -111,6 +111,7 @@ public class CradleMain extends Application {
             } else{
                 centerPendulum = false;
             }
+            System.out.println(centerPendulum);
             resetAllPendulums(pendulums); // Reset all pendulums when one is clicked, originally at the end
             for (Pendulum p : pendulums) {
                
@@ -253,6 +254,7 @@ public class CradleMain extends Application {
             for (Pendulum p : pendulums) {
                 p.stopDragging();
             }
+            System.out.println(centerPendulum);
         });
         
         /*
@@ -283,7 +285,7 @@ public class CradleMain extends Application {
         double mass2 = 1;
         new AnimationTimer() {
             @Override
-            public void handle(long now) {
+            public void handle(long now) {                              //real pendulum order: 21034
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 // Update pendulum positions and circles
                 for (int i = 0; i < pendulums.length; i++) {
@@ -303,6 +305,7 @@ public class CradleMain extends Application {
                         circles[0].setCenterY(pendulums[0].loc.getY());
                 
                 // Check for collisions between adjacent bobs
+                
                 /*
         if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
             // Reverse velocities of adjacent bobs (1 and 2)
@@ -316,7 +319,7 @@ public class CradleMain extends Application {
                 /**
                  * Innermost bobs
                  */
-                /*
+                if(!centerPendulum){
                 if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
                     // Reverse velocities of adjacent bobs (1 and 2)
                     double temp = pendulums[1].theta_vel;
@@ -328,11 +331,50 @@ public class CradleMain extends Application {
                     pendulums[2].resetAll();                            ///////
                     //System.out.println("test");
                 }
-                */
+                
+                if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
+                    testValue = 0;
+                    // Reverse velocities of adjacent bobs (2 and 0)
+                    double temp = pendulums[3].theta_vel;
+                    pendulums[3].theta_vel = pendulums[0].theta_vel;
+                    pendulums[4].theta_vel = pendulums[0].theta_vel;            //|||||
+                    pendulums[1].theta_vel = (float) temp;
+                    pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
+
+                    System.out.println("x= " + circles[1].getCenterX() + " y= " + circles[3].getCenterX());
+                    //pendulums[0].resetAll();
+                    pendulums[3].resetAll();
+                    pendulums[4].resetAll();            //|||||||||||||||||||
+                }
+                
+                
+                if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
+                    // Reverse velocities of adjacent bobs (1 and 2)
+                    double temp = pendulums[2].theta_vel;
+                    pendulums[2].theta_vel = pendulums[4].theta_vel;
+                    pendulums[4].theta_vel = (float) temp;
+                    //pendulums[0].theta_vel = (float) temp;
+                    pendulums[2].resetAll();
+                    //System.out.println("test");
+                }
+                
+                if (circles[4].getBoundsInParent().intersects(circles[3].getBoundsInParent()) && initialStart) {
+                    // Reverse velocities of adjacent bobs (2 and 0)
+                    double temp = pendulums[4].theta_vel;
+                    pendulums[4].theta_vel = pendulums[3].theta_vel;
+                    pendulums[2].theta_vel = (float) temp;
+                    //System.out.println("x= " + circles[2].getCenterX() + " y= " + circles[4].getCenterX());
+                    pendulums[4].resetAll();
+                    //System.out.println(".handle()");
+                }
+                }
+                
                 //=======================================
                 /**
                  * Innermost bobs
                  */
+                if(centerPendulum){
+                    
                 
                 if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
                     testValue = 0;
@@ -349,12 +391,34 @@ public class CradleMain extends Application {
                     pendulums[3].resetAll();
                     pendulums[4].resetAll();            //|||||||||||||||||||
                     
+                    
                 }
+                
+                if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
+                    
+                    // Reverse velocities of adjacent bobs (1 and 2)
+                        double temp = pendulums[0].theta_vel;
+                        pendulums[1].theta_vel = pendulums[3].theta_vel;
+                        pendulums[2].theta_vel = pendulums[3].theta_vel;    /////////////
+                        pendulums[0].theta_vel = pendulums[3].theta_vel;
+                        pendulums[0].theta_vel = (float) temp;
+                        pendulums[3].theta_vel = (float) temp;
+                        pendulums[4].theta_vel = (float) temp;              //||||||
+                       
+                        
+                        pendulums[1].resetAll();
+                        pendulums[2].resetAll();                            ///////
+                    //System.out.println("test");
+                
+                }
+                }
+                
                 
                 //=========================================
                 /**
                  * outermost
                  */
+                /*
                 if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
                     // Reverse velocities of adjacent bobs (1 and 2)
                     double temp = pendulums[2].theta_vel;
@@ -364,7 +428,7 @@ public class CradleMain extends Application {
                     pendulums[2].resetAll();
                     //System.out.println("test");
                 }
-                
+                */
                 //=====================================================
                
 //        if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
@@ -389,25 +453,7 @@ public class CradleMain extends Application {
                 //==========================================
                 //if(centerPendulum == true){
                     
-                
-                if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
-                    
-                    // Reverse velocities of adjacent bobs (1 and 2)
-                        double temp = pendulums[0].theta_vel;
-                        pendulums[1].theta_vel = pendulums[3].theta_vel;
-                        pendulums[2].theta_vel = pendulums[3].theta_vel;    /////////////
-                        pendulums[0].theta_vel = pendulums[3].theta_vel;
-                        pendulums[0].theta_vel = (float) temp;
-                        pendulums[3].theta_vel = (float) temp;
-                        pendulums[4].theta_vel = (float) temp;              //||||||
-                       
                         
-                        pendulums[1].resetAll();
-                        pendulums[2].resetAll();                            ///////
-                    //System.out.println("test");
-                
-                }
-//}
                 //System.out.println(circles[1].getCenterX());
                 /*
                 if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
@@ -426,7 +472,7 @@ public class CradleMain extends Application {
                 }
                 */
                 //=========================================================
-                
+                /*
                 if (circles[4].getBoundsInParent().intersects(circles[3].getBoundsInParent()) && initialStart) {
                     // Reverse velocities of adjacent bobs (2 and 0)
                     double temp = pendulums[4].theta_vel;
@@ -436,7 +482,7 @@ public class CradleMain extends Application {
                     pendulums[4].resetAll();
                     //System.out.println(".handle()");
                 }
-                
+                */
                 //real order: 21034
                 //===========================================================
                 /*

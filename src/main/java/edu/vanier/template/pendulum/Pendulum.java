@@ -37,7 +37,7 @@ public class Pendulum {
     private Pendulum[] pendulums;
     private int index;
 
-    public Pendulum(GraphicsContext gc, Vector2D origin_, float r_, boolean showTrail) {
+    public Pendulum(GraphicsContext gc, Vector2D origin_, float r_, boolean showTrail, int index) {
         this.gc = gc;
         this.showTrail = showTrail;
         this.origin = origin_;
@@ -45,6 +45,7 @@ public class Pendulum {
         this.ballr = 30.0f;
         this.damping = 1f;
         this.loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
+        this.index = index;
     }
 
     /**

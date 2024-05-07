@@ -87,7 +87,7 @@ public class Pendulum {
     }
 
     private void render() {
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
           if(showTrail){
         // Draw the trail
@@ -100,7 +100,7 @@ public class Pendulum {
         // Draw the pendulum
         gc.strokeLine(origin.getX(), origin.getY(), loc.getX(), loc.getY());
         gc.setFill(Color.rgb(3, 255, 46));
-        if (dragging) gc.setFill(Color.BLACK);
+        if (dragging) //gc.setFill(Color.BLUE);
         gc.fillOval(loc.getX() - ballr / 2, loc.getY() - ballr / 2, ballr, ballr);
     }
 

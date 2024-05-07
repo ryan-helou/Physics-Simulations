@@ -40,7 +40,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML Controller class for particle attraction.
  *
  * @author salki
  */
@@ -138,7 +138,7 @@ public class PAFXMLController implements Initializable {
     }
     
     /**
-     * 
+     * Responsible for updating the 
      * @param canvas 
      */
     private void redraw(Canvas canvas) {
@@ -150,7 +150,8 @@ public class PAFXMLController implements Initializable {
     }
 
     /**
-     * Error dialog for invalid particle amount
+     * Error dialog. Occurs upon invalid entry of a gravity
+     * value.
      * 
      * @param message 
      */

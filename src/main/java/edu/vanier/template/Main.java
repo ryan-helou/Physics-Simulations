@@ -22,6 +22,7 @@ public class Main extends Application {
     private double mouseX;
     private double mouseY;
     
+    //Delete later
     //just a demo build for testing functions etc
     @Override
     public void start(Stage primaryStage) {

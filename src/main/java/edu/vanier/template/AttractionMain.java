@@ -5,30 +5,25 @@ package edu.vanier.template;
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
  */
 
-import edu.vanier.template.controllers.PAFXMLController;
 import java.io.IOException;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- *
+ * Class responsible for enabling the FXML file for particle attraction.
+ * It is a Main class.
  * @author salki
  */
 public class AttractionMain extends Application {
-    private Mover mover;
-    private double mouseX;
-    private double mouseY;
-    private boolean showTrail;
     
+    /**
+     * 
+     * @param primaryStage
+     * @throws IOException 
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/PAFXML.fxml"));

@@ -51,6 +51,7 @@ public class CradleMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        setTestValue(0);
         Label lengthLabel = new Label("Length:");
         lengthLabel.setLayoutX(10);
         lengthLabel.setLayoutY(330);
@@ -104,6 +105,7 @@ public class CradleMain extends Application {
 
 
         group.setOnMousePressed(e -> {
+            setTestValue(1);
             if(circles[0].isPressed()){
                 centerPendulum = true;
             } else{
@@ -194,9 +196,10 @@ public class CradleMain extends Application {
                 
                 if(circles[0].getCenterX() <= 401 && circles[0].getCenterX() >= 399 && circles[0].isPressed() && testValue == 1){
                     //resetAllPendulums(pendulums);
+                    setTestValue(0);
                     resetAllPendulums(pendulums);
                     //p.stopDragging();
-                    setTestValue(0);
+                    
                     p.clicked((int) e.getX(), (int) e.getY());
                     
                     //p.dragged((int) e.getX(), (int) e.getY());
@@ -316,7 +319,7 @@ public class CradleMain extends Application {
                  */
                 
                 if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
-                    testValue = 1;
+                    //testValue = 1;
                     // Reverse velocities of adjacent bobs (1 and 2)
                     double temp = pendulums[1].theta_vel;
                     pendulums[1].theta_vel = pendulums[3].theta_vel;

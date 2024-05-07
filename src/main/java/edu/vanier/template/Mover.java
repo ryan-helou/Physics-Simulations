@@ -19,6 +19,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.geometry.Point2D;
 
+/**
+ * Represents a particle object.
+ * 
+ * @author salki
+ */
 public class Mover { 
     private Point2D location;
     private Point2D velocity;
@@ -26,27 +31,31 @@ public class Mover {
     private double topspeed;
     private double mass = 1;
     private double forceMagnitude = 0.2; // Adjust this factor to control the force magnitude
+    private double size;
+    private double scaleFactor = 1;
     private Circle circle;
     private List<Point2D> trail;
     private int trailLength = 30;
     private boolean trailStatus = true;
-    private double size;
-    private double scaleFactor = 1;
     
     public Mover(double x, double y, double size) {
-    location = new Point2D(x, y);
-    velocity = new Point2D(0, 0); //made it start in the center
-    topspeed = 5;   //Might implement later if I have time
-    this.mass = mass;
-    this.size = size;
-    circle = new Circle(location.getX(), location.getY(), size);
-    circle.setFill(Color.rgb(127, 127, 127));
-    circle.setStroke(Color.WHITE);
-    circle.setStrokeWidth(2);
-    circle.setRadius(size);
-    trail = new ArrayList<>();
+        location = new Point2D(x, y);
+        velocity = new Point2D(0, 0); //made it start in the center
+        topspeed = 5;   //Might implement later if I have time
+        this.mass = mass;
+        this.size = size;
+        circle = new Circle(location.getX(), location.getY(), size);
+        circle.setFill(Color.rgb(127, 127, 127));
+        circle.setStroke(Color.WHITE);
+        circle.setStrokeWidth(2);
+        circle.setRadius(size);
+        trail = new ArrayList<>();
 }
-
+    
+    /**
+     * Updates mover location based on mouse position
+     * @param mouse 
+     */
     public void update(Point2D mouse) {
         acceleration = mouse.subtract(location);
         acceleration = acceleration.normalize().multiply(0.2);
@@ -106,7 +115,6 @@ public class Mover {
     Displays the trail and the main particle
     */
     public void display(GraphicsContext gc) {
-       
         
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
@@ -115,16 +123,16 @@ public class Mover {
         gc.strokeOval(location.getX() - 24, location.getY() - 24, 48*scaleFactor, 48*scaleFactor);
         
         for (int i = 0; i < trail.size(); i++) {
-        Point2D point = trail.get(i);
-        double opacity = 0.1 + (0.9 * ((double)i / trail.size()));  
+            Point2D point = trail.get(i);
+            double opacity = 0.1 + (0.9 * ((double)i / trail.size()));  
         if(trailStatus == true){
-          opacity = 0.1 + (0.9 * ((double)i / trail.size()));  
+            opacity = 0.1 + (0.9 * ((double)i / trail.size()));  
         } else{
             opacity = 0;
         }
         //double opacity = 0;
         gc.setFill(Color.rgb(127, 127, 127, opacity)); //opacity
-        double trailCircleSize = 16*scaleFactor; //trail size
+        double trailCircleSize = 16 * scaleFactor; //trail size
         gc.fillOval(point.getX() - (trailCircleSize / 2), point.getY() - (trailCircleSize / 2), (trailCircleSize*(scaleFactor)), (trailCircleSize*(scaleFactor)));
     }
     }
@@ -168,6 +176,63 @@ public class Mover {
     public void setScaleFactor(double scaleFactor) {
         this.scaleFactor = scaleFactor;
     }
+
+    public Point2D getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point2D location) {
+        this.location = location;
+    }
+
+    public Point2D getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Point2D velocity) {
+        this.velocity = velocity;
+    }
+
+    public Point2D getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(Point2D acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public double getTopspeed() {
+        return topspeed;
+    }
+
+    public void setTopspeed(double topspeed) {
+        this.topspeed = topspeed;
+    }
+
+    public Circle getCircle() {
+        return circle;
+    }
+
+    public void setCircle(Circle circle) {
+        this.circle = circle;
+    }
+
+    public List<Point2D> getTrail() {
+        return trail;
+    }
+
+    public void setTrail(List<Point2D> trail) {
+        this.trail = trail;
+    }
+
+    public int getTrailLength() {
+        return trailLength;
+    }
+
+    public void setTrailLength(int trailLength) {
+        this.trailLength = trailLength;
+    }
+    
     
     
 }

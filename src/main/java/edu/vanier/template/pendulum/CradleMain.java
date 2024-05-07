@@ -319,7 +319,7 @@ public class CradleMain extends Application {
                 /**
                  * Innermost bobs
                  */
-                if(!centerPendulum){
+            if(!centerPendulum){
                 if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
                     // Reverse velocities of adjacent bobs (1 and 2)
                     double temp = pendulums[1].theta_vel;
@@ -353,7 +353,6 @@ public class CradleMain extends Application {
                     double temp = pendulums[2].theta_vel;
                     pendulums[2].theta_vel = pendulums[4].theta_vel;
                     pendulums[4].theta_vel = (float) temp;
-                    //pendulums[0].theta_vel = (float) temp;
                     pendulums[2].resetAll();
                     //System.out.println("test");
                 }
@@ -373,9 +372,8 @@ public class CradleMain extends Application {
                 /**
                  * Innermost bobs
                  */
-                if(centerPendulum){
+            if(centerPendulum){
                     
-                
                 if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
                     testValue = 0;
                     // Reverse velocities of adjacent bobs (2 and 0)
@@ -390,8 +388,6 @@ public class CradleMain extends Application {
                     //pendulums[0].resetAll();
                     pendulums[3].resetAll();
                     pendulums[4].resetAll();            //|||||||||||||||||||
-                    
-                    
                 }
                 
                 if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {

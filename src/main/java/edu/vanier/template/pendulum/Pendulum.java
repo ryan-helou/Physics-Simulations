@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Represents an individual pendulum object, of which, the cradle is composed
- * of exactly five.
+ * of exactly five. Works by...
  * @author salki
  */
 public class Pendulum {
@@ -22,15 +22,20 @@ public class Pendulum {
     private boolean dragging = false;
     private boolean showTrail = true;
     private double mass;
+    private final float MAX_THETA = (float)Math.toRadians(90); //restrictions to the drag
+    private final float MIN_THETA = (float)-Math.toRadians(90);
     private float ballr;
     private float damping;
     private float theta;
     private float theta_acc;
+    private float gravity = 1.0f;
     private GraphicsContext gc;
     private Vector2D origin;
     private Vector2D clickPos;
     private List<Vector2D> trail = new ArrayList<>(); // Store previous positions of the pendulum for trail
     private static final int TRAIL_LENGTH = 100; // Adjust as needed
+    private Pendulum[] pendulums;
+    private int index;
 
     public Pendulum(GraphicsContext gc, Vector2D origin_, float r_, boolean showTrail) {
         this.gc = gc;
@@ -42,45 +47,50 @@ public class Pendulum {
         this.loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
     }
 
+    /**
+     * 
+     * 
+     */
     public void go() {
         update();
         render();
     }
     
-    public void setShowTrail(boolean showTrail) {
-        this.showTrail = showTrail;
-    }
- 
+    /**
+     * 
+     */
     private void update() {
         if (!dragging) {
-            float G = 0.0981f; //Fix the trail method to make it look more smoother at 5G+
+            float G = gravity; //0.0981f
             theta_acc = (-G / r) * (float) Math.sin(theta);
             theta_vel += theta_acc;
             theta_vel *= damping;
             theta += theta_vel;
         }
         loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
-        // Add current position to the trail
-        trail.add(loc.copy());
-        // Keep the trail length limited
-        if (trail.size() > TRAIL_LENGTH) {
+        trail.add(loc.copy());              // Add current position to the trail
+        if (trail.size() > TRAIL_LENGTH) {      // Keep the trail length limited
             trail.remove(0);
         }
     }
+    
 
     //@Anish do Javadocs for this
+    /**
+     * 
+     */
     private void render() {
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
-          if(showTrail){
-        // Draw the trail
+        if(showTrail){
+        // DrawS the trail
         for (int i = 0; i < trail.size() - 1; i++) {
             Vector2D current = trail.get(i);
             Vector2D next = trail.get(i + 1);
             gc.strokeLine(current.getX(), current.getY(), next.getX(), next.getY());
         }
-          }
-        // Draw the pendulum
+        }
+        // DrawS the pendulum
         gc.strokeLine(origin.getX(), origin.getY(), loc.getX(), loc.getY());
         gc.setFill(Color.rgb(3, 255, 46));
         if (dragging) gc.setFill(Color.BLACK);
@@ -116,10 +126,31 @@ public class Pendulum {
      */
     public void dragged(int mx, int my) {
         if (dragging) {
-            Vector2D diff = origin.subtract(new Vector2D(mx, my));
-            theta = (float) (Math.atan2(-diff.getY(), diff.getX()) - Math.toRadians(90));
-            loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
+        Vector2D diff = origin.subtract(new Vector2D(mx, my));
+        float proposedTheta = (float) (Math.atan2(-diff.getY(), diff.getX()) - Math.toRadians(90));
+        
+        if (proposedTheta < -Math.PI) {proposedTheta += 2 * Math.PI;}       //  brings angle to pi and -pi.  
+        else if (proposedTheta > Math.PI) {proposedTheta -= 2 * Math.PI;}
+        
+        
+         if ((index == 2 || index == 1) && proposedTheta > 0) {
+            //  movement for pendulums 2 and 1
+            proposedTheta = Math.min(proposedTheta, 0);
+        } else if ((index == 3 || index == 4) && proposedTheta < 0) {
+            //  movement for pendulums 3 and 4
+            proposedTheta = Math.max(proposedTheta, 0);
         }
+         
+        if (proposedTheta > MAX_THETA) {
+            theta = MAX_THETA;
+        } else if (proposedTheta < MIN_THETA) {
+            theta = MIN_THETA;
+        } else {
+            theta = proposedTheta;
+        }
+         
+        loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
+       }
     }
     
 
@@ -156,13 +187,32 @@ public class Pendulum {
         
     }
 
-    
     public Vector2D getLoc() {
         return loc;
     }
 
     public void setLoc(Vector2D loc) {
         this.loc = loc;
+    }
+
+    public boolean isShowTrail() {
+        return showTrail;
+    }
+    
+    public void setShowTrail(boolean showTrail) {
+        this.showTrail = showTrail;
+    }
+
+    public float getMAX_THETA() {
+        return MAX_THETA;
+    }
+
+    public float getMIN_THETA() {
+        return MIN_THETA;
+    }
+
+    public static int getTRAIL_LENGTH() {
+        return TRAIL_LENGTH;
     }
 
     public Vector2D getOrigin() {
@@ -203,6 +253,30 @@ public class Pendulum {
 
     public void setTheta(float theta) {
         this.theta = theta;
+    }
+
+    public float getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
+    }
+
+    public Pendulum[] getPendulums() {
+        return pendulums;
+    }
+
+    public void setPendulums(Pendulum[] pendulums) {
+        this.pendulums = pendulums;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public float getTheta_vel() {

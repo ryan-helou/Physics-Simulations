@@ -95,18 +95,18 @@ public class CradleMain extends Application {
 
         //Distance between circles = 31
         // Current pendulum in the center
-        pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail);
+        pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail, 0);
         // Additional pendulums on the left side
         for (int i = 1; i <= 2; i++) {
             double x = canvas.getWidth() / 2 - (armLength + spacing) * i;
-            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail);
+            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
 
         }
 
         // Additional pendulums on the right side
         for (int i = 3; i <= 4; i++) {
             double x = canvas.getWidth() / 2 + (armLength + spacing) * (i - 2);
-            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail);
+            pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
         }
 
         group.setOnMousePressed(e -> {
@@ -559,5 +559,30 @@ public class CradleMain extends Application {
         return Color.hsb(hue, 1.0, 1.0);
     }
 
+    public boolean isInitialStart() {
+        return initialStart;
+    }
+
+    public void setInitialStart(boolean initialStart) {
+        this.initialStart = initialStart;
+    }
+
+    public boolean isCenterPendulum() {
+        return centerPendulum;
+    }
+
+    public void setCenterPendulum(boolean centerPendulum) {
+        this.centerPendulum = centerPendulum;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    
 }
 

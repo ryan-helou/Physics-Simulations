@@ -285,5 +285,6 @@ public class PAFXMLController implements Initializable {
             mover1.setForceMagnitude(gravityNumber);
         }
     }
+   
 
 }

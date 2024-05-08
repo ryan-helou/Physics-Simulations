@@ -48,10 +48,14 @@ public class DoublePendulumMain extends Application {
     private GraphicsContext gc;
     private Canvas bufferCanvas;
     private AnimationTimer animationTimer;
+    private SnapshotParameters snapshotParameters;
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Double Pendulum Simulation :)");
+
+        snapshotParameters = new SnapshotParameters();
+        snapshotParameters.setFill(Color.TRANSPARENT);
 
         BorderPane root = new BorderPane();
         VBox controlPanel = new VBox(10);
@@ -121,10 +125,10 @@ public class DoublePendulumMain extends Application {
 
         Button resetButton = new Button("Reset");
         resetButton.setFont(customFont);
-        
+
         Button backButton = new Button("Back  ");
         backButton.setFont(customFont);
-        
+
         controlPanel.getChildren().addAll(
                 length1Label, length1Slider,
                 length2Label, length2Slider,
@@ -139,7 +143,7 @@ public class DoublePendulumMain extends Application {
         gc = canvas.getGraphicsContext2D();
 
         center_x = canvas.getWidth() / 2;
-        center_y = canvas.getHeight() / 4 +150;
+        center_y = canvas.getHeight() / 4 + 150;
         buffer.translate(center_x, center_y);
 
         length1Slider.valueProperty().addListener((obs, oldVal, newVal) -> length1 = newVal.doubleValue());
@@ -166,7 +170,7 @@ public class DoublePendulumMain extends Application {
             resetAnimation();
             clearPath();
         });
-        
+
         backButton.setOnAction(e -> {
             try {
                 new NewFXMain().start(primaryStage);
@@ -174,7 +178,7 @@ public class DoublePendulumMain extends Application {
                 Logger.getLogger(DoublePendulumMain.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
@@ -188,12 +192,13 @@ public class DoublePendulumMain extends Application {
 
     private void draw() {
         SnapshotParameters sp = new SnapshotParameters();
+
         sp.setFill(Color.TRANSPARENT);
-        Image bufferImage = bufferCanvas.snapshot(sp, null);
+        Image bufferImage = bufferCanvas.snapshot(snapshotParameters, null);
 
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, 1000, 350);
-        gc.clearRect(0, 0,1000, 350);
+        gc.clearRect(0, 0, 1000, 350);
         gc.drawImage(bufferImage, 0, 0);
 
         double a1_a = ((-gravity / 4) * (2 * mass1 + mass2) * Math.sin(angle1) - mass2 * (gravity / 4)
@@ -387,6 +392,5 @@ public class DoublePendulumMain extends Application {
     public void setCenter_y(double center_y) {
         this.center_y = center_y;
     }
-    
-    
+
 }

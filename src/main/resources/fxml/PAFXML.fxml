@@ -19,8 +19,8 @@
    <children>
       <HBox prefHeight="37.0" prefWidth="600.0" spacing="160.0">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backOnAction" prefHeight="25.0" prefWidth="48.0" text="Back" />
-            <Text fx:id="mainTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Particle Attraction" wrappingWidth="185.470703125">
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backOnAction" prefHeight="25.0" prefWidth="60.0" text="Back" />
+            <Text fx:id="mainTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Particle Attraction" wrappingWidth="300">
                <font>
                   <Font size="23.0" />
                </font>
@@ -32,9 +32,8 @@
       </HBox>
       <Pane fx:id="areaPane" layoutX="2.0" layoutY="84.0" prefHeight="316.0" prefWidth="495.0">
          <children>
-            <Canvas fx:id="canvas" height="316.0" width="495.0" />
+            <Canvas fx:id="canvas" height="400.0" width="755.0" />
             <ImageView fx:id="mute" fitHeight="31.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" />
-            <ComboBox fx:id="modeBox" layoutX="418.0" layoutY="3.0" onAction="#modeBoxOnAction" prefHeight="25.0" prefWidth="69.0" />
          </children>
       </Pane>
       <ImageView fx:id="animatedGif" fitHeight="85.0" fitWidth="91.0" layoutX="14.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true" />
@@ -42,7 +41,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="24.0">
                <children>
-                  <Text fx:id="gravityText" strokeType="OUTSIDE" strokeWidth="0.0" text="Gravity:" wrappingWidth="49.037109375">
+                  <Text fx:id="gravityText" strokeType="OUTSIDE" strokeWidth="0.0" text="Gravity:" wrappingWidth="69">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -80,7 +79,6 @@
                   <TextField fx:id="amountValue" alignment="CENTER_RIGHT" minHeight="-Infinity" onAction="#amountOnAction" prefHeight="20.0" prefWidth="129.0" promptText="particle(s)" text="1" />
                </children>
             </HBox>
-            <CheckBox fx:id="enableThemes" mnemonicParsing="false" onAction="#themeOnAction" onMouseClicked="#themeValue" text="Enable Themes" />
             <CheckBox fx:id="showTrail" mnemonicParsing="false" onAction="#trailOnAction" selected="true" text="Show Trail" />
          </children>
       </VBox>

@@ -50,7 +50,7 @@
             </HBox>
             <HBox prefHeight="16.0" prefWidth="149.0" spacing="38.0">
                <children>
-                  <Text fx:id="sizeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Size:" wrappingWidth="33.4794921875">
+                  <Text fx:id="sizeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Size:" wrappingWidth="37">
                      <font>
                         <Font size="14.0" />
                      </font>

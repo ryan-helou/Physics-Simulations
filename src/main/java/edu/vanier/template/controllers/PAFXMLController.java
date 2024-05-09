@@ -69,6 +69,8 @@ public class PAFXMLController implements Initializable {
     @FXML
     private HBox massOnAction;
     @FXML
+    private Text massText;
+    @FXML
     private TextField massValue;
     @FXML
     private Text amountText;
@@ -93,7 +95,7 @@ public class PAFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 25);
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 27);
         Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 15);
 
         backButton.setFont(customFont2);
@@ -113,6 +115,10 @@ public class PAFXMLController implements Initializable {
 
         showTrail.setFont(customFont2);
         showTrail.setTextFill(Color.WHITE);
+        
+        massText.setFont(customFont2);
+        massText.setFill(Color.WHITE);
+        
 
         gravityValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         massValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");

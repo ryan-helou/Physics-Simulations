@@ -34,7 +34,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class DoublePendulumMain extends Application {
-    
+
     private boolean showPath = true;
     private double length1 = 150;
     private double length2 = 150;
@@ -52,6 +52,7 @@ public class DoublePendulumMain extends Application {
     private Canvas bufferCanvas;
     private GraphicsContext gc;
     private SnapshotParameters snapshotParameters;
+    SnapshotParameters sp = new SnapshotParameters();
 
     @Override
     public void start(Stage primaryStage) {
@@ -210,7 +211,6 @@ public class DoublePendulumMain extends Application {
     }
 
     private void draw() {
-        SnapshotParameters sp = new SnapshotParameters();
 
         sp.setFill(Color.TRANSPARENT);
         Image bufferImage = bufferCanvas.snapshot(snapshotParameters, null);
@@ -298,117 +298,4 @@ public class DoublePendulumMain extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    public double getLength1() {
-        return length1;
-    }
-
-    public void setLength1(double length1) {
-        this.length1 = length1;
-    }
-
-    public double getLength2() {
-        return length2;
-    }
-
-    public void setLength2(double length2) {
-        this.length2 = length2;
-    }
-
-    public double getMass1() {
-        return mass1;
-    }
-
-    public void setMass1(double mass1) {
-        this.mass1 = mass1;
-    }
-
-    public double getMass2() {
-        return mass2;
-    }
-
-    public void setMass2(double mass2) {
-        this.mass2 = mass2;
-    }
-
-    public double getAngle1() {
-        return angle1;
-    }
-
-    public void setAngle1(double angle1) {
-        this.angle1 = angle1;
-    }
-
-    public double getAngle2() {
-        return angle2;
-    }
-
-    public void setAngle2(double angle2) {
-        this.angle2 = angle2;
-    }
-
-    public double getAngle1_v() {
-        return angle1_v;
-    }
-
-    public void setAngle1_v(double angle1_v) {
-        this.angle1_v = angle1_v;
-    }
-
-    public double getAngle2_v() {
-        return angle2_v;
-    }
-
-    public void setAngle2_v(double angle2_v) {
-        this.angle2_v = angle2_v;
-    }
-
-    public double getGravity() {
-        return gravity;
-    }
-
-    public void setGravity(double gravity) {
-        this.gravity = gravity;
-    }
-
-    public boolean isShowPath() {
-        return showPath;
-    }
-
-    public void setShowPath(boolean showPath) {
-        this.showPath = showPath;
-    }
-
-    public double getPrevious_x2() {
-        return previous_x2;
-    }
-
-    public void setPrevious_x2(double previous_x2) {
-        this.previous_x2 = previous_x2;
-    }
-
-    public double getPrevious_y2() {
-        return previous_y2;
-    }
-
-    public void setPrevious_y2(double previous_y2) {
-        this.previous_y2 = previous_y2;
-    }
-
-    public double getCenter_x() {
-        return center_x;
-    }
-
-    public void setCenter_x(double center_x) {
-        this.center_x = center_x;
-    }
-
-    public double getCenter_y() {
-        return center_y;
-    }
-
-    public void setCenter_y(double center_y) {
-        this.center_y = center_y;
-    }
-
 }

@@ -173,6 +173,8 @@ public class DoublePendulumMain extends Application {
         gravitySlider.valueProperty().addListener((obs, oldVal, newVal) -> gravity = newVal.doubleValue());
 
         startButton.setOnAction(e -> {
+            clearPath();
+            resetAnimation();
             startButton.setDisable(true);
             if (animationTimer != null) {
                 animationTimer.stop();

@@ -37,6 +37,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -73,8 +76,7 @@ public class PAFXMLController implements Initializable {
     private Text amountText;
     @FXML
     private TextField amountValue;
-    @FXML
-    private CheckBox enableThemes;
+    
     @FXML
     private CheckBox showTrail;
     @FXML
@@ -93,6 +95,46 @@ public class PAFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 25);
+        Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 15);
+        
+        backButton.setFont(customFont2);
+        backButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+
+        mainTitle.setFont(customFont);
+        mainTitle.setFill(Color.WHITE);
+        
+        gravityText.setFont(customFont2);
+        gravityText.setFill(Color.WHITE);
+        
+        sizeText.setFont(customFont2);
+        sizeText.setFill(Color.WHITE);
+        
+        amountText.setFont(customFont2);
+        amountText.setFill(Color.WHITE);
+        
+        showTrail.setFont(customFont2);
+        showTrail.setTextFill(Color.WHITE);
+        
+        gravityValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+        massValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+        amountValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+       sizeValue.setStyle(
+        "-fx-control-inner-background: black; " +
+        "-fx-color: black; " +
+        "-fx-thumb-color: black; " +
+        "-fx-track-color: black;"
+    );
+        
+        
+    
+    ImageView backgroundImg = new ImageView(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
+backgroundImg.setFitWidth(755); // Set this to match the width of your root AnchorPane
+    backgroundImg.setFitHeight(400);
+    
+    // Retrieve the root AnchorPane from one of the existing components
+    AnchorPane rootPane = (AnchorPane) backButton.getParent().getParent();
+    rootPane.getChildren().add(0, backgroundImg);
         movers.clear();
         //Create the particles based on the amount inserted
         for (int i = 0; i < particleAmount; i++) {
@@ -133,6 +175,7 @@ public class PAFXMLController implements Initializable {
             }
     
         });
+    
         
         
     }

@@ -12,8 +12,6 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.Transition;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -275,11 +273,11 @@ public class CradleMain extends Application {
                         // Reverse velocities of adjacent bobs (1 and 2)
                         double temp = pendulums[1].theta_vel;
                         pendulums[1].theta_vel = pendulums[3].theta_vel;
-                        pendulums[2].theta_vel = pendulums[3].theta_vel;    /////////////
+                        pendulums[2].theta_vel = pendulums[3].theta_vel;    
                         pendulums[3].theta_vel = (float) temp;
-                        pendulums[4].theta_vel = (float) temp;              //||||||
+                        pendulums[4].theta_vel = (float) temp;             
                         pendulums[1].resetAll();
-                        pendulums[2].resetAll();                            ///////                    
+                        pendulums[2].resetAll();                                               
                     }
 
                     if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
@@ -364,6 +362,7 @@ public class CradleMain extends Application {
         length.setFont(customFont);
         length.setLayoutX(670);
         length.setLayoutY(25);
+        
 
         // Create a Slider component for adjusting pendulum length
         Slider lengthSlider = new Slider(75, 150, 100); // Minimum, Maximum, Default Value
@@ -488,6 +487,7 @@ public class CradleMain extends Application {
 
         Button backButton = new Button("Back");
         backButton.setFont(customFont2);
+        backButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         backButton.setLayoutX(10);
         backButton.setLayoutY(10);
 

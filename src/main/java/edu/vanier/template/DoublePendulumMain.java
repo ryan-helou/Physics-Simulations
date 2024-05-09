@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -22,7 +24,15 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -59,16 +69,26 @@ public class DoublePendulumMain extends Application {
 
         BorderPane root = new BorderPane();
         VBox controlPanel = new VBox(10);
-        controlPanel.setPrefWidth(200);
+        controlPanel.setPrefWidth(215);
 
-        Canvas canvas = new Canvas(1000, 900);
+        Canvas canvas = new Canvas(1000, 1000);
         bufferCanvas = new Canvas(1000, 1000);
         GraphicsContext buffer = bufferCanvas.getGraphicsContext2D();
         buffer.setFill(Color.WHITE);
         buffer.fillRect(0, 0, bufferCanvas.getWidth(), bufferCanvas.getHeight());
+        
+         Image image = new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif"));
+        BackgroundImage backgroundImage = new BackgroundImage(image,
+            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+            new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+
+        
+        controlPanel.setBackground(new Background(backgroundImage));
+        
 
         Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 22);
         Label length1Label = new Label("Length 1");
+        length1Label.setTextFill(Color.WHITE);
         length1Label.setFont(customFont);
         Slider length1Slider = new Slider(50, 300, length1);
         length1Slider.setShowTickLabels(true);
@@ -79,6 +99,7 @@ public class DoublePendulumMain extends Application {
 
         Label length2Label = new Label("Length 2");
         length2Label.setFont(customFont);
+        length2Label.setTextFill(Color.WHITE);
         Slider length2Slider = new Slider(50, 300, length2);
         length2Slider.setShowTickLabels(true);
         length2Slider.setShowTickMarks(true);
@@ -87,6 +108,7 @@ public class DoublePendulumMain extends Application {
         length2Slider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         Label mass1Label = new Label("Mass 1");
+        mass1Label.setTextFill(Color.WHITE);
         mass1Label.setFont(customFont);
 
         Slider mass1Slider = new Slider(1, 25, mass1);
@@ -97,6 +119,7 @@ public class DoublePendulumMain extends Application {
         mass1Slider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         Label mass2Label = new Label("Mass 2");
+        mass2Label.setTextFill(Color.WHITE);
         mass2Label.setFont(customFont);
 
         Slider mass2Slider = new Slider(1, 25, mass2);
@@ -107,6 +130,7 @@ public class DoublePendulumMain extends Application {
         mass2Slider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         Label gravityLabel = new Label("Gravity");
+        gravityLabel.setTextFill(Color.WHITE);
         gravityLabel.setFont(customFont);
 
         Slider gravitySlider = new Slider(1, 15, gravity);
@@ -117,19 +141,24 @@ public class DoublePendulumMain extends Application {
         gravitySlider.setStyle("-fx-font-size: 15px; -fx-font-family: '" + customFont.getFamily() + "'; -fx-font-weight: bold;");
 
         CheckBox pathCheckbox = new CheckBox("Show Path");
+        pathCheckbox.setTextFill(Color.WHITE);
         pathCheckbox.setFont(customFont);
         pathCheckbox.setSelected(showPath);
 
         Button startButton = new Button("Start");
+        startButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         startButton.setFont(customFont);
 
         Button resetButton = new Button("Reset");
+        resetButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         resetButton.setFont(customFont);
 
         Button backButton = new Button("Back  ");
+        backButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         backButton.setFont(customFont);
 
         controlPanel.getChildren().addAll(
+                
                 length1Label, length1Slider,
                 length2Label, length2Slider,
                 mass1Label, mass1Slider,
@@ -195,7 +224,6 @@ public class DoublePendulumMain extends Application {
 
         sp.setFill(Color.TRANSPARENT);
         Image bufferImage = bufferCanvas.snapshot(snapshotParameters, null);
-
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, 1000, 350);
         gc.clearRect(0, 0, 1000, 350);

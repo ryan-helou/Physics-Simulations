@@ -33,8 +33,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/*
+ * This class is working on the part of the project that is focused on the front
+ * and back end of the double pendulum simulation. This will be implemented
+ * along with the other two simulations as one big project.
+ */
 public class DoublePendulumMain extends Application {
 
+    // Simulation parameters
     private boolean showPath = true;
     private double length1 = 150;
     private double length2 = 150;
@@ -48,14 +54,23 @@ public class DoublePendulumMain extends Application {
     private double previous_x2 = -1;
     private double previous_y2 = -1;
     private double center_x, center_y;
+
+    // Graphics and animation objects
     private AnimationTimer animationTimer;
     private Canvas bufferCanvas;
     private GraphicsContext gc;
     private SnapshotParameters snapshotParameters;
     SnapshotParameters sp = new SnapshotParameters();
 
+     /*
+     * Initializes and starts the JavaFX application, setting up the UI and
+     * event handlers. @param primaryStage The primary stage for this
+     * application, onto which the scene is set.
+     */
     @Override
     public void start(Stage primaryStage) {
+
+        // Initialize stage and UI components
         primaryStage.setTitle("Double Pendulum Simulation :)");
 
         snapshotParameters = new SnapshotParameters();
@@ -78,6 +93,7 @@ public class DoublePendulumMain extends Application {
 
         controlPanel.setBackground(new Background(backgroundImage));
 
+        // Detailed setup of UI controls
         Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 22);
         Label length1Label = new Label("Length 1");
         length1Label.setTextFill(Color.WHITE);
@@ -148,7 +164,8 @@ public class DoublePendulumMain extends Application {
         Button backButton = new Button("Back  ");
         backButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         backButton.setFont(customFont);
-
+        
+        // Addition of all UI controls to Control Panel
         controlPanel.getChildren().addAll(
                 length1Label, length1Slider,
                 length2Label, length2Slider,
@@ -172,6 +189,8 @@ public class DoublePendulumMain extends Application {
         mass2Slider.valueProperty().addListener((obs, oldVal, newVal) -> mass2 = newVal.doubleValue());
         gravitySlider.valueProperty().addListener((obs, oldVal, newVal) -> gravity = newVal.doubleValue());
 
+        
+        // Event Bindings
         startButton.setOnAction(e -> {
             clearPath();
             resetAnimation();
@@ -214,8 +233,16 @@ public class DoublePendulumMain extends Application {
         });
     }
 
+    /*
+     * This method updates and renders the pendulum's position on the canvas.
+     * Using forces like gravity and angular momentum, this method uses 
+     * equations of motion to determine the next position of the pendulum arms
+     * and masses. The updated pendulum position is then depicted on the canvas.
+     * A visual trace of the pendulum's tip is also maintained if path tracing
+     * is activated. 
+     */
     private void draw() {
-
+        // Setting up Graphic Context
         sp.setFill(Color.TRANSPARENT);
         Image bufferImage = bufferCanvas.snapshot(snapshotParameters, null);
         gc.setFill(Color.MIDNIGHTBLUE);
@@ -223,6 +250,7 @@ public class DoublePendulumMain extends Application {
         gc.clearRect(0, 0, 1000, 350);
         gc.drawImage(bufferImage, 0, 0);
 
+        // Calculating the acceleration
         double a1_a = ((-gravity / 4) * (2 * mass1 + mass2) * Math.sin(angle1) - mass2 * (gravity / 4)
                 * Math.sin(angle1 - 2 * angle2) - 2 * Math.sin(angle1 - angle2) * mass2
                 * (angle2_v * angle2_v * length2 + angle1_v * angle1_v * length1 * Math.cos(angle1 - angle2)))
@@ -273,7 +301,12 @@ public class DoublePendulumMain extends Application {
         gc.translate(-center_x, -center_y);
     }
 
+    /*
+     * Resets the pendulum's position, velocity, and path.
+     */
+    
     public void resetAnimation() {
+        // Resetting all parameters
         angle1 = Math.PI / 2;
         angle2 = Math.PI / 2;
         angle1_v = 0;
@@ -284,6 +317,7 @@ public class DoublePendulumMain extends Application {
             animationTimer.stop();
         }
 
+        // Clears the drawn path of the pendulum on the canvas.
         GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
         bufferGc.setTransform(1, 0, 0, 1, 0, 0);
         bufferGc.setFill(Color.MIDNIGHTBLUE);
@@ -293,12 +327,18 @@ public class DoublePendulumMain extends Application {
         draw();
     }
 
+    /*
+     * Clears the path from the buffer canvas.
+     */
     private void clearPath() {
         GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
         bufferGc.setFill(Color.MIDNIGHTBLUE);
         bufferGc.fillRect(-400, -200, bufferCanvas.getWidth(), bufferCanvas.getHeight());
     }
 
+    /*
+     * Main mehtod used to launch and application
+     */
     public static void main(String[] args) {
         launch(args);
     }

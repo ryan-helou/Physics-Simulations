@@ -68,7 +68,7 @@ public class DoublePendulumMain extends Application {
         Canvas canvas = new Canvas(1000, 1000);
         bufferCanvas = new Canvas(1000, 1000);
         GraphicsContext buffer = bufferCanvas.getGraphicsContext2D();
-        buffer.setFill(Color.WHITE);
+        buffer.setFill(Color.MIDNIGHTBLUE);
         buffer.fillRect(0, 0, bufferCanvas.getWidth(), bufferCanvas.getHeight());
 
         Image image = new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif"));
@@ -216,7 +216,7 @@ public class DoublePendulumMain extends Application {
 
         sp.setFill(Color.TRANSPARENT);
         Image bufferImage = bufferCanvas.snapshot(snapshotParameters, null);
-        gc.setFill(Color.WHITE);
+        gc.setFill(Color.MIDNIGHTBLUE);
         gc.fillRect(0, 0, 1000, 350);
         gc.clearRect(0, 0, 1000, 350);
         gc.drawImage(bufferImage, 0, 0);
@@ -232,7 +232,7 @@ public class DoublePendulumMain extends Application {
                 * Math.cos(2 * angle1 - 2 * angle2)));
 
         gc.translate(center_x, center_y);
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
 
         double x1 = length1 * Math.sin(angle1);
@@ -241,13 +241,13 @@ public class DoublePendulumMain extends Application {
         double x2 = x1 + length2 * Math.sin(angle2);
         double y2 = y1 + length2 * Math.cos(angle2);
 
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
 
         gc.strokeLine(0, 0, x1, y1);
         gc.strokeLine(x1, y1, x2, y2);
 
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.WHITE);
         gc.fillOval(x1 - mass1, y1 - mass1, mass1 * 2, mass1 * 2);
         gc.fillOval(x2 - mass2, y2 - mass2, mass2 * 2, mass2 * 2);
 
@@ -258,7 +258,7 @@ public class DoublePendulumMain extends Application {
 
         GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
         if (showPath) {
-            bufferGc.setStroke(Color.BLACK);
+            bufferGc.setStroke(Color.WHITE);
             bufferGc.setLineWidth(0.5);
             if (previous_x2 != -1 && previous_y2 != -1) {
                 bufferGc.strokeLine(previous_x2, previous_y2, x2, y2);
@@ -284,7 +284,7 @@ public class DoublePendulumMain extends Application {
 
         GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
         bufferGc.setTransform(1, 0, 0, 1, 0, 0);
-        bufferGc.setFill(Color.WHITE);
+        bufferGc.setFill(Color.MIDNIGHTBLUE);
         bufferGc.fillRect(0, 0, bufferCanvas.getWidth(), bufferCanvas.getHeight());
         bufferGc.translate(center_x, center_y);
 
@@ -293,7 +293,7 @@ public class DoublePendulumMain extends Application {
 
     private void clearPath() {
         GraphicsContext bufferGc = bufferCanvas.getGraphicsContext2D();
-        bufferGc.setFill(Color.WHITE);
+        bufferGc.setFill(Color.MIDNIGHTBLUE);
         bufferGc.fillRect(-400, -200, bufferCanvas.getWidth(), bufferCanvas.getHeight());
     }
 

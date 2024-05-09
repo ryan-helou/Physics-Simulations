@@ -28,14 +28,11 @@ import javafx.scene.text.Text;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -48,6 +45,7 @@ import javafx.stage.Stage;
  * @author salki
  */
 public class PAFXMLController implements Initializable {
+
     @FXML
     private Button backButton;
     @FXML
@@ -76,19 +74,19 @@ public class PAFXMLController implements Initializable {
     private Text amountText;
     @FXML
     private TextField amountValue;
-    
+
     @FXML
     private CheckBox showTrail;
     @FXML
     private Canvas canvas;
 
+    private int particleAmount = 1;
     private double newSize = 1;
-    private Mover mover;
     private double mouseX;
     private double mouseY;
+    private Mover mover;
     private List<Mover> movers = new ArrayList();
     private Random random = new Random();
-    private int particleAmount = 1;
 
     /**
      * Initializes the controller class.
@@ -97,50 +95,47 @@ public class PAFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 25);
         Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 15);
-        
+
         backButton.setFont(customFont2);
         backButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
 
         mainTitle.setFont(customFont);
         mainTitle.setFill(Color.WHITE);
-        
+
         gravityText.setFont(customFont2);
         gravityText.setFill(Color.WHITE);
-        
+
         sizeText.setFont(customFont2);
         sizeText.setFill(Color.WHITE);
-        
+
         amountText.setFont(customFont2);
         amountText.setFill(Color.WHITE);
-        
+
         showTrail.setFont(customFont2);
         showTrail.setTextFill(Color.WHITE);
-        
+
         gravityValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         massValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         amountValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-       sizeValue.setStyle(
-        "-fx-control-inner-background: black; " +
-        "-fx-color: black; " +
-        "-fx-thumb-color: black; " +
-        "-fx-track-color: black;"
-    );
-        
-        
-    
-    ImageView backgroundImg = new ImageView(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
-backgroundImg.setFitWidth(755); // Set this to match the width of your root AnchorPane
-    backgroundImg.setFitHeight(400);
-    
-    // Retrieve the root AnchorPane from one of the existing components
-    AnchorPane rootPane = (AnchorPane) backButton.getParent().getParent();
-    rootPane.getChildren().add(0, backgroundImg);
+        sizeValue.setStyle(
+                "-fx-control-inner-background: black; "
+                + "-fx-color: black; "
+                + "-fx-thumb-color: black; "
+                + "-fx-track-color: black;"
+        );
+
+        ImageView backgroundImg = new ImageView(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
+        backgroundImg.setFitWidth(755); // Set this to match the width of your root AnchorPane
+        backgroundImg.setFitHeight(400);
+
+        // Retrieve the root AnchorPane from one of the existing components
+        AnchorPane rootPane = (AnchorPane) backButton.getParent().getParent();
+        rootPane.getChildren().add(0, backgroundImg);
         movers.clear();
         //Create the particles based on the amount inserted
         for (int i = 0; i < particleAmount; i++) {
             this.mover = new Mover(random.nextDouble(240), random.nextDouble(240), 11);
             movers.add(mover);
-            System.out.println("test");
         }
 
         canvas.setOnMouseMoved(e -> {
@@ -152,51 +147,34 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                for (Mover mover1 : movers) {
-                    mover1.update(new javafx.geometry.Point2D(mouseX, mouseY));
+                for (Mover mover : movers) {
+                    mover.update(new javafx.geometry.Point2D(mouseX, mouseY));
                     redraw(canvas);
                 }
                 //redraw(canvas);
             }
         };
         animationTimer.start();
-        
-        backButton.setOnAction(e -> {
-        
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));  
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) backButton.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-                
-            } catch (IOException ex) {
-                Logger.getLogger(PAFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-    
-        });
-    
-        
-        
+
     }
-    
+
     /**
-     * Responsible for updating the 
-     * @param canvas 
+     * Responsible for updating the
+     *
+     * @param canvas
      */
     private void redraw(Canvas canvas) {
         canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (Mover mover1 : movers) {
-            mover1.display(canvas.getGraphicsContext2D());
+        for (Mover mover : movers) {
+            mover.display(canvas.getGraphicsContext2D());
         }
         //mover.display(canvas.getGraphicsContext2D());
     }
 
     /**
-     * Error dialog. Occurs upon invalid entry of a gravity
-     * value.
-     * 
-     * @param message 
+     * Error dialog. Occurs upon invalid entry of a gravity value.
+     *
+     * @param message
      */
     private void showErrorDialog(String message) {
         Alert alert = new Alert(AlertType.ERROR);
@@ -209,6 +187,16 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
 
     @FXML
     private void backOnAction(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(PAFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -219,9 +207,7 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
     private void gravityOnAction(ActionEvent event) {
         setAllGravity();
     }
-    
-   
-    
+
     //To fix on the trail method
     @FXML
     private void sizeSliderValue(MouseEvent event) {
@@ -231,10 +217,9 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
         }
     }
 
-    
     /**
-     * 
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void amountOnAction(ActionEvent event) {
@@ -247,8 +232,8 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
             showErrorDialog("Please enter a valid integer.");
         }
 
-        if (particleAmount > 100 || particleAmount < 0) {
-            showErrorDialog("Please enter a valid number (between 0 and 100)");
+        if (particleAmount > 100 || particleAmount <= 0) {
+            showErrorDialog("Please enter a valid number (between 1 and 100)");
         } else {
 
             for (int i = 0; i < particleAmount; i++) {
@@ -276,16 +261,16 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
             System.out.println("it works");
         }
     }
-   
+
     @FXML
     private void trailOnAction(ActionEvent event) {
         if (!showTrail.isSelected()) {
-            for (Mover mover1 : movers) {
-                mover1.setTrailStatus(false);
+            for (Mover mover : movers) {
+                mover.setTrailStatus(false);
             }
         } else {
-            for (Mover mover1 : movers) {
-                mover1.setTrailStatus(true);
+            for (Mover mover : movers) {
+                mover.setTrailStatus(true);
             }
         }
     }
@@ -294,11 +279,11 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
     private void massOnAction(ActionEvent event) {
         setAllMass();
     }
-    
+
     /**
-     * Sets the mass of every particle present within the particle
-     * simulation. Also contains an error dialog in the case that the
-     * mass inputted is not valid.
+     * Sets the mass of every particle present within the particle simulation.
+     * Also contains an error dialog in the case that the mass inputted is not
+     * valid.
      */
     private void setAllMass() {
         double massNumber = 100000;
@@ -315,7 +300,8 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
 
     /**
      * Method that changes the gravity value for each particle present within
-     * the simulation based on the value set by the user through the gravity slider.
+     * the simulation based on the value set by the user through the gravity
+     * slider.
      */
     private void setAllGravity() {
         double gravityNumber = 1;
@@ -328,6 +314,47 @@ backgroundImg.setFitWidth(755); // Set this to match the width of your root Anch
             mover1.setForceMagnitude(gravityNumber);
         }
     }
-   
+
+    public int getParticleAmount() {
+        return particleAmount;
+    }
+
+    public void setParticleAmount(int particleAmount) {
+        this.particleAmount = particleAmount;
+    }
+
+    public double getNewSize() {
+        return newSize;
+    }
+
+    public void setNewSize(double newSize) {
+        this.newSize = newSize;
+    }
+
+    public double getMouseX() {
+        return mouseX;
+    }
+
+    public void setMouseX(double mouseX) {
+        this.mouseX = mouseX;
+    }
+
+    public double getMouseY() {
+        return mouseY;
+    }
+
+    public void setMouseY(double mouseY) {
+        this.mouseY = mouseY;
+    }
+
+    public Mover getMover() {
+        return mover;
+    }
+
+    public void setMover(Mover mover) {
+        this.mover = mover;
+    }
+    
+    
 
 }

@@ -13,8 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -24,22 +22,20 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class DoublePendulumMain extends Application {
-
+    
+    private boolean showPath = true;
     private double length1 = 150;
     private double length2 = 150;
     private double mass1 = 10;
@@ -49,15 +45,12 @@ public class DoublePendulumMain extends Application {
     private double angle1_v = 0;
     private double angle2_v = 0;
     private double gravity = 3;
-    private boolean showPath = true;
-
     private double previous_x2 = -1;
     private double previous_y2 = -1;
     private double center_x, center_y;
-
-    private GraphicsContext gc;
-    private Canvas bufferCanvas;
     private AnimationTimer animationTimer;
+    private Canvas bufferCanvas;
+    private GraphicsContext gc;
     private SnapshotParameters snapshotParameters;
 
     @Override
@@ -76,15 +69,13 @@ public class DoublePendulumMain extends Application {
         GraphicsContext buffer = bufferCanvas.getGraphicsContext2D();
         buffer.setFill(Color.WHITE);
         buffer.fillRect(0, 0, bufferCanvas.getWidth(), bufferCanvas.getHeight());
-        
-         Image image = new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif"));
-        BackgroundImage backgroundImage = new BackgroundImage(image,
-            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-            new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
 
-        
+        Image image = new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif"));
+        BackgroundImage backgroundImage = new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+
         controlPanel.setBackground(new Background(backgroundImage));
-        
 
         Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 22);
         Label length1Label = new Label("Length 1");
@@ -158,7 +149,6 @@ public class DoublePendulumMain extends Application {
         backButton.setFont(customFont);
 
         controlPanel.getChildren().addAll(
-                
                 length1Label, length1Slider,
                 length2Label, length2Slider,
                 mass1Label, mass1Slider,

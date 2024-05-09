@@ -192,6 +192,8 @@ public class DoublePendulumMain extends Application {
         });
 
         backButton.setOnAction(e -> {
+            clearPath();
+            resetAnimation();
             try {
                 new NewFXMain().start(primaryStage);
             } catch (IOException ex) {

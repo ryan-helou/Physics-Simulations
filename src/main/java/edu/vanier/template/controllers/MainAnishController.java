@@ -6,6 +6,7 @@ package edu.vanier.template.controllers;
 
 import edu.vanier.template.DoublePendulumMain;
 import edu.vanier.template.pendulum.CradleMain;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -39,6 +42,7 @@ public class MainAnishController implements Initializable {
     @FXML
     private ImageView settings;
 
+    public MediaPlayer player;
     private final double SCALING_FACTOR = 1.09;
     
     /**
@@ -46,6 +50,7 @@ public class MainAnishController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //initializeMusic();
         initializeImages();
     }    
 
@@ -62,7 +67,24 @@ public class MainAnishController implements Initializable {
         newtonscradle.setImage(new Image(getClass().getResourceAsStream("/images/newtonscradle.jpg")));
         //spacebackground.setImage();
     }
-            
+     
+    /**
+     * Activates the music upon startup of the main menu. 
+     */  
+    private void initializeMusic(){
+        File soundFile = new File("C:\\Users\\salki\\OneDrive\\Documents\\GitHub\\physics-simulations\\src\\main\\resources\\Media\\bgmusic.mp3");
+        Media media = new Media(soundFile.toURI().toString());
+        player = new MediaPlayer(media);
+        player.setVolume(0.1);          //volume
+        player.setCycleCount(-1);
+        player.stop();
+        player.play();
+        player.setOnEndOfMedia(()
+                -> {
+            player.play();
+        });
+    }
+    
     /**
      * Sets an image to a selected ImageView.
      * 
@@ -70,7 +92,7 @@ public class MainAnishController implements Initializable {
      * @param opacity image opacity (0 to 1)
      * @param scaling image scaling, how big the image is relative to initial size.
      */
-    private void setImage(ImageView image, double opacity, double scaling){
+    public void setImage(ImageView image, double opacity, double scaling){
         image.setOpacity(opacity);
         image.setScaleX(scaling);
         image.setScaleY(scaling);

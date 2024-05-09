@@ -241,10 +241,8 @@ public class CradleMain extends Application {
         transition.setCycleCount(1);
         transition.play();
 
-        
         /**
-         * AnimationTimer used to detect collision and update 
-         * the canvas
+         * AnimationTimer used to detect collision and update the canvas
          */
         animationTimer = new AnimationTimer() {
             @Override
@@ -264,7 +262,7 @@ public class CradleMain extends Application {
 
                 circles[0].setCenterX(pendulums[0].loc.getX());
                 circles[0].setCenterY(pendulums[0].loc.getY());
-                
+
                 /**
                  * Innermost bobs
                  */
@@ -273,24 +271,24 @@ public class CradleMain extends Application {
                         // Reverse velocities of adjacent bobs (1 and 2)
                         double temp = pendulums[1].theta_vel;
                         pendulums[1].theta_vel = pendulums[3].theta_vel;
-                        pendulums[2].theta_vel = pendulums[3].theta_vel;    
+                        pendulums[2].theta_vel = pendulums[3].theta_vel;
                         pendulums[3].theta_vel = (float) temp;
-                        pendulums[4].theta_vel = (float) temp;             
+                        pendulums[4].theta_vel = (float) temp;
                         pendulums[1].resetAll();
-                        pendulums[2].resetAll();                                               
+                        pendulums[2].resetAll();
+
                     }
 
                     if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
-                        testValue = 0;
                         // Reverse velocities of adjacent bobs (2 and 0)
                         double temp = pendulums[3].theta_vel;
                         pendulums[3].theta_vel = pendulums[0].theta_vel;
-                        pendulums[4].theta_vel = pendulums[0].theta_vel;            //|||||
+                        pendulums[4].theta_vel = pendulums[0].theta_vel;
                         pendulums[1].theta_vel = (float) temp;
-                        pendulums[2].theta_vel = (float) temp;               //////////////////////////////////////////
+                        pendulums[2].theta_vel = (float) temp;
 
                         pendulums[3].resetAll();
-                        pendulums[4].resetAll();            //|||||||||||||||||||
+                        pendulums[4].resetAll();
                     }
 
                     if (circles[2].getBoundsInParent().intersects(circles[1].getBoundsInParent()) && initialStart) {
@@ -325,7 +323,7 @@ public class CradleMain extends Application {
                         pendulums[0].theta_vel = pendulums[1].theta_vel;
                         pendulums[1].theta_vel = (float) temp;
                         pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
-                        pendulums[0].theta_vel = (float) temp;                                        
+                        pendulums[0].theta_vel = (float) temp;
                         pendulums[3].resetAll();
                         pendulums[4].resetAll();            //|||||||||||||||||||
                     }
@@ -362,7 +360,6 @@ public class CradleMain extends Application {
         length.setFont(customFont);
         length.setLayoutX(670);
         length.setLayoutY(25);
-        
 
         // Create a Slider component for adjusting pendulum length
         Slider lengthSlider = new Slider(75, 150, 100); // Minimum, Maximum, Default Value
@@ -421,8 +418,15 @@ public class CradleMain extends Application {
                 pendulum.setDamping(newDamping);
             }
         });
+        
+        Label gravityLabel = new Label("Gravity");
+        gravityLabel.setFont(customFont);
+        gravityLabel.setLayoutX(670);
+        gravityLabel.setLayoutY(125);
+        gravityLabel.setTextFill(Color.WHITE);
+        
         Slider gravitySlider = new Slider(1, 20, 10);
-
+        //sliderInitialize(gravitySlider, true, true, 5, 4, true, 645, 165, 150);
         gravitySlider.setShowTickLabels(true);
         gravitySlider.setShowTickMarks(true);
         gravitySlider.setMajorTickUnit(5);
@@ -432,12 +436,6 @@ public class CradleMain extends Application {
         gravitySlider.setLayoutY(165);
         gravitySlider.setPrefWidth(150);
 
-        Label gravityLabel = new Label("Gravity");
-        gravityLabel.setFont(customFont);
-        gravityLabel.setLayoutX(670);
-        gravityLabel.setLayoutY(125);
-        gravityLabel.setTextFill(Color.WHITE);
-
         gravitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             for (Pendulum pendulum : pendulums) {
                 pendulum.setGravity((float) (newValue.doubleValue() * 0.1));
@@ -446,14 +444,7 @@ public class CradleMain extends Application {
         });
 
         Slider massSlider = new Slider(1, 10, 10);
-        massSlider.setShowTickLabels(true);
-        massSlider.setShowTickMarks(true);
-        massSlider.setMajorTickUnit(1);
-        massSlider.setMinorTickCount(0);
-        massSlider.setSnapToTicks(true);
-        massSlider.setPrefWidth(150);
-        massSlider.setLayoutX(645);
-        massSlider.setLayoutY(265);
+        sliderInitialize(massSlider, true, true, 1, 0, true, 150, 645, 265);
 
         Label massLabel = new Label("  Mass");
         massLabel.setFont(customFont);
@@ -516,11 +507,34 @@ public class CradleMain extends Application {
     }
 
     /**
-     *
-     * @param showTrail Boolean indicates whether the trail is active or not
+     * Initializes a created slider.
+     * @param slider
+     * @param tickStatus
+     * @param tickMarks
+     * @param tickUnit
+     * @param tickCount
+     * @param snapTicks
+     * @param prefWidth
+     * @param layoutX
+     * @param layoutY 
      */
-    public void setShowTrail(boolean showTrail) {
-        this.showTrail = showTrail;
+    public void sliderInitialize(Slider slider, boolean tickStatus, boolean tickMarks,
+                                 int tickUnit, int tickCount, boolean snapTicks, 
+                                 int prefWidth, int layoutX, int layoutY) {
+        
+        slider.setShowTickLabels(tickStatus);
+        slider.setShowTickMarks(tickMarks);
+        slider.setMajorTickUnit(tickUnit);
+        slider.setMinorTickCount(tickCount);
+        slider.setSnapToTicks(snapTicks);
+        slider.setPrefWidth(prefWidth);
+        slider.setLayoutX(layoutX);
+        slider.setLayoutY(layoutY);
+
+    }
+    
+    public void labelInitialize(Label label) {
+   
     }
 
     /**
@@ -544,6 +558,14 @@ public class CradleMain extends Application {
             pendulum.r = (float) newLength;
         }
     }
+    
+    /**
+     *
+     * @param showTrail Boolean indicates whether the trail is active or not
+     */
+    public void setShowTrail(boolean showTrail) {
+        this.showTrail = showTrail;
+    }
 
     public int getTestValue() {
         return testValue;
@@ -554,7 +576,6 @@ public class CradleMain extends Application {
     }
 
     private Color getColorBasedOnMass(int mass) {
-
         float hue = 120 - (mass - 1) * 12;
         return Color.hsb(hue, 1.0, 1.0);
     }
@@ -583,6 +604,4 @@ public class CradleMain extends Application {
         this.direction = direction;
     }
 
-    
 }
-

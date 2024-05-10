@@ -131,6 +131,7 @@ public class PAFXMLController implements Initializable {
                 + "-fx-track-color: black;"
         );
 
+        //background space gif
         ImageView backgroundImg = new ImageView(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
         backgroundImg.setFitWidth(755);
         backgroundImg.setFitHeight(400);
@@ -140,19 +141,26 @@ public class PAFXMLController implements Initializable {
         rootPane.getChildren().add(0, backgroundImg);
         movers.clear();
         
-        //Creates the particles based on the amount inserted
+        //Creates the particles based on the amount inserted, their location is randomized.
         for (int i = 0; i < particleAmount; i++) {
             this.mover = new Mover(random.nextDouble(240), random.nextDouble(240), 11);
             movers.add(mover);
         }
 
+        /**
+         * Gets the location of the mouse
+         */
         canvas.setOnMouseMoved(e -> {
             mouseX = e.getX();
             mouseY = e.getY();
             redraw(canvas);
         });
 
-        //animation timer that updates the canvas every frame
+        /**
+         * Animation timer that updates the canvas every frame
+         * via the redraw method and updates the movers within
+         * the simulation.
+         */
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -166,7 +174,8 @@ public class PAFXMLController implements Initializable {
     }
 
     /**
-     * Responsible for updating the
+     * Redraws the canvas. Initially clears the canvas then draws the new canvas
+     * using the "display" method.
      *
      * @param canvas
      */
@@ -191,6 +200,12 @@ public class PAFXMLController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Returns to the main menu upon clicking the back button. Resets all movers
+     * before doing this to avoid excessive lag.
+     * 
+     * @param event 
+     */
     @FXML
     private void backOnAction(ActionEvent event) {
         movers.clear();
@@ -207,6 +222,11 @@ public class PAFXMLController implements Initializable {
         }
     }
 
+    /**
+     * Changes the gravity value for each particle present within the
+     * simulation via the setAllGravity method.
+     * @param event 
+     */
     @FXML
     private void gravityOnAction(ActionEvent event) {
         setAllGravity();

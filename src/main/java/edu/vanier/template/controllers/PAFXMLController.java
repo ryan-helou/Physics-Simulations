@@ -132,14 +132,15 @@ public class PAFXMLController implements Initializable {
         );
 
         ImageView backgroundImg = new ImageView(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
-        backgroundImg.setFitWidth(755); // Set this to match the width of your root AnchorPane
+        backgroundImg.setFitWidth(755);
         backgroundImg.setFitHeight(400);
 
-        // Retrieve the root AnchorPane from one of the existing components
+        //Retrieves the root AnchorPane from one of the existing components
         AnchorPane rootPane = (AnchorPane) backButton.getParent().getParent();
         rootPane.getChildren().add(0, backgroundImg);
         movers.clear();
-        //Create the particles based on the amount inserted
+        
+        //Creates the particles based on the amount inserted
         for (int i = 0; i < particleAmount; i++) {
             this.mover = new Mover(random.nextDouble(240), random.nextDouble(240), 11);
             movers.add(mover);
@@ -151,6 +152,7 @@ public class PAFXMLController implements Initializable {
             redraw(canvas);
         });
 
+        //animation timer that updates the canvas every frame
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -158,7 +160,6 @@ public class PAFXMLController implements Initializable {
                     mover.update(new javafx.geometry.Point2D(mouseX, mouseY));
                     redraw(canvas);
                 }
-                //redraw(canvas);
             }
         };
         animationTimer.start();
@@ -220,7 +221,10 @@ public class PAFXMLController implements Initializable {
     }
 
     /**
-     *
+     * Changes the amount of particles present within the simulation
+     * upon entering a value into the designated TextBox. Particle amount
+     * is limited to between 1 and 100 particles to avoid excess lag. The
+     * entered value must also not contain any characters or symbols.
      * @param event
      */
     @FXML
@@ -251,6 +255,11 @@ public class PAFXMLController implements Initializable {
         }
     }
 
+    /**
+     * Enables or disables particle trail upon clicking
+     * the designated checkbox.
+     * @param event 
+     */
     @FXML
     private void trailOnAction(ActionEvent event) {
         if (!showTrail.isSelected()) {
@@ -265,9 +274,10 @@ public class PAFXMLController implements Initializable {
     }
 
     /**
-     * Method that changes the gravity value for each particle present within
+     * Changes the gravity value for each particle present within
      * the simulation based on the value set by the user through the gravity
-     * slider.
+     * slider. Value is limited to between 1 and 1000 and must not contain any 
+     * characters nor symbols.
      */
     private void setAllGravity() {
         try {
@@ -285,6 +295,11 @@ public class PAFXMLController implements Initializable {
         }
     }
     
+    /**
+     * Changes the mass value for each particle present within the
+     * simulation via the setAllMass method.
+     * @param event 
+     */
     @FXML
     private void massOnAction(ActionEvent event) {
         setAllMass();
@@ -293,7 +308,8 @@ public class PAFXMLController implements Initializable {
     /**
      * Sets the mass of every particle present within the particle simulation.
      * Also contains an error dialog in the case that the mass inputted is not
-     * valid.
+     * valid. Mass must be between 1 and 1000 and must not contain any character
+     * or symbols.
      */
     private void setAllMass() {
         try {
@@ -311,6 +327,7 @@ public class PAFXMLController implements Initializable {
         }
     }
 
+    //Getters and setters
     public int getParticleAmount() {
         return particleAmount;
     }

@@ -530,6 +530,8 @@ public class CradleMain extends Application {
         }
     }
 
+    //Getters and setters
+    
     /**
      *
      * @param showTrail Boolean indicates whether the trail is active or not
@@ -547,7 +549,7 @@ public class CradleMain extends Application {
         float hue = 120 - (mass - 1) * 12;
         return Color.hsb(hue, 1.0, 1.0);
     }
-
+    
     public boolean isInitialStart() {
         return initialStart;
     }
@@ -572,4 +574,19 @@ public class CradleMain extends Application {
         this.direction = direction;
     }
 
+    public double getArmLength() {
+        return armLength;
+    }
+
+    public void setArmLength(double armLength) {
+        this.armLength = armLength;
+    }
+
+    public double getCenterY() {
+        return centerY;
+    }
+
+    public void setCenterY(double centerY) {
+        this.centerY = centerY;
+    }
 }

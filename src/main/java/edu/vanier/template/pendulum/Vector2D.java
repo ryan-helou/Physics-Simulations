@@ -52,7 +52,7 @@ public class Vector2D {
         return new Vector2D(x - other.x, y - other.y);
     }
     
-    
+    //Getters and setters
     public double getX() {
         return x;
     }

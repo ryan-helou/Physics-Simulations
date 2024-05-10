@@ -188,6 +188,7 @@ public class Pendulum {
 
     }
 
+    //Getters and setters
     public Vector2D getLoc() {
         return loc;
     }

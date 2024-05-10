@@ -124,6 +124,7 @@ public class Mover {
         gc.strokeOval(location.getX() - cr, location.getY() - cr, 2 * cr, 2 * cr);
     }
 
+    //Getters and setters
     public Shape getShape() {
         return circle;
     }

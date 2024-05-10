@@ -431,6 +431,7 @@ public class CradleMain extends Application {
         backButton.setLayoutY(10);
 
         backButton.setOnAction(event -> {
+            resetAllPendulums(pendulums);
             try {
                 new NewFXMain().start(primaryStage);
             } catch (IOException ex) {

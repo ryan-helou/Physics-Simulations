@@ -5,6 +5,7 @@
 package edu.vanier.template.controllers;
 
 import edu.vanier.template.DoublePendulumMain;
+import edu.vanier.template.Settings;
 import edu.vanier.template.pendulum.CradleMain;
 import java.io.File;
 import java.io.IOException;
@@ -191,6 +192,11 @@ public class MainAnishController implements Initializable {
 
     @FXML
     private void setttingsOnMouseClicked(MouseEvent event) {
+         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Settings settings = new Settings();
+        settings.start(stage);
+        
+         
     }
 
     @FXML
@@ -200,6 +206,18 @@ public class MainAnishController implements Initializable {
 
     
     //Getters and setters
+    public void setVolume(double volume) {
+        if (player != null) {
+            player.setVolume(volume);
+        }
+    }
+
+    public double getVolume() {
+        if (player != null) {
+            return player.getVolume();
+        }
+        return 0.0;
+    }
     public ImageView getSpacebackground() {
         return spacebackground;
     }

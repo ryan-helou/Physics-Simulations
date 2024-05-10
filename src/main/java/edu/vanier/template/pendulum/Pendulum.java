@@ -90,6 +90,7 @@ public class Pendulum {
 
     /**
      * Renders a preset pendulum object of a specific size and width
+     * It is also used for the trail.
      */
     private void render() {
         gc.setStroke(Color.WHITE);

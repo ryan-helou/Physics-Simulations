@@ -27,6 +27,7 @@ public class Vector2D {
     }
     
     /**
+     * Copies a vector, used for creating the trail.
      * 
      * @return 
      */

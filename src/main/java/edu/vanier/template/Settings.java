@@ -84,36 +84,23 @@ public class Settings extends Application {
         about.setStyle("-fx-control-inner-background: black; -fx-text-fill: white;");
         about.setPrefWidth(200);
         about.setPrefHeight(150);
-        about.setLayoutX(75);
-        about.setLayoutY(215);
+        about.setLayoutX(100);
+        about.setLayoutY(115);
         
         
-        Label volume = new Label("Volume:");
-        volume.setLayoutX(75);
-        volume.setLayoutY(125);
-        volume.setFont(customFont2);
-        volume.setTextFill(Color.WHITE);
+         TextArea about2 = new TextArea("Simulations made:\n"
+                + "Newton's Cradle\n"
+                + "Particle Attraction\n"
+                + "Double Pendulum");
+        about2.setEditable(false);
+        about2.setFont(customFont2);
+        about2.setStyle("-fx-control-inner-background: black; -fx-text-fill: white;");
+        about2.setPrefWidth(200);
+        about2.setPrefHeight(150);
+        about2.setLayoutX(515);
+        about2.setLayoutY(115);
         
-        
-         Slider volumeSlider = new Slider(0, 1, 0.1); // min=0, max=1, initial=0.1
-        volumeSlider.setLayoutX(75);
-        volumeSlider.setLayoutY(150);
-        volumeSlider.setPrefWidth(200);
-      volumeSlider.setStyle(
-                "-fx-control-inner-background: black; "
-                + "-fx-color: black; "
-                + "-fx-thumb-color: black; "
-                + "-fx-track-color: black;"
-        );
-
-
-         if (controller != null) {
-            volumeSlider.setValue(controller.getVolume()); 
-            volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-                controller.setVolume(newVal.doubleValue());
-            });
-        }
-        root.getChildren().addAll(img, title, backButton, exitButton, about,volumeSlider,volume);
+        root.getChildren().addAll(img, title, backButton, exitButton, about,about2);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

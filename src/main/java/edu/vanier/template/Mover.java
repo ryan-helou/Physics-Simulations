@@ -29,8 +29,11 @@ public class Mover {
     private int trailLength = 30;
     private double topspeed;
     private double mass = 1;
+    private double force;
+    private double accelerationMagnitude;
     private double forceMagnitude = 0.2; // Adjust this factor to control the force magnitude
     private double size;
+    private double speed;
     private double scaleFactor = 1;
     private double opacity;
     private boolean trailStatus = true;
@@ -60,29 +63,16 @@ public class Mover {
         acceleration = mouse.subtract(location);
         acceleration = acceleration.normalize().multiply(0.2);
 
-        double force = forceMagnitude / 10; //*100
-        double accelerationMagnitude = (force / mass);
-        /*
-        double accelerationFactor = 1; // Adjust this factor to increase acceleration
-        acceleration = acceleration.multiply(accelerationFactor);
-         */
-
+        force = forceMagnitude / 10;
+        accelerationMagnitude = (force / mass);
+        
         velocity = velocity.add(acceleration.multiply(accelerationMagnitude));
-        double speed = velocity.magnitude();
+        
+        speed = velocity.magnitude();
         if (speed > topspeed) {
             velocity = velocity.normalize().multiply(topspeed);
         }
 
-        /*
-        // Increase velocity directly
-        double velocityFactor = 1; // Adjust this factor to change velocity increase
-        velocity = velocity.multiply(velocityFactor);
-    
-        double speed = velocity.magnitude();
-        if (speed > topspeed) { //top speed limits the speed (import from my old code)
-            velocity = velocity.normalize().multiply(topspeed);
-        }
-         */
         location = location.add(velocity);
 
         trail.add(new Point2D(location.getX(), location.getY()));
@@ -134,21 +124,6 @@ public class Mover {
         gc.strokeOval(location.getX() - cr, location.getY() - cr, 2 * cr, 2 * cr);
     }
 
-    public void numberOfParticles() {
-    }
-
-    public void changeMass() {
-    }
-
-    public void changeAcceleration() {
-    }
-
-    public void changePlanet() {
-    }
-
-    public void triggerTrail() {
-    }
-
     public Shape getShape() {
         return circle;
     }
@@ -188,6 +163,38 @@ public class Mover {
 
     public double getScaleFactor() {
         return scaleFactor;
+    }
+
+    public double getForce() {
+        return force;
+    }
+
+    public void setForce(double force) {
+        this.force = force;
+    }
+
+    public double getAccelerationMagnitude() {
+        return accelerationMagnitude;
+    }
+
+    public void setAccelerationMagnitude(double accelerationMagnitude) {
+        this.accelerationMagnitude = accelerationMagnitude;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getOpacity() {
+        return opacity;
+    }
+
+    public void setOpacity(double opacity) {
+        this.opacity = opacity;
     }
 
     public void setScaleFactor(double scaleFactor) {

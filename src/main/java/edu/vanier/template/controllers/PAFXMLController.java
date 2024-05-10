@@ -83,6 +83,8 @@ public class PAFXMLController implements Initializable {
     private Canvas canvas;
 
     private int particleAmount = 1;
+    private double gravityNumber = 1;
+    private double massNumber = 1;
     private double newSize = 1;
     private double mouseX;
     private double mouseY;
@@ -115,10 +117,9 @@ public class PAFXMLController implements Initializable {
 
         showTrail.setFont(customFont2);
         showTrail.setTextFill(Color.WHITE);
-        
+
         massText.setFont(customFont2);
         massText.setFill(Color.WHITE);
-        
 
         gravityValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         massValue.setStyle("-fx-background-color: black; -fx-text-fill: white;");
@@ -161,7 +162,6 @@ public class PAFXMLController implements Initializable {
             }
         };
         animationTimer.start();
-
     }
 
     /**
@@ -174,7 +174,6 @@ public class PAFXMLController implements Initializable {
         for (Mover mover : movers) {
             mover.display(canvas.getGraphicsContext2D());
         }
-        //mover.display(canvas.getGraphicsContext2D());
     }
 
     /**
@@ -193,6 +192,8 @@ public class PAFXMLController implements Initializable {
 
     @FXML
     private void backOnAction(ActionEvent event) {
+        movers.clear();
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));
             Scene scene = new Scene(root);
@@ -206,15 +207,10 @@ public class PAFXMLController implements Initializable {
     }
 
     @FXML
-    private void modeBoxOnAction(ActionEvent event) {
-    }
-
-    @FXML
     private void gravityOnAction(ActionEvent event) {
         setAllGravity();
     }
 
-    //To fix on the trail method
     @FXML
     private void sizeSliderValue(MouseEvent event) {
         newSize = sizeValue.getValue();
@@ -229,7 +225,6 @@ public class PAFXMLController implements Initializable {
      */
     @FXML
     private void amountOnAction(ActionEvent event) {
-
         movers.clear();
 
         try {
@@ -250,21 +245,9 @@ public class PAFXMLController implements Initializable {
 
         }
 
-        for (Mover mover1 : movers) {
+        for (Mover mover : movers) {
             setAllGravity();
             setAllMass();
-        }
-
-    }
-
-    @FXML
-    private void themeValue(MouseEvent event) {
-    }
-
-    @FXML
-    private void themeOnAction(ActionEvent event) {
-        if (showTrail.isSelected()) {
-            System.out.println("it works");
         }
     }
 
@@ -281,43 +264,50 @@ public class PAFXMLController implements Initializable {
         }
     }
 
-    @FXML
-    private void massOnAction(ActionEvent event) {
-        setAllMass();
-    }
-
-    /**
-     * Sets the mass of every particle present within the particle simulation.
-     * Also contains an error dialog in the case that the mass inputted is not
-     * valid.
-     */
-    private void setAllMass() {
-        double massNumber = 100000;
-        try {
-            massNumber = Double.parseDouble(massValue.getText());
-        } catch (NumberFormatException e) {
-            showErrorDialog("Please enter a valid mass number.");
-        }
-
-        for (Mover mover1 : movers) {
-            mover1.setMass(massNumber);
-        }
-    }
-
     /**
      * Method that changes the gravity value for each particle present within
      * the simulation based on the value set by the user through the gravity
      * slider.
      */
     private void setAllGravity() {
-        double gravityNumber = 1;
         try {
             gravityNumber = Double.parseDouble(gravityValue.getText());
         } catch (NumberFormatException e) {
             showErrorDialog("Please enter a valid gravity number.");
         }
-        for (Mover mover1 : movers) {
-            mover1.setForceMagnitude(gravityNumber);
+
+        if (gravityNumber > 1000 || gravityNumber <= 0) {
+            showErrorDialog("Please enter a valid number (between 1 and 1000)");
+        } else {
+            for (Mover mover : movers) {
+                mover.setForceMagnitude(gravityNumber);
+            }
+        }
+    }
+    
+    @FXML
+    private void massOnAction(ActionEvent event) {
+        setAllMass();
+    }
+    
+    /**
+     * Sets the mass of every particle present within the particle simulation.
+     * Also contains an error dialog in the case that the mass inputted is not
+     * valid.
+     */
+    private void setAllMass() {
+        try {
+            massNumber = Double.parseDouble(massValue.getText());
+        } catch (NumberFormatException e) {
+            showErrorDialog("Please enter a valid mass number.");
+        }
+
+        if (massNumber > 1000 || massNumber <= 0) {
+            showErrorDialog("Please enter a valid number (between 1 and 1000)");
+        } else {
+            for (Mover mover : movers) {
+                mover.setMass(massNumber);
+            }
         }
     }
 
@@ -360,7 +350,5 @@ public class PAFXMLController implements Initializable {
     public void setMover(Mover mover) {
         this.mover = mover;
     }
-    
-    
 
 }

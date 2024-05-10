@@ -33,7 +33,7 @@ public class Mover {
     private double mass = 1;
     private double force;
     private double accelerationMagnitude;
-    private double forceMagnitude = 0.2; // Adjust this factor to control the force magnitude
+    private double forceMagnitude = 0.2;
     private double size;
     private double speed;
     private double scaleFactor = 1;
@@ -43,9 +43,9 @@ public class Mover {
     private Circle circle;
 
     public Mover(double x, double y, double size) {
-        topspeed = 5;   //Might implement later if I have time
+        topspeed = 5;   
         location = new Point2D(x, y);
-        velocity = new Point2D(0, 0); //made it start in the center
+        velocity = new Point2D(0, 0); 
         this.mass = mass;
         this.size = size;
         circle = new Circle(location.getX(), location.getY(), size);
@@ -57,7 +57,19 @@ public class Mover {
     }
 
     /**
-     * Updates mover location based on mouse position
+     * Updates mover location based on mouse position. Works by subtracting
+     * current location of the particle to the mouse position and the
+     * normalizing it. Then later adds the acceleration vector multiplied by its
+     * magnitude to get velocity. Vector is normalized and multiplied by the top
+     * speed once the particle reaches its maximum speed, to limit how fast the
+     * particle moves. The particle is updated by adding the current velocity
+     * vector to the current position. The trail works by adding the current
+     * position of the particle to a trail list to represent its path. If the
+     * size of the trail exceeds trailLength, the oldest point is removed to
+     * maintain the length of the trail. The circle is then updated via
+     * setCenter methods to match the current position.
+     *
+     *
      *
      * @param mouse
      */
@@ -67,9 +79,9 @@ public class Mover {
 
         force = forceMagnitude / 10;
         accelerationMagnitude = (force / mass);
-        
+
         velocity = velocity.add(acceleration.multiply(accelerationMagnitude));
-        
+
         speed = velocity.magnitude();
         if (speed > topspeed) {
             velocity = velocity.normalize().multiply(topspeed);

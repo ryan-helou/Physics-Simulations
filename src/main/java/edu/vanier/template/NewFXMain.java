@@ -26,11 +26,10 @@ public class NewFXMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        //MediaPlayer mediaPlayer = new MediaPlayer(hit);
         
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainAnish1.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Anish Mehra");
+        primaryStage.setTitle("Physics Simulators :)");
         primaryStage.setScene(scene);
         primaryStage.setAlwaysOnTop(true);
         primaryStage.show();

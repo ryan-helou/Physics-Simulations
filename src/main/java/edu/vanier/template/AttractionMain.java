@@ -28,7 +28,7 @@ public class AttractionMain extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/PAFXML.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Particle Attraction");
+        primaryStage.setTitle("Particle Attraction :)");
         primaryStage.setScene(scene);
         primaryStage.setAlwaysOnTop(true);
         primaryStage.show();

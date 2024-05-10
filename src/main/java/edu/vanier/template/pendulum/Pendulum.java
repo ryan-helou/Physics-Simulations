@@ -51,16 +51,27 @@ public class Pendulum {
     }
 
     /**
-     *
-     *
+     * Updates the pendulum throughout the simulation. Makes use of
+     * two methods, update() and render(). Update is responsible for
+     * the back-end calculations of the pendulum while render is responsible
+     * for redrawing the canvas.
      */
     public void go() {
         update();
         render();
     }
 
+    
     /**
-     *
+     * Updates the pendulum's location on the back-end. When it is released and
+     * not dragging, the method calculates the angular acceleration that opposes
+     * the pendulum's motion. Angular velocity is updated by adding angular acceleration
+     * to it, slowing it down. It is also multiplied by the damping factor for whether
+     * the user decides to enable it or not. Theta is then updated by theta_vel to represent
+     * the angle of the new location. "Loc" is simply the x and y components of the angle,
+     * thus representing the new location of the canvas.
+     * 
+     * 
      */
     private void update() {
         if (!dragging) {
@@ -77,7 +88,6 @@ public class Pendulum {
         }
     }
 
-    //@Anish do Javadocs for this
     /**
      * Renders a preset pendulum object of a specific size and width
      */
@@ -120,13 +130,23 @@ public class Pendulum {
         }
     }
 
-    /**
-     * Responsible for dragging a pendulum bob
-     *
+   /**
+     * Responsible for dragging a pendulum bob. If dragging is enabled, it calculates the
+     * difference between the mouse and the bob via the diff vector. An angle is then calculated
+     * based off this vector which is called proposedTheta. The pendulum is then updated to the
+     * new location "loc" that is calculated the same way as described in the update method.
+     * 
+     * Additional code is included to limit the pendulum's range of motion. "Index" is meant to represent
+     * the current pendulum selected and if the theta goes over or under the minimum/maximum value permitted,
+     * it sets the proposed theta to said maximum/minimum value which is a final variable. This is meant to represent
+     * the "horizontal limit" which is why the central pendulum is not included. For the "vertical" limit, if the proposed
+     * theta is smaller than -pi or bigger than pi the method brings it back to a more acceptable range. This is universal
+     * for all bobs to limit the central pendulum as well, therefore no indexes are used.
      *
      * @param mx mouse coordinate x upon dragging.
      * @param my mouse coordinate y upon dragging.
      */
+
     public void dragged(int mx, int my) {
         if (dragging) {
             Vector2D diff = origin.subtract(new Vector2D(mx, my));
@@ -167,7 +187,8 @@ public class Pendulum {
     }
 
     /**
-     * Resets an individual pendulum to its initial state before dragging.
+     * Resets an individual pendulum to its initial state before dragging by setting
+     * theta to 0.
      */
     public void resetAll() {
         theta = 0.0f;

@@ -17,10 +17,12 @@ import javafx.scene.shape.Shape;
 import javafx.geometry.Point2D;
 
 /**
- * Represents a particle object.
+ * Represents a moving particle object. Code explained in depth
+ * in the methods.
  *
  * @author salki
  */
+
 public class Mover {
 
     private Point2D location;

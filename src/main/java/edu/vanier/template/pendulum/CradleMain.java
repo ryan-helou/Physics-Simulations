@@ -60,7 +60,7 @@ public class CradleMain extends Application {
         lengthLabel.setLayoutX(10);
         lengthLabel.setLayoutY(330);
 
-        primaryStage.setTitle("Newton's Cradle Simulation");
+        primaryStage.setTitle("Newton's Cradle Simulation :)");
         canvas = new Canvas(800, 450);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         StackPane root = new StackPane();
@@ -75,6 +75,7 @@ public class CradleMain extends Application {
         img.setFitWidth(800);
         img.setFitHeight(450);
 
+        //group containing all pendulums
         Group group = new Group();
         group.getChildren().addAll(img, canvas);
 
@@ -91,22 +92,25 @@ public class CradleMain extends Application {
         circles[2].setCenterX(3);
         circles[2].setCenterX(3);
 
-        //Distance between circles = 31
-        // Current pendulum in the center
+        //Center pendulum
         pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail, 0);
-        // Additional pendulums on the left side
+        
+        //Pendulums on the left side
         for (int i = 1; i <= 2; i++) {
             double x = canvas.getWidth() / 2 - (armLength + PENDULUM_SPACING) * i;
             pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
 
         }
 
-        // Additional pendulums on the right side
+        //Pendulums on the right side
         for (int i = 3; i <= 4; i++) {
             double x = canvas.getWidth() / 2 + (armLength + PENDULUM_SPACING) * (i - 2);
             pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
         }
 
+        /**
+         * 
+         */
         group.setOnMousePressed(e -> {
             if (circles[0].isPressed()) {
                 centerPendulum = true;
@@ -117,13 +121,13 @@ public class CradleMain extends Application {
 
             for (Pendulum p : pendulums) {
                 p.clicked((int) e.getX(), (int) e.getY());
-                if (p.equals(pendulums[1]) && circles[0].isPressed()) {   //nice
-                    p.clicked((int) ((e.getX()) - 31), (int) e.getY());
+                if (p.equals(pendulums[1]) && circles[0].isPressed()) {
+                    p.clicked((int) ((e.getX()) - 31), (int) e.getY());   //Distance between circles = 31   
                     pendulums[2].clicked((int) ((e.getX() - 62)), (int) e.getY());
                 }
 
-                if (p.equals(pendulums[3]) && circles[0].isPressed()) {   //nice
-                    p.clicked((int) ((e.getX()) + 31), (int) e.getY());          //problem is here
+                if (p.equals(pendulums[3]) && circles[0].isPressed()) {
+                    p.clicked((int) ((e.getX()) + 31), (int) e.getY());
                     pendulums[4].clicked((int) ((e.getX() + 62)), (int) e.getY());
                 }
 
@@ -145,6 +149,9 @@ public class CradleMain extends Application {
             }
         });
 
+        /**
+         *
+         */
         group.setOnMouseDragged(e -> {
             for (Pendulum p : pendulums) {
                 p.dragged((int) e.getX(), (int) e.getY());
@@ -156,6 +163,7 @@ public class CradleMain extends Application {
                     pendulums[3].dragged((int) e.getX() + 31, (int) e.getY());
                     pendulums[4].dragged((int) e.getX() + 62, (int) e.getY());
                 }
+
                 if (p.equals(pendulums[1]) && circles[0].isPressed() && e.getX() < 399) {   //nice
                     pendulums[1].clicked((int) ((e.getX() - 31)), (int) e.getY());
                     pendulums[2].clicked((int) ((e.getX() - 62)), (int) e.getY());
@@ -201,6 +209,10 @@ public class CradleMain extends Application {
             }
         });
 
+        /**
+         * Disables dragging upon releasing a pendulum (which is a part of
+         * group) to commence swinging.
+         */
         group.setOnMouseReleased(e -> {
             for (Pendulum p : pendulums) {
                 p.stopDragging();
@@ -209,8 +221,9 @@ public class CradleMain extends Application {
 
         /**
          * Dummy transition used as a delay for the collision timer to avoid it
-         * activating during the first millisecond, where all the circles are
-         * initially placed together.
+         * activating during the first millisecond. This is because the circles
+         * are all initially placed together, meaning that they are
+         * intersecting. Was created to avoid problem.
          *
          */
         transition = new Transition() {
@@ -229,7 +242,16 @@ public class CradleMain extends Application {
         transition.play();
 
         /**
-         * AnimationTimer used to detect collision and update the canvas
+         * AnimationTimer used to detect collision and update the canvas.
+         * Handles the collision of the pendulums. The code is separated into
+         * two parts: central pendulum collision and non central pendulum
+         * collision. Upon colliding the opposing pendulums reverse the velocity
+         * of the colliding ones, allowing them to swing up. The former
+         * pendulums are reset at this point to avoid unnecessary drag which was
+         * a previous problem and gave a permanent damping effect. The central
+         * pendulum follows the path of the colliding pendulums when it is being
+         * swinged matching the effect of Newton's Cradle.
+         *
          */
         animationTimer = new AnimationTimer() {
             @Override
@@ -251,7 +273,7 @@ public class CradleMain extends Application {
                 circles[0].setCenterY(pendulums[0].loc.getY());
 
                 /**
-                 * Outermost bobs 2 1 3 4
+                 * Outermost bobs (2 1 3 4)
                  */
                 if (!centerPendulum) {
                     if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
@@ -295,9 +317,8 @@ public class CradleMain extends Application {
                     }
                 }
 
-                //=======================================
                 /**
-                 * Central Bob 0
+                 * Central Bob (0)
                  */
                 if (centerPendulum) {
 
@@ -336,6 +357,7 @@ public class CradleMain extends Application {
         };
         animationTimer.start();
 
+        //Nodes initialization
         Font customFont = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 22);
         Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 15);
         Font customFont3 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 30);
@@ -455,6 +477,16 @@ public class CradleMain extends Application {
         launch(args);
     }
 
+    /**
+     * Initializes a checkbox. Created to reduce repeated code.
+     *
+     * @param checkbox indicates a chosen checkbox.
+     * @param customFont indicates the chosen font.
+     * @param layoutX checkbox x position.
+     * @param layoutY checkbox y position.
+     * @param selected checkbox selection status.
+     * @param color checkbox color
+     */
     public void checkboxInitialize(CheckBox checkbox, Font customFont, int layoutX, int layoutY,
             boolean selected, Color color) {
         checkbox.setFont(customFont);
@@ -469,8 +501,8 @@ public class CradleMain extends Application {
      *
      * @param label indicates a chosen label.
      * @param customFont indicates a chosen font.
-     * @param layoutX indicates label x position.
-     * @param layoutY indicates label y position.
+     * @param layoutX label x position.
+     * @param layoutY label y position.
      */
     public void labelInitialize(Label label, Font customFont, int layoutX, int layoutY,
             Color color) {
@@ -521,8 +553,9 @@ public class CradleMain extends Application {
     }
 
     /**
-     *
-     * @param pendulums
+     * Resets all the pendulums at once.
+     * 
+     * @param pendulums the collection of pendulums used in the simulation.
      */
     public void resetAllPendulums(Pendulum[] pendulums) {
         for (Pendulum p : pendulums) {
@@ -531,7 +564,6 @@ public class CradleMain extends Application {
     }
 
     //Getters and setters
-    
     /**
      *
      * @param showTrail Boolean indicates whether the trail is active or not
@@ -549,7 +581,7 @@ public class CradleMain extends Application {
         float hue = 120 - (mass - 1) * 12;
         return Color.hsb(hue, 1.0, 1.0);
     }
-    
+
     public boolean isInitialStart() {
         return initialStart;
     }

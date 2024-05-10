@@ -20,8 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -44,7 +42,6 @@ public class MainAnishController implements Initializable {
     @FXML
     private ImageView settings;
 
-    public MediaPlayer player;
     private final double SCALING_FACTOR = 1.09; //scaling factor for image resizing
 
     /**
@@ -72,19 +69,7 @@ public class MainAnishController implements Initializable {
     /**
      * Activates the music upon startup of the main menu.
      */
-    private void initializeMusic() {
-        File soundFile = new File("C:\\Users\\salki\\OneDrive\\Documents\\GitHub\\physics-simulations\\src\\main\\resources\\Media\\bgmusic.mp3");
-        Media media = new Media(soundFile.toURI().toString());
-        player = new MediaPlayer(media);
-        player.setVolume(0.1);          //volume
-        player.setCycleCount(-1);
-        player.stop();
-        player.play();
-        player.setOnEndOfMedia(()
-                -> {
-            player.play();
-        });
-    }
+    
 
     /**
      * Assigns an image to a selected ImageView.
@@ -206,18 +191,6 @@ public class MainAnishController implements Initializable {
 
     
     //Getters and setters
-    public void setVolume(double volume) {
-        if (player != null) {
-            player.setVolume(volume);
-        }
-    }
-
-    public double getVolume() {
-        if (player != null) {
-            return player.getVolume();
-        }
-        return 0.0;
-    }
     public ImageView getSpacebackground() {
         return spacebackground;
     }

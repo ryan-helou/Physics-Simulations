@@ -40,10 +40,11 @@ public class CradleMain extends Application {
     private boolean initialStart = false;
     private boolean centerPendulum;
     private boolean showTrail = true;
-    private int testValue = 0;
+    private double armLength = 100.0;
+    private double centerY;
+    private final double PENDULUM_SPACING = -69;
     private int direction = 0;
     private AnimationTimer animationTimer;
-    private CheckBox pauseCheckbox;
 
     /**
      * status: 0 = outermost bobs 1 = innermost bobs 2 = center bob
@@ -54,7 +55,7 @@ public class CradleMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        setTestValue(0);
+        //setTestValue(0);
         Label lengthLabel = new Label("Length:");
         lengthLabel.setLayoutX(10);
         lengthLabel.setLayoutY(330);
@@ -73,13 +74,12 @@ public class CradleMain extends Application {
         img.setImage(new Image(getClass().getResourceAsStream("/images/spacemainmenu.gif")));
         img.setFitWidth(800);
         img.setFitHeight(450);
+
         Group group = new Group();
         group.getChildren().addAll(img, canvas);
 
         Pendulum[] pendulums = new Pendulum[5];
-        double centerY = (canvas.getHeight() / 2) - 69.420;
-        double armLength = 100.0;
-        double spacing = -69;
+        centerY = (canvas.getHeight() / 2) - 69.420;
 
         Circle[] circles = new Circle[5];
         for (int i = 0; i < circles.length; i++) {
@@ -96,19 +96,18 @@ public class CradleMain extends Application {
         pendulums[0] = new Pendulum(gc, new Vector2D(canvas.getWidth() / 2, centerY), (float) armLength, showTrail, 0);
         // Additional pendulums on the left side
         for (int i = 1; i <= 2; i++) {
-            double x = canvas.getWidth() / 2 - (armLength + spacing) * i;
+            double x = canvas.getWidth() / 2 - (armLength + PENDULUM_SPACING) * i;
             pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
 
         }
 
         // Additional pendulums on the right side
         for (int i = 3; i <= 4; i++) {
-            double x = canvas.getWidth() / 2 + (armLength + spacing) * (i - 2);
+            double x = canvas.getWidth() / 2 + (armLength + PENDULUM_SPACING) * (i - 2);
             pendulums[i] = new Pendulum(gc, new Vector2D(x, centerY), (float) armLength, showTrail, i);
         }
 
         group.setOnMousePressed(e -> {
-            setTestValue(1);
             if (circles[0].isPressed()) {
                 centerPendulum = true;
             } else {
@@ -184,18 +183,6 @@ public class CradleMain extends Application {
 
                 }
 
-                //potential fix for initial center bug: make it so that it resets completely @ center
-                if (circles[0].getCenterX() <= 401 && circles[0].getCenterX() >= 399 && circles[0].isPressed() && testValue == 1) {
-                    setTestValue(0);
-                    resetAllPendulums(pendulums);
-                    pendulums[0].clicked((int) e.getX(), (int) e.getY());
-                    pendulums[1].clicked((int) e.getX() - 31, (int) e.getY());
-                    pendulums[2].clicked((int) e.getX() - 62, (int) e.getY());
-                    pendulums[3].clicked((int) e.getX() + 31, (int) e.getY());
-                    pendulums[4].clicked((int) e.getX() + 62, (int) e.getY());
-
-                }
-
                 if (p.equals(pendulums[2]) && !circles[0].isPressed()) {
                     p.dragged((int) ((e.getX()) - 31), (int) e.getY());
                 }
@@ -246,7 +233,7 @@ public class CradleMain extends Application {
          */
         animationTimer = new AnimationTimer() {
             @Override
-            public void handle(long now) {                              //real pendulum order: 21034
+            public void handle(long now) {      //real pendulum order: 21034
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 for (int i = 0; i < pendulums.length; i++) {
                     if (i == 0) {
@@ -264,7 +251,7 @@ public class CradleMain extends Application {
                 circles[0].setCenterY(pendulums[0].loc.getY());
 
                 /**
-                 * Innermost bobs
+                 * Outermost bobs 2 1 3 4
                  */
                 if (!centerPendulum) {
                     if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
@@ -310,22 +297,22 @@ public class CradleMain extends Application {
 
                 //=======================================
                 /**
-                 * Innermost bobs
+                 * Central Bob 0
                  */
                 if (centerPendulum) {
 
                     if (circles[1].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
-                        testValue = 0;
                         // Reverse velocities of adjacent bobs (2 and 0)
                         double temp = pendulums[0].theta_vel;
                         pendulums[3].theta_vel = pendulums[1].theta_vel;
-                        pendulums[4].theta_vel = pendulums[1].theta_vel;            //|||||
+                        pendulums[4].theta_vel = pendulums[1].theta_vel;
                         pendulums[0].theta_vel = pendulums[1].theta_vel;
                         pendulums[1].theta_vel = (float) temp;
-                        pendulums[2].theta_vel = (float) temp;                              //////////////////////////////////////////
+                        pendulums[2].theta_vel = (float) temp;
+                        pendulums[2].theta_vel = (float) temp;
                         pendulums[0].theta_vel = (float) temp;
                         pendulums[3].resetAll();
-                        pendulums[4].resetAll();            //|||||||||||||||||||
+                        pendulums[4].resetAll();
                     }
 
                     if (circles[3].getBoundsInParent().intersects(circles[0].getBoundsInParent()) && initialStart) {
@@ -333,20 +320,19 @@ public class CradleMain extends Application {
                         // Reverse velocities of adjacent bobs (1 and 2)
                         double temp = pendulums[0].theta_vel;
                         pendulums[1].theta_vel = pendulums[3].theta_vel;
-                        pendulums[2].theta_vel = pendulums[3].theta_vel;    /////////////
+                        pendulums[2].theta_vel = pendulums[3].theta_vel;
                         pendulums[0].theta_vel = pendulums[3].theta_vel;
                         pendulums[0].theta_vel = (float) temp;
                         pendulums[3].theta_vel = (float) temp;
-                        pendulums[4].theta_vel = (float) temp;              //||||||
+                        pendulums[4].theta_vel = (float) temp;
 
                         pendulums[1].resetAll();
-                        pendulums[2].resetAll();                            ///////
+                        pendulums[2].resetAll();
 
                     }
                 }
 
             }
-            // }
         };
         animationTimer.start();
 
@@ -354,38 +340,10 @@ public class CradleMain extends Application {
         Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 15);
         Font customFont3 = Font.loadFont(getClass().getResourceAsStream("/ChewyBubble.otf"), 30);
 
-        Label length = new Label("Length");
-        length.setTextFill(Color.WHITE);
-
-        length.setFont(customFont);
-        length.setLayoutX(670);
-        length.setLayoutY(25);
-
-        // Create a Slider component for adjusting pendulum length
-        Slider lengthSlider = new Slider(75, 150, 100); // Minimum, Maximum, Default Value
-        lengthSlider.setShowTickLabels(true);
-        lengthSlider.setShowTickMarks(true);
-        lengthSlider.setPrefWidth(150);
-        lengthSlider.setMajorTickUnit(25);
-        lengthSlider.setMinorTickCount(5);
-        lengthSlider.setBlockIncrement(25);
-        lengthSlider.setLayoutX(645);
-        lengthSlider.setLayoutY(65);
-
-        // Add an event listener to update pendulum lengths when the slider value changes
-        lengthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            double newLength = newValue.doubleValue();
-            updatePendulumLengths(pendulums, newLength);
-            resetAllPendulums(pendulums);
-        });
         CheckBox showTrailCheckbox = new CheckBox("Show Trail");
-        showTrailCheckbox.setSelected(true); // Default to showing trail
-        showTrailCheckbox.setFont(customFont2);
-        showTrailCheckbox.setLayoutX(25);
-        showTrailCheckbox.setLayoutY(365);
-        showTrailCheckbox.setTextFill(Color.WHITE);
+        checkboxInitialize(showTrailCheckbox, customFont2, 25, 365, true, Color.WHITE);
 
-        // Add an event listener to toggle showing/hiding the trail
+        // event listener to toggle showing/hiding the trail
         showTrailCheckbox.setOnAction(event -> {
             boolean showTrail = showTrailCheckbox.isSelected();
             for (Pendulum pendulum : pendulums) {
@@ -394,17 +352,7 @@ public class CradleMain extends Application {
         });
 
         CheckBox dampingCheckbox = new CheckBox("Damping");
-        dampingCheckbox.setFont(customFont2);
-        dampingCheckbox.setLayoutX(25);
-        dampingCheckbox.setLayoutY(320);
-        dampingCheckbox.setSelected(false);
-        dampingCheckbox.setTextFill(Color.WHITE);
-
-        Label title = new Label("Newton's Cradle");
-        title.setLayoutX(270);
-        title.setLayoutY(10);
-        title.setFont(customFont3);
-        title.setTextFill(Color.WHITE);
+        checkboxInitialize(dampingCheckbox, customFont2, 25, 320, false, Color.WHITE);
 
         dampingCheckbox.setOnAction(event -> {
             boolean isDampingEnabled = dampingCheckbox.isSelected();
@@ -418,23 +366,43 @@ public class CradleMain extends Application {
                 pendulum.setDamping(newDamping);
             }
         });
-        
+
+        CheckBox pauseCheckbox = new CheckBox("Pause");
+        checkboxInitialize(pauseCheckbox, customFont2, 25, 280, false, Color.WHITE);
+
+        pauseCheckbox.setOnAction(event -> {
+            if (pauseCheckbox.isSelected()) {
+                animationTimer.stop();
+            } else {
+                animationTimer.start();
+            }
+        });
+
+        Label title = new Label("Newton's Cradle");
+        labelInitialize(title, customFont3, 270, 10, Color.WHITE);
+
+        Label length = new Label("Length");
+        labelInitialize(length, customFont, 670, 25, Color.WHITE);
+
         Label gravityLabel = new Label("Gravity");
-        gravityLabel.setFont(customFont);
-        gravityLabel.setLayoutX(670);
-        gravityLabel.setLayoutY(125);
-        gravityLabel.setTextFill(Color.WHITE);
-        
+        labelInitialize(gravityLabel, customFont, 670, 125, Color.WHITE);
+
+        Label massLabel = new Label("  Mass");
+        labelInitialize(massLabel, customFont, 670, 225, Color.WHITE);
+
+        Slider lengthSlider = new Slider(75, 150, 100); // Minimum, Maximum, Default Value
+        sliderInitialize(lengthSlider, true, true, 25, 5, true, 150, 645, 65);
+        lengthSlider.setBlockIncrement(25);
+
+        // event listener to update pendulum lengths when the slider value changes
+        lengthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            double newLength = newValue.doubleValue();
+            updatePendulumLengths(pendulums, newLength);
+            resetAllPendulums(pendulums);
+        });
+
         Slider gravitySlider = new Slider(1, 20, 10);
-        //sliderInitialize(gravitySlider, true, true, 5, 4, true, 645, 165, 150);
-        gravitySlider.setShowTickLabels(true);
-        gravitySlider.setShowTickMarks(true);
-        gravitySlider.setMajorTickUnit(5);
-        gravitySlider.setMinorTickCount(4);
-        gravitySlider.setSnapToTicks(true);
-        gravitySlider.setLayoutX(645);
-        gravitySlider.setLayoutY(165);
-        gravitySlider.setPrefWidth(150);
+        sliderInitialize(gravitySlider, true, true, 5, 4, true, 150, 645, 165);
 
         gravitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             for (Pendulum pendulum : pendulums) {
@@ -446,12 +414,6 @@ public class CradleMain extends Application {
         Slider massSlider = new Slider(1, 10, 10);
         sliderInitialize(massSlider, true, true, 1, 0, true, 150, 645, 265);
 
-        Label massLabel = new Label("  Mass");
-        massLabel.setFont(customFont);
-        massLabel.setLayoutX(670);
-        massLabel.setLayoutY(225);
-        massLabel.setTextFill(Color.WHITE);
-
         massSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             int massIndex = newValue.intValue();
             Color color = getColorBasedOnMass(massIndex);
@@ -459,20 +421,6 @@ public class CradleMain extends Application {
             for (int i = 0; i < pendulums.length; i++) {
                 pendulums[i].setMass(massIndex);
                 circles[i].setFill(color);
-            }
-        });
-
-        pauseCheckbox = new CheckBox("Pause");
-        pauseCheckbox.setFont(customFont2);
-        pauseCheckbox.setLayoutX(25);
-        pauseCheckbox.setLayoutY(280);
-        pauseCheckbox.setTextFill(Color.WHITE);
-
-        pauseCheckbox.setOnAction(event -> {
-            if (pauseCheckbox.isSelected()) {
-                animationTimer.stop();
-            } else {
-                animationTimer.start();
             }
         });
 
@@ -506,22 +454,48 @@ public class CradleMain extends Application {
         launch(args);
     }
 
+    public void checkboxInitialize(CheckBox checkbox, Font customFont, int layoutX, int layoutY,
+            boolean selected, Color color) {
+        checkbox.setFont(customFont);
+        checkbox.setLayoutX(layoutX);
+        checkbox.setLayoutY(layoutY);
+        checkbox.setSelected(selected);
+        checkbox.setTextFill(color);
+    }
+
     /**
-     * Initializes a created slider.
-     * @param slider
-     * @param tickStatus
-     * @param tickMarks
-     * @param tickUnit
-     * @param tickCount
-     * @param snapTicks
-     * @param prefWidth
-     * @param layoutX
-     * @param layoutY 
+     * Initializes a label. Created to reduce repeated code.
+     *
+     * @param label indicates a chosen label.
+     * @param customFont indicates a chosen font.
+     * @param layoutX indicates label x position.
+     * @param layoutY indicates label y position.
+     */
+    public void labelInitialize(Label label, Font customFont, int layoutX, int layoutY,
+            Color color) {
+        label.setFont(customFont);
+        label.setLayoutX(layoutX);
+        label.setLayoutY(layoutY);
+        label.setTextFill(color);
+    }
+
+    /**
+     * Initializes a slider. Created to reduce repeated code.
+     *
+     * @param slider indicates a chosen slider.
+     * @param tickStatus Enables/Disables slider tick labels.
+     * @param tickMarks Enables/disables slider tick marks.
+     * @param tickUnit indicates slider tick units
+     * @param tickCount indicates slider tick count
+     * @param snapTicks Enables/disables slider snap ticks
+     * @param prefWidth pref height for the slider
+     * @param layoutX slider x position
+     * @param layoutY slider y position
      */
     public void sliderInitialize(Slider slider, boolean tickStatus, boolean tickMarks,
-                                 int tickUnit, int tickCount, boolean snapTicks, 
-                                 int prefWidth, int layoutX, int layoutY) {
-        
+            int tickUnit, int tickCount, boolean snapTicks,
+            int prefWidth, int layoutX, int layoutY) {
+
         slider.setShowTickLabels(tickStatus);
         slider.setShowTickMarks(tickMarks);
         slider.setMajorTickUnit(tickUnit);
@@ -530,11 +504,19 @@ public class CradleMain extends Application {
         slider.setPrefWidth(prefWidth);
         slider.setLayoutX(layoutX);
         slider.setLayoutY(layoutY);
-
     }
-    
-    public void labelInitialize(Label label) {
-   
+
+    /**
+     *
+     * @param pendulums array containing the pendulums used during the
+     * simulation.
+     * @param newLength
+     */
+    private void updatePendulumLengths(Pendulum[] pendulums, double newLength) {
+        // Update the lengths of all pendulums
+        for (Pendulum pendulum : pendulums) {
+            pendulum.r = (float) newLength;
+        }
     }
 
     /**
@@ -549,32 +531,17 @@ public class CradleMain extends Application {
 
     /**
      *
-     * @param pendulums
-     * @param newLength
-     */
-    private void updatePendulumLengths(Pendulum[] pendulums, double newLength) {
-        // Update the lengths of all pendulums
-        for (Pendulum pendulum : pendulums) {
-            pendulum.r = (float) newLength;
-        }
-    }
-    
-    /**
-     *
      * @param showTrail Boolean indicates whether the trail is active or not
      */
     public void setShowTrail(boolean showTrail) {
         this.showTrail = showTrail;
     }
 
-    public int getTestValue() {
-        return testValue;
-    }
-
-    public void setTestValue(int testValue) {
-        this.testValue = testValue;
-    }
-
+    /**
+     *
+     * @param mass mass of the particle taken from slider.
+     * @return
+     */
     private Color getColorBasedOnMass(int mass) {
         float hue = 120 - (mass - 1) * 12;
         return Color.hsb(hue, 1.0, 1.0);

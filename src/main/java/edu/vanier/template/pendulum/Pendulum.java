@@ -11,19 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an individual pendulum object, of which, the cradle is composed
- * of exactly five. Works by...
+ * Represents an individual pendulum object, of which, the cradle is composed of
+ * exactly five. Works by...
+ *
  * @author salki
  */
 public class Pendulum {
+
     public Vector2D loc;
     public float theta_vel;
     public float r;
     private boolean dragging = false;
     private boolean showTrail = true;
     private double mass;
-    private final float MAX_THETA = (float)Math.toRadians(90); //restrictions to the drag
-    private final float MIN_THETA = (float)-Math.toRadians(90);
+    private int index;
+    private static final int TRAIL_LENGTH = 100; // Adjust as needed
+    private final float MAX_THETA = (float) Math.toRadians(90); //restrictions to the drag
+    private final float MIN_THETA = (float) -Math.toRadians(90);
     private float ballr;
     private float damping;
     private float theta;
@@ -33,9 +37,7 @@ public class Pendulum {
     private Vector2D origin;
     private Vector2D clickPos;
     private List<Vector2D> trail = new ArrayList<>(); // Store previous positions of the pendulum for trail
-    private static final int TRAIL_LENGTH = 100; // Adjust as needed
     private Pendulum[] pendulums;
-    private int index;
 
     public Pendulum(GraphicsContext gc, Vector2D origin_, float r_, boolean showTrail, int index) {
         this.gc = gc;
@@ -49,16 +51,16 @@ public class Pendulum {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      */
     public void go() {
         update();
         render();
     }
-    
+
     /**
-     * 
+     *
      */
     private void update() {
         if (!dragging) {
@@ -74,7 +76,6 @@ public class Pendulum {
             trail.remove(0);
         }
     }
-    
 
     //@Anish do Javadocs for this
     /**
@@ -83,29 +84,30 @@ public class Pendulum {
     private void render() {
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
-        if(showTrail){
-        // DrawS the trail
-        for (int i = 0; i < trail.size() - 1; i++) {
-            Vector2D current = trail.get(i);
-            Vector2D next = trail.get(i + 1);
-            gc.strokeLine(current.getX(), current.getY(), next.getX(), next.getY());
-        }
+        if (showTrail) {
+            // DrawS the trail
+            for (int i = 0; i < trail.size() - 1; i++) {
+                Vector2D current = trail.get(i);
+                Vector2D next = trail.get(i + 1);
+                gc.strokeLine(current.getX(), current.getY(), next.getX(), next.getY());
+            }
         }
         // DrawS the pendulum
         gc.strokeLine(origin.getX(), origin.getY(), loc.getX(), loc.getY());
         gc.setFill(Color.rgb(3, 255, 46));
-        if (dragging) gc.setFill(Color.BLACK);
+        if (dragging) {
+            gc.setFill(Color.BLACK);
+        }
         gc.fillOval(loc.getX() - ballr / 2, loc.getY() - ballr / 2, ballr, ballr);
     }
 
     /**
-     * Responsible for handling click events. 
-     * Used to determine whether the user has clicked on the pendulum
-     * bob, to initiate the dragging method. It does this by calculating
-     * the distance "d" between the initial click location and the bob itself.
-     * If this distance is less than half of the bob's radius, it registers it
-     * as a click and initiates dragging.
-     * 
+     * Responsible for handling click events. Used to determine whether the user
+     * has clicked on the pendulum bob, to initiate the dragging method. It does
+     * this by calculating the distance "d" between the initial click location
+     * and the bob itself. If this distance is less than half of the bob's
+     * radius, it registers it as a click and initiates dragging.
+     *
      * @param mx mouse coordinate x upon clicking.
      * @param my mouse coordinate y upon clicking.
      */
@@ -120,53 +122,52 @@ public class Pendulum {
 
     /**
      * Responsible for dragging a pendulum bob
-     * 
-     * 
+     *
+     *
      * @param mx mouse coordinate x upon dragging.
      * @param my mouse coordinate y upon dragging.
      */
     public void dragged(int mx, int my) {
         if (dragging) {
-        Vector2D diff = origin.subtract(new Vector2D(mx, my));
-        float proposedTheta = (float) (Math.atan2(-diff.getY(), diff.getX()) - Math.toRadians(90));
-        
-        if (proposedTheta < -Math.PI) {proposedTheta += 2 * Math.PI;}       //  brings angle to pi and -pi.  
-        else if (proposedTheta > Math.PI) {proposedTheta -= 2 * Math.PI;}
-        
-        
-         if ((index == 2 || index == 1) && proposedTheta > 0) {
-            //  movement for pendulums 2 and 1
-            proposedTheta = Math.min(proposedTheta, 0);
-        } else if ((index == 3 || index == 4) && proposedTheta < 0) {
-            //  movement for pendulums 3 and 4
-            proposedTheta = Math.max(proposedTheta, 0);
+            Vector2D diff = origin.subtract(new Vector2D(mx, my));
+            float proposedTheta = (float) (Math.atan2(-diff.getY(), diff.getX()) - Math.toRadians(90));
+
+            if (proposedTheta < -Math.PI) {
+                proposedTheta += 2 * Math.PI;
+            } //  brings angle to pi and -pi.  
+            else if (proposedTheta > Math.PI) {
+                proposedTheta -= 2 * Math.PI;
+            }
+
+            if ((index == 2 || index == 1) && proposedTheta > 0) {
+                //  movement for pendulums 2 and 1
+                proposedTheta = Math.min(proposedTheta, 0);
+            } else if ((index == 3 || index == 4) && proposedTheta < 0) {
+                //  movement for pendulums 3 and 4
+                proposedTheta = Math.max(proposedTheta, 0);
+            }
+
+            if (proposedTheta > MAX_THETA) {
+                theta = MAX_THETA;
+            } else if (proposedTheta < MIN_THETA) {
+                theta = MIN_THETA;
+            } else {
+                theta = proposedTheta;
+            }
+
+            loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
         }
-         
-        if (proposedTheta > MAX_THETA) {
-            theta = MAX_THETA;
-        } else if (proposedTheta < MIN_THETA) {
-            theta = MIN_THETA;
-        } else {
-            theta = proposedTheta;
-        }
-         
-        loc = new Vector2D(r * Math.sin(theta), r * Math.cos(theta)).add(origin);
-       }
     }
-    
 
     /**
-     * Stops the dragging of a bob by setting the 
-     * "dragging" to false.
+     * Stops the dragging of a bob by setting the "dragging" to false.
      */
     public void stopDragging() {
         dragging = false;
     }
 
-    
     /**
-     * Resets an individual pendulum to its initial state before
-     * dragging.
+     * Resets an individual pendulum to its initial state before dragging.
      */
     public void resetAll() {
         theta = 0.0f;
@@ -175,17 +176,16 @@ public class Pendulum {
         trail.clear();
     }
 
-    
     /**
-     * Resets every pendulum to its initial state before
-     * dragging.
-     * @param pendulums every pendulum within the cradle. 
+     * Resets every pendulum to its initial state before dragging.
+     *
+     * @param pendulums every pendulum within the cradle.
      */
     public void resetAllPendulums(Pendulum[] pendulums) {
         for (Pendulum p : pendulums) {
             p.resetAll();
         }
-        
+
     }
 
     public Vector2D getLoc() {
@@ -199,7 +199,7 @@ public class Pendulum {
     public boolean isShowTrail() {
         return showTrail;
     }
-    
+
     public void setShowTrail(boolean showTrail) {
         this.showTrail = showTrail;
     }
@@ -335,6 +335,5 @@ public class Pendulum {
     public void setTrail(List<Vector2D> trail) {
         this.trail = trail;
     }
-    
-    
+
 }

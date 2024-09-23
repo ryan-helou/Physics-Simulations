@@ -7,7 +7,7 @@ Welcome to the Physics Simulation Software repository! This software provides th
 ### 1. Particle Attraction Simulation
 This simulation allows users to observe the behavior of particles under the influence of gravitational attraction. Users can set the initial positions and velocities of the particles and observe how they interact over time.
 
-<img width="754" alt="PatricaleAttractino1" src="https://github.com/user-attachments/assets/721539c4-9568-41f9-9e07-d73809ba97ed">
+<img width="745" alt="Screenshot 2024-09-23 at 10 38 02 AM" src="https://github.com/user-attachments/assets/071fb855-618e-482f-b39a-cdb646ec8333">
 
 ### 2. Double Pendulum Simulation
 Experience the chaotic motion of a double pendulum with this simulation. Users can adjust parameters such as the length of the pendulum arms and initial conditions to observe the complex dynamics of this system.

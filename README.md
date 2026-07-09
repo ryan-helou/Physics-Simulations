@@ -1,6 +1,8 @@
-# Physics Simulations
+# 🌀 Physics Simulations
 
 *A JavaFX desktop app of classical-mechanics simulations, built by a team for a Vanier College programming course.*
+
+![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white)
 
 The centrepiece is a double pendulum. It integrates the standard coupled equations of motion for the two arm angles, then advances them with semi-implicit Euler — one step per animation frame — and traces the path of the lower bob, which is where the system's chaotic behaviour shows up: two runs from almost-identical starting angles diverge into completely different curves. The trail is drawn onto an off-screen buffer canvas so it persists as the arms keep swinging.
 

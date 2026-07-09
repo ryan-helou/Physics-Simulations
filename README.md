@@ -1,20 +1,16 @@
-# Physics Simulation Software
+# Physics Simulations
 
-Welcome to the Physics Simulation Software repository! This software provides three interactive physics simulations: Particle Attraction, Double Pendulum, and Newton's Cradle. Each simulation offers a unique experience for users to explore and understand various concepts in physics.
+*A JavaFX desktop app of classical-mechanics simulations, built by a team for a Vanier College programming course.*
 
-## Simulations
+The centrepiece is a double pendulum. It integrates the standard coupled equations of motion for the two arm angles, then advances them with semi-implicit Euler — one step per animation frame — and traces the path of the lower bob, which is where the system's chaotic behaviour shows up: two runs from almost-identical starting angles diverge into completely different curves. The trail is drawn onto an off-screen buffer canvas so it persists as the arms keep swinging.
 
-### 1. Particle Attraction Simulation
-This simulation allows users to observe the behavior of particles under the influence of gravitational attraction. Users can set the initial positions and velocities of the particles and observe how they interact over time.
+You can drag sliders for the two arm lengths (50–300 px), the two bob masses (1–25), and gravity (1–15), toggle the trail on and off, and start or reset the motion. This is the simulation the Gradle build actually launches (`DoublePendulumMain`), and it's the one part of the project with real physics behind it.
 
-<img width="745" alt="Screenshot 2024-09-23 at 10 38 02 AM" src="https://github.com/user-attachments/assets/071fb855-618e-482f-b39a-cdb646ec8333">
+Two other simulations were sketched out but stop short of that:
 
-### 2. Double Pendulum Simulation
-Experience the chaotic motion of a double pendulum with this simulation. Users can adjust parameters such as the length of the pendulum arms and initial conditions to observe the complex dynamics of this system.
+- Newton's cradle draws five bobs and swings them with JavaFX `PathTransition` animations along arcs, so it looks the part but doesn't model momentum transfer or collisions; the length slider reshapes the arcs and the mass slider only tints the bobs.
+- Particle attraction is an early prototype — a single `Mover` that chases the cursor with an acceleration of 0.4 and a capped speed of 5 — behind an FXML control panel whose handlers are still empty.
 
-<img width="1214" alt="Pendulum 1" src="https://github.com/user-attachments/assets/169140ea-0b74-4815-aae1-fe8bf03865fd">
+Tech stack: Java with JavaFX 20 and Gradle, scaffolded on FrostyBee's Vanier course template. The team was Ryan Helou (double pendulum) and Anish Mehra (Newton's cradle), with contributions from classmates on the particle-attraction screen and the image-based main menu.
 
-### 3. Newton's Cradle Simulation
-Explore the conservation of momentum and energy with Newton's Cradle simulation. Users can interact with the cradle by releasing balls and observing the transfer of momentum through the swinging motion of the balls.
-
-<img width="798" alt="newton2" src="https://github.com/user-attachments/assets/12d775f8-5950-4e35-bec6-3a418f9b67c3">
+MIT licensed.

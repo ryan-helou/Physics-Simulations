@@ -1,18 +1,18 @@
-# 🌀 Physics Simulations
+# Physics Simulations
 
-*A JavaFX desktop app of classical-mechanics simulations, built by a team for a Vanier College programming course.*
+A desktop program that shows classic physics experiments as moving, interactive animations, built as a team project for a college programming course.
 
-![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white)
+The main piece is a double pendulum: one pendulum hanging from the end of another. It is a well-known example of chaos, meaning tiny changes in how it starts lead to completely different motion. The program draws the path the bottom weight traces as it swings, so you can watch those wild patterns build up.
 
-The centrepiece is a double pendulum. It integrates the standard coupled equations of motion for the two arm angles, then advances them with semi-implicit Euler — one step per animation frame — and traces the path of the lower bob, which is where the system's chaotic behaviour shows up: two runs from almost-identical starting angles diverge into completely different curves. The trail is drawn onto an off-screen buffer canvas so it persists as the arms keep swinging.
+This was a student project at Vanier College. The double pendulum is the finished part. A Newton's cradle and a "particle attraction" screen were also started, but they are early versions: the cradle is an animation rather than a real physics model, and the particle screen is a rough prototype.
 
-You can drag sliders for the two arm lengths (50–300 px), the two bob masses (1–25), and gravity (1–15), toggle the trail on and off, and start or reset the motion. This is the simulation the Gradle build actually launches (`DoublePendulumMain`), and it's the one part of the project with real physics behind it.
+## What you can do with it
 
-Two other simulations were sketched out but stop short of that:
+- Start, stop, and reset a swinging double pendulum.
+- Change the length and weight of each arm and the strength of gravity with sliders, and see how the motion changes.
+- Turn the traced path on or off.
+- Look at the early Newton's cradle and particle-attraction screens.
 
-- Newton's cradle draws five bobs and swings them with JavaFX `PathTransition` animations along arcs, so it looks the part but doesn't model momentum transfer or collisions; the length slider reshapes the arcs and the mass slider only tints the bobs.
-- Particle attraction is an early prototype — a single `Mover` that chases the cursor with an acceleration of 0.4 and a capped speed of 5 — behind an FXML control panel whose handlers are still empty.
+Team: Ryan Helou (double pendulum) and Anish Mehra (Newton's cradle), with help from classmates on the particle-attraction screen and the main menu.
 
-Tech stack: Java with JavaFX 20 and Gradle, scaffolded on FrostyBee's Vanier course template. The team was Ryan Helou (double pendulum) and Anish Mehra (Newton's cradle), with contributions from classmates on the particle-attraction screen and the image-based main menu.
-
-MIT licensed.
+License: MIT

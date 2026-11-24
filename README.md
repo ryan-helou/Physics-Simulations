@@ -4,6 +4,8 @@
 
 **A desktop program that shows classic physics experiments as moving, interactive animations, built as a team project for a college programming course.**
 
+<!-- facts --><img alt="Made at: Vanier College" src="https://img.shields.io/badge/Made_at-Vanier_College-24292f?style=for-the-badge"> <img alt="Runs on: desktop (Java)" src="https://img.shields.io/badge/Runs_on-desktop_(Java)-24292f?style=for-the-badge"> <img alt="Simulations: 1 done, 2 early" src="https://img.shields.io/badge/Simulations-1_done,_2_early-24292f?style=for-the-badge">
+
 </div>
 
 <br>
